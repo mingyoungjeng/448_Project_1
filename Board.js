@@ -19,15 +19,30 @@ class Board {
 			this.cells.push([]);
 			for (var j = 0; j < cols.length; j++) {
 				var cell = row.insertCell(j);
+				cell.addEventListener('click', function() {
+					alert('cell clicked')
+				});
 				cell.id = id + "_" + cols[j] + rows[i];
 
 				this.cells[i].push(cell);
 			}
 		}
 		document.body.appendChild(this.table)
+		console.log("made board");
 	}
 
 	getCell(id) {
 		return document.getElementById(this.table.id + "_" + id);
 	}
+
+	show() {
+		for (var i = 0; i < this.cells.length; i++) {
+			console.log(this.cells[i])
+		}
+	}
+
+	
 }
+
+var board = new Board('gameboard');
+board.show()

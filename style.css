@@ -1,0 +1,10 @@
+table {
+    background-color: #eee;
+}
+
+td {
+    background-color: rgb(25, 91, 167);
+    width: 40px;
+    height: 40px;
+    border-color: black;
+}
