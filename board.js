@@ -2,9 +2,10 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    var dim = 400;
-    var rows = 10;
-    var cols = 10;
+    var dim = 600;
+    var rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+    var cols = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    var w = Math.floor(dim / rows.length);
 
     class Gameboard {
         constructor(rows, cols) {
@@ -16,25 +17,33 @@ document.addEventListener('DOMContentLoaded', function () {
             for (var i = 0; i < this.rows; i++) {
                 for (var j = 0; j < this.cols; j++) {
                     const div = document.createElement('div');
-                    div.className = `${i}${j}`;
-                    div.style.position = "fixed";
-                    div.style.top = `${i * 40}px`;
-                    div.style.left = `${j * 40}px`;
+                    div.id = `${rows[i]}${cols[j]}`;
+                    div.className = Math.random() < 0.2 ? 'boat' : 'water';
+                    div.style.position = "absolute";
+                    div.style.top = `${i * w}px`;
+                    div.style.left = `${j * w}px`;
 
-                    const color = Math.floor(Math.random() * 255);
-                    const colorString = '#' + color.toString(16) + color.toString(16) + color.toString(16);
-                    //const colorString = "#" + color.toString(16).padStart(3, '0');
-                    div.style.backgroundColor = colorString;
-                    div.style.width = '40px';
-                    div.style.height = '40px';
+                    div.style.width = `${w}px`;
+                    div.style.height = `${w}px`;
 
-                    //set hover action
+                    div.addEventListener("click", this.attack);
 
-                    
                     document.body.appendChild(div);
                 }
             }
         }
+
+        attack(e) {
+            const myClass = e.target.className;
+            if (myClass === 'boat') {
+                e.target.innerHTML = "X";
+            }
+            else if (myClass === 'water') {
+                e.target.innerHTML = "O";
+
+            }
+        }
+
     }
 
 

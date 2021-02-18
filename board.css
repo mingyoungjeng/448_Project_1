@@ -1,0 +1,31 @@
+.water {
+    background-color: rgb(20, 20, 235);
+    border-style: none;
+    border-color: black;
+    border-width: 2px;
+
+    font-size: 60px;
+    top: 1px;
+    left: 1px;
+  
+}
+
+.water:hover {
+    background-color: rgb(80,80, 255);
+    border: 5px solid black;
+    box-sizing: border-box;
+
+}
+
+.boat {
+    background-color: gray;
+    font-size: 60px;
+    top: 1px;
+    left: 1px;
+}
+
+.boat:hover {
+    background-color: rgb(188, 188, 188);
+    border: 5px solid black;
+    box-sizing: border-box;
+}
