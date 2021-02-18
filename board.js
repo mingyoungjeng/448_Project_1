@@ -1,44 +1,44 @@
 
-function make2DArray(cols, rows) {
-    var arr = new Array(cols);
-    for (var i = 0; i < arr.length; i++) {
-        arr[i] = new Array(rows);
-    }
-    return grid
-}
 
-var grid;
-var cols = 10;
-var rows = 10;
-var w;
-var gridSize = 400;
+document.addEventListener('DOMContentLoaded', function () {
 
-function makeBoard() {
-    var canvas = document.getElementById("gameboard");
-    var ctx = canvas.getContext('2d');
-    //ctx.rect(0, 0, gridSize, gridSize)
+    var dim = 400;
+    var rows = 10;
+    var cols = 10;
 
+    class Gameboard {
+        constructor(rows, cols) {
+            this.rows = rows;
+            this.cols = cols;
+        }
 
+        makeBoard() {
+            for (var i = 0; i < this.rows; i++) {
+                for (var j = 0; j < this.cols; j++) {
+                    const div = document.createElement('div');
+                    div.className = `${i}${j}`;
+                    div.style.position = "fixed";
+                    div.style.top = `${i * 40}px`;
+                    div.style.left = `${j * 40}px`;
 
-    w = gridSize / cols
-    grid = make2DArray(rows, cols) 
+                    const color = Math.floor(Math.random() * 255);
+                    const colorString = '#' + color.toString(16) + color.toString(16) + color.toString(16);
+                    //const colorString = "#" + color.toString(16).padStart(3, '0');
+                    div.style.backgroundColor = colorString;
+                    div.style.width = '40px';
+                    div.style.height = '40px';
 
-    //create tiles
-    for (var i = 0; i < cols; i++) {
-        for (var j = 0; j < rows; j++) {
-            grid[i][j] = new tile(i * w, j * w, w)
+                    //set hover action
+
+                    
+                    document.body.appendChild(div);
+                }
+            }
         }
     }
-}
 
-function draw() {
-    //display tiles
-    for (var i = 0; i < cols; i++) {
-        for (var j = 0; j < rows; j++) {
-            grid[i][j].show()
-        }
-    }
-}
 
-makeBoard()
+    const board = new Gameboard(10, 10);
+    board.makeBoard();
 
+});
