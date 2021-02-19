@@ -1,0 +1,26 @@
+table {
+    background-color: #eee;
+}
+td {
+    width: 40px;
+    height: 40px;
+}
+
+.empty {
+    background-color: white;
+
+    /* border-color: black; */
+}
+
+.empty:hover {
+    background:#eee;
+}
+
+.ship.hover {
+    background-color: gray;
+
+}
+
+.ship {
+    background-color: rgb(49, 49, 49);
+}
