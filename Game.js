@@ -61,6 +61,7 @@ class Game {
 	// GENIUS IDEA: make hit/miss indicators static and only hide/reveal the ships
 	// Shows activePlayer their ship's status and their shoot history
 	turn(activePlayer) {
+		let clickCount = 0;
 		// Alternates turns between players.
 
 		// Defines inactivePlayer for use later
@@ -79,13 +80,18 @@ class Game {
 		this.cellClicked = function(cell) {
 			var board = cell.parentElement.parentElement.parentElement.id;
 			if (board == inactivePlayer) {
-
-				for (var ship of game.ships["player2"]) {
-					if (ship.hit(cell.location)) {
-						cell.style.backgroundColor = "red";
-					} else {
-						cell.style.backgroundColor = "blue";
+				if (clickCount <1) {
+					clickCount++;
+					for (var ship of game.ships["player2"]) {
+						if (ship.hit(cell.location)) {
+							cell.style.backgroundColor = "red";
+						} else {
+							cell.style.backgroundColor = "blue";
+						}
 					}
+				}
+				else {
+					alert("hey, you can't attack more than once, that's cheating!");
 				}
 			}
 			
