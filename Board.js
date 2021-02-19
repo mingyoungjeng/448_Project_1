@@ -27,7 +27,7 @@ class Board {
 	getCell(id) {
 		for (var i = 0; i < this.cells.length; i++) {
 			for (var j = 0; j < this.cells[i].length; j++) {
-				if (this.cells[i][j].class == id) {
+				if (this.cells[i][j].location == id) {
 					return this.cells[i][j];
 				}
 			}
@@ -38,14 +38,18 @@ class Board {
 
 	// Draws hit/miss indicator on cell
 	drawCell(id, state) {
-		var cell = getCell(id);
+		var cell = this.getCell(id);
+		cell.classList.remove("empty");
 
 		if (state == "hit") {
-			// put hit image in cell
+			cell.classList.add("hit");
+			return true;
 		} else if (state == "miss") {
-			// put miss image in cell
+			cell.classList.add("miss");
+			return true;
 		} else {
-			// clear image in cell
+			cell.classList.empty("miss");
+			return false;
 		}
 	}
 

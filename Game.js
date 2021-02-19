@@ -7,7 +7,6 @@ class Game {
 		this.players = ["player1", "player2"];
 		this.boards = {}; // needs to be an dict to have key/value pairs
 		this.ships = {};
-		this.activePlayer = 'player1';
 
 		for (var player of this.players) {
 			this.ships[player] = []; // Needs to hold array of Ship objects
@@ -20,6 +19,10 @@ class Game {
 		// Creates two game boards on screen
 		this.boards["player1"] = new Board("player1");
 		this.boards["player2"] = new Board("player2");
+		this.button = document.getElementById("button");
+
+		let game = this;
+		button.onclick = function() {game.buttonClicked()}; // this isn't necessary
 
 		// The following must be done for Player 1 AND Player 2
 		for (var player of this.players) {
@@ -27,7 +30,6 @@ class Game {
 			// If you can manage to do this in Board class, I will love you.
 			for (var row of this.boards[player].cells) {
 				for (var cell of row) {
-					let game = this;
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
@@ -58,50 +60,58 @@ class Game {
 		// Alternates turns between players.
 
 		// Defines inactivePlayer for use later
-		var inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
+		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
 		
 		this.boards[activePlayer].showShips();
+		this.buttonClicked = function() {};
 
 		let game = this;
 		this.cellClicked = function(cell) {
 			var board = cell.parentElement.parentElement.parentElement.id;
-			if (board == inactivePlayer) {
+			if (board == inactivePlayer && cell.classList.contains("empty")) {
 
+				// Might put everything here under Board class in future
 				for (var ship of game.ships[inactivePlayer]) {
 					if (ship.hit(cell.location)) {
-						cell.style.backgroundColor = "red";
+						game.boards[inactivePlayer].drawCell(cell.location, "hit");
 					} else {
-						cell.style.backgroundColor = "blue";
+						game.boards[inactivePlayer].drawCell(cell.location, "miss");
 					}
 				}
-			}
-			
-			// Check for game over
-			/*var win = true;
-			for (var ship of this.ships[inactivePlayer]) {
-				if (!ship.isSunk()) {
-					win = false;
+
+				// Check for game over
+				var win = true;
+				for (var ship of this.ships[inactivePlayer]) {
+					if (!ship.isSunk()) {
+						win = false;
+					}
+				}
+				if (win) {
+					this.game_over(activePlayer);
+					return;
+				} else {
+					this.endTurn(inactivePlayer);
 				}
 			}
-			if (win) {
-				this.game_over(activePlayer);
-				return;
-			}*/
 		}
 	}
 
 	// Triggered when one player wins
 	game_over(winner) {
+		console.log(winner + " wins!");
 		// Clear screen of Boards
 		// Display victory text
 		// Play again or go back to title screen
 	}
 
-	endTurn() {
-		var newPlayer = this.activePlayer == "player1" ? "player2" : "player1";
-		this.activePlayer = newPlayer;
-		console.log(newPlayer);
-		this.turn(newPlayer);
+	endTurn(newPlayer) {
+		this.cellClicked = function() {};
+		for (var board of Object.values(this.boards)) {
+			board.hideShips();
+		}
+
+		let game = this;
+		this.buttonClicked = function() {game.turn(newPlayer)};
 	}
 
 	placeShips(player) {
