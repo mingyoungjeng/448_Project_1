@@ -16,8 +16,9 @@ class Board {
 				var cell = row.insertCell(j);
 				cell.class = cols[j] + rows[i]; // generic name
 				cell.id = this.table.id + "_" + cols[j] + rows[i]; // unique name
-				//add empty class for each cell
-				cell.classList.add('empty');
+				
+				//add empty class for each cell - john
+				cell.classList.add('empty'); //what does this do? - Joshua
 				this.cells[i].push(cell);
 			}
 		}

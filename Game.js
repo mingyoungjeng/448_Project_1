@@ -5,12 +5,12 @@ class Game {
 	constructor() {
 		// Available players (can potentially be expanded)
 		this.players = ["player1", "player2"];
-		this.boards = [];
-		this.ships = [];
+		this.boards = {}; // needs to be an dict to have key/value pairs
+		this.ships = {};
 
 		for (var player of this.players) {
 			this.ships[player] = []; // Needs to hold array of Ship objects
-			this.boards[player] = []; // Needs to hold Board object
+			this.boards[player] = {}; // Needs to hold Board object
 		}
 	}
 
@@ -22,7 +22,7 @@ class Game {
 		// other tasks?
 
 		// The following must be done for Player 1 AND Player 2
-		for (var player of this.players) {
+		for (var player in this.players) {
 			// Select how many ships they want to place
 			var shipCount = 0; // replace 0 with input
 			
@@ -41,7 +41,7 @@ class Game {
 
 	play() {
 		var i = Math.round(Math.random()); // Generates either 0 or 1, random player starts first
-		var win = true; //false for game to run
+		var win = false;
 		while (!win) {
 			i = (i+1)%2;
 			win = this.turn(this.players[i]);
@@ -69,7 +69,7 @@ class Game {
 
 		// Check for game over
 		var win = true;
-		for (var ship of this.ships[inactivePlayer]) {
+		for (var ship in this.ships[inactivePlayer]) {
 			if (!ship.isSunk()) {
 				win = false;
 			}
