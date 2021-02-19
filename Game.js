@@ -41,7 +41,7 @@ class Game {
 
 	play() {
 		var i = Math.round(Math.random()); // Generates either 0 or 1, random player starts first
-		var win = false;
+		var win = true;
 		while (!win) {
 			i = (i+1)%2;
 			win = this.turn(this.players[i]);
