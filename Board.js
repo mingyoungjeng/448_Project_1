@@ -34,4 +34,17 @@ class Board {
 		console.log("Board " + this.table.id + " does not have cell " + id + "!");
 		return null;
 	}
+
+	// Draws hit/miss indicator on cell
+	drawCell(id, state) {
+		var cell = getCell(id);
+
+		if (state == "hit") {
+			// put hit image in cell
+		} else if (state == "miss") {
+			// put miss image in cell
+		} else {
+			// clear image in cell
+		}
+	}
 }
