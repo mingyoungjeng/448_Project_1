@@ -22,33 +22,34 @@ class Game {
 
 		// The following must be done for Player 1 AND Player 2
 		for (var player of this.players) {
-			// Select how many ships they want to place
-			var shipCount = 6; // replace 0 with input
-			
-			for (var i = 1; i <= shipCount; i++) { // index @ 1 makes sense for this.
-				// i is the length of the ship
-				// Place ship
-				var locations = []; // locations of ship
-				this.ships[player].push(new Ship(locations));
-			}
-
 			// Adds eventListener for each cell onClick
 			// If you can manage to do this in Board class, I will love you.
 			for (var row of this.boards[player].cells) {
 				for (var cell of row) {
-					cell.onclick = function() {wasClicked(this.parentElement.parentElement.parentElement.id, this.location)};
+					cell.onclick = function() {cellClicked(this)};
 				}
 			}
 
-			function wasClicked(board, id) {
-				console.log(board + ": " + id);
-				return {board: id}
-			}
+			// Placing ships
+			// Select how many ships they want to place
+			var shipCount = 6; // replace with input
+
+			// Placing ships
+
+			
+			
+			// for (var i = 1; i <= shipCount; i++) { // index @ 1 makes sense for this.
+			// 	// i is the length of the ship
+			// 	// Place ship
+			// 	var locations = []; // locations of ship
+			// 	this.ships[player].push(new Ship(locations));
+			// }
 		}
 
 		// Start game
 			// Clear screen
-		this.play();
+		//this.play();
+		this.turn("player1")
 	}
 
 	play() {
@@ -79,6 +80,12 @@ class Game {
 		// Player clicks square to shoot
 		// Detects hit or miss
 
+		cellClicked = function(cell) {
+			var board = cell.parentElement.parentElement.parentElement.id;
+			console.log(board);
+			cell.style.backgroundColor = "red";
+		}
+
 		// Check for game over
 		var win = true;
 		for (var ship of this.ships[inactivePlayer]) {
@@ -103,5 +110,11 @@ class Game {
 	}
 }
 
-let game = new Game();
-game.setup();
+// This function gets called everytime a cell is clicked.
+// Can be altered
+function cellClicked(cell) {
+}
+
+function buttonClicked() {
+
+}

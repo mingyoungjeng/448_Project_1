@@ -26,4 +26,8 @@ class Ship {
 		return false;
 	}
 
+	draw() {
+		
+	}
+
 }
