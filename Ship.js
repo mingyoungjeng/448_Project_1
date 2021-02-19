@@ -1,8 +1,9 @@
 class Ship {
-	constructor(locations) {
-		this.size = locations.length
-		this.locations = [];
+	constructor(locations = []) {
+		this.locations = locations;
 		this.sunk = [];
+		this.size = locations.length;
+		this.health = this.size; //decrement on hit
 
 		for (var i = 0; i < this.size; i++) {
 			this.sunk.push(false);
@@ -11,18 +12,14 @@ class Ship {
 	}
 
 	isSunk() {
-		for (var i = 0; i < this.size.length; i++) {
-			if (size[i] != 0) {
-				return false;
-			}
-		}
-		return true;
+		return this.health == 0 ? true : false;
 	}
 
 	hit(cell) {
 		for (var i = 0; i < this.locations.length; i++) {
 			if (cell == this.locations[i]) {
 				this.sunk[i] = true;
+				health--;
 				return true;
 			}
 		}

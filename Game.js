@@ -5,12 +5,12 @@ class Game {
 	constructor() {
 		// Available players (can potentially be expanded)
 		this.players = ["player1", "player2"];
-		this.boards = {};
-		this.ships = {};
+		this.boards = [];
+		this.ships = [];
 
 		for (var player of this.players) {
 			this.ships[player] = []; // Needs to hold array of Ship objects
-			this.boards[player] = {}; // Needs to hold Board object
+			this.boards[player] = []; // Needs to hold Board object
 		}
 	}
 
@@ -41,7 +41,7 @@ class Game {
 
 	play() {
 		var i = Math.round(Math.random()); // Generates either 0 or 1, random player starts first
-		var win = false;
+		var win = true; //false for game to run
 		while (!win) {
 			i = (i+1)%2;
 			win = this.turn(this.players[i]);
