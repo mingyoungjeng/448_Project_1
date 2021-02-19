@@ -48,4 +48,20 @@ class Board {
 			// clear image in cell
 		}
 	}
+
+	showShips() {
+
+	}
+
+	hideShips() {
+
+	}
+
+	showBoard() {
+
+	}
+
+	hideBoard() {
+		
+	}
 }
