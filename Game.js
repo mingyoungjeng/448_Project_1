@@ -7,6 +7,7 @@ class Game {
 		this.players = ["player1", "player2"];
 		this.boards = {}; // needs to be an dict to have key/value pairs
 		this.ships = {};
+		this.activePlayer = 'player1';
 
 		for (var player of this.players) {
 			this.ships[player] = []; // Needs to hold array of Ship objects
@@ -83,6 +84,7 @@ class Game {
 		cellClicked = function(cell) {
 			var board = cell.parentElement.parentElement.parentElement.id;
 			console.log(board);
+			if (board !== activePlayer ) return;
 			cell.style.backgroundColor = "red";
 		}
 
@@ -107,6 +109,13 @@ class Game {
 		// Clear screen of Boards
 		// Display victory text
 		// Play again or go back to title screen
+	}
+
+	endTurn() {
+		var newPlayer = this.activePlayer == "player1" ? "player2" : "player1";
+		this.activePlayer = newPlayer;
+		console.log(newPlayer);
+		this.turn(newPlayer);
 	}
 }
 
