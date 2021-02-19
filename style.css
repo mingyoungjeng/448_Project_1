@@ -1,10 +1,24 @@
 table {
     background-color: #eee;
 }
-
 td {
-    background-color: rgb(25, 91, 167);
     width: 40px;
     height: 40px;
-    border-color: black;
+}
+
+.empty {
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    /* border-color: black; */
+}
+
+.empty:hover {
+    background:#eee;
+}
+
+.ship.hover {
+    background-color: gray;
+    width: 40px;
+    height: 40px;
 }
