@@ -2,12 +2,13 @@
 // Controls the logic of the game.
 
 class Game {
-
-	contructor() {
+	constructor() {
 		// Available players (can potentially be expanded)
 		this.players = ["player1", "player2"];
+		this.boards = {};
+		this.ships = {};
 
-		for (var player in players) {
+		for (var player of this.players) {
 			this.ships[player] = []; // Needs to hold array of Ship objects
 			this.boards[player] = {}; // Needs to hold Board object
 		}
@@ -21,7 +22,7 @@ class Game {
 		// other tasks?
 
 		// The following must be done for Player 1 AND Player 2
-		for (var player in players) {
+		for (var player of this.players) {
 			// Select how many ships they want to place
 			var shipCount = 0; // replace 0 with input
 			
@@ -35,7 +36,7 @@ class Game {
 
 		// Start game
 			// Clear screen
-		play();
+		this.play();
 	}
 
 	play() {
@@ -43,9 +44,9 @@ class Game {
 		var win = false;
 		while (!win) {
 			i = (i+1)%2;
-			win = turn(this.players[i]);
+			win = this.turn(this.players[i]);
 		}
-		game_over(this.players[i]);
+		this.game_over(this.players[i]);
 	}
 
 	// Runs a game while playing
@@ -68,13 +69,13 @@ class Game {
 
 		// Check for game over
 		var win = true;
-		for (var ship in this.ships[inactivePlayer]) {
+		for (var ship of this.ships[inactivePlayer]) {
 			if (!ship.isSunk()) {
 				win = false;
 			}
 		}
 		if (win) {
-			game_over(activePlayer);
+			this.game_over(activePlayer);
 			return;
 		}
 
@@ -89,3 +90,6 @@ class Game {
 		// Play again or go back to title screen
 	}
 }
+
+let game = new Game();
+game.setup();
