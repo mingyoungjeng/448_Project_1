@@ -22,3 +22,11 @@ td {
 .ship {
     background-color: rgb(49, 49, 49);
 }
+
+.hit {
+	background-color: red;
+}
+
+.miss {
+	background-color: blue;
+}
