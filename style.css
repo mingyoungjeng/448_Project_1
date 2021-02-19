@@ -8,8 +8,7 @@ td {
 
 .empty {
     background-color: white;
-    width: 40px;
-    height: 40px;
+
     /* border-color: black; */
 }
 
@@ -19,6 +18,9 @@ td {
 
 .ship.hover {
     background-color: gray;
-    width: 40px;
-    height: 40px;
+
+}
+
+.ship {
+    background-color: rgb(49, 49, 49);
 }
