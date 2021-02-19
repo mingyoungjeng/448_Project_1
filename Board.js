@@ -14,11 +14,10 @@ class Board {
 			this.cells.push([]);
 			for (var j = 0; j < cols.length; j++) {
 				var cell = row.insertCell(j);
-				cell.class = cols[j] + rows[i]; // generic name
+				cell.location = cols[j] + rows[i]; // generic name
 				cell.id = this.table.id + "_" + cols[j] + rows[i]; // unique name
 				
-				//add empty class for each cell - john
-				cell.classList.add('empty'); //what does this do? - Joshua
+				cell.classList.add('empty');
 				this.cells[i].push(cell);
 			}
 		}

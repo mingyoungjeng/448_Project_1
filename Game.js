@@ -19,18 +19,30 @@ class Game {
 		// Creates two game boards on screen
 		this.boards["player1"] = new Board("player1");
 		this.boards["player2"] = new Board("player2");
-		// other tasks?
 
 		// The following must be done for Player 1 AND Player 2
-		for (var player in this.players) {
+		for (var player of this.players) {
 			// Select how many ships they want to place
-			var shipCount = 0; // replace 0 with input
+			var shipCount = 6; // replace 0 with input
 			
 			for (var i = 1; i <= shipCount; i++) { // index @ 1 makes sense for this.
 				// i is the length of the ship
 				// Place ship
 				var locations = []; // locations of ship
 				this.ships[player].push(new Ship(locations));
+			}
+
+			// Adds eventListener for each cell onClick
+			// If you can manage to do this in Board class, I will love you.
+			for (var row of this.boards[player].cells) {
+				for (var cell of row) {
+					cell.onclick = function() {wasClicked(this.parentElement.parentElement.parentElement.id, this.location)};
+				}
+			}
+
+			function wasClicked(board, id) {
+				console.log(board + ": " + id);
+				return {board: id}
 			}
 		}
 
@@ -69,7 +81,7 @@ class Game {
 
 		// Check for game over
 		var win = true;
-		for (var ship in this.ships[inactivePlayer]) {
+		for (var ship of this.ships[inactivePlayer]) {
 			if (!ship.isSunk()) {
 				win = false;
 			}
