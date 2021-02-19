@@ -1,13 +1,11 @@
 class Ship {
 	constructor(locations = []) {
-		this.locations = locations;
-		this.sunk = [];
+		this.locations = {}; // An object that stores locations with values true/false. True = not hit
 		this.size = locations.length;
 		this.health = this.size; //decrement on hit
 
-		for (var i = 0; i < this.size; i++) {
-			this.sunk.push(false);
-			this.locations.push(locations[i].class);
+		for (var cell of locations) {
+			this.locations[cell] = true;
 		}
 	}
 
@@ -16,18 +14,16 @@ class Ship {
 	}
 
 	hit(cell) {
-		for (var i = 0; i < this.locations.length; i++) {
-			if (cell == this.locations[i]) {
-				this.sunk[i] = true;
-				health--;
-				return true;
-			}
+		if (this.locations[cell]) {
+			this.locations[cell] = false;
+			this.health--;
+			return true;
 		}
 		return false;
 	}
 
 	draw() {
-		
+
 	}
 
 }
