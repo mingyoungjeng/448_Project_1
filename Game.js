@@ -5,7 +5,7 @@ class Game {
 
 	contructor() {
 		// Available players (can potentially be expanded)
-		let this.players = ["player1", "player2"];
+		this.players = ["player1", "player2"];
 
 		for (var player in players) {
 			this.ships[player] = []; // Needs to hold array of Ship objects
