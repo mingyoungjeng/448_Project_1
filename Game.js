@@ -26,25 +26,19 @@ class Game {
 			// If you can manage to do this in Board class, I will love you.
 			for (var row of this.boards[player].cells) {
 				for (var cell of row) {
-					cell.onclick = function() {cellClicked(this)};
+					let game = this;
+					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
 
 			// Placing ships
 			// Select how many ships they want to place
 			var shipCount = 6; // replace with input
-
-			// Placing ships
-
-			
-			
-			// for (var i = 1; i <= shipCount; i++) { // index @ 1 makes sense for this.
-			// 	// i is the length of the ship
-			// 	// Place ship
-			// 	var locations = []; // locations of ship
-			// 	this.ships[player].push(new Ship(locations));
-			// }
 		}
+
+		// Creating test set of ships
+		this.ships["player2"].push(new Ship(["A1"]));
+		console.log(this.ships);
 
 		// Start game
 			// Clear screen
@@ -80,10 +74,20 @@ class Game {
 		// Player clicks square to shoot
 		// Detects hit or miss
 
-		cellClicked = function(cell) {
+		let game = this;
+		this.cellClicked = function(cell) {
 			var board = cell.parentElement.parentElement.parentElement.id;
-			console.log(board);
-			cell.style.backgroundColor = "red";
+			if (board == inactivePlayer) {
+
+				for (var ship of game.ships["player2"]) {
+					if (ship.hit(cell.location)) {
+						cell.style.backgroundColor = "red";
+					} else {
+						cell.style.backgroundColor = "blue";
+					}
+				}
+			}
+			
 		}
 
 		// Check for game over
@@ -108,13 +112,13 @@ class Game {
 		// Display victory text
 		// Play again or go back to title screen
 	}
-}
 
-// This function gets called everytime a cell is clicked.
-// Can be altered
-function cellClicked(cell) {
-}
+	// This function gets called everytime a cell is clicked.
+	// Can be altered
+	cellClicked(cell) {
+	}
 
-function buttonClicked() {
+	buttonClicked() {
 
+	}
 }
