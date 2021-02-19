@@ -32,14 +32,8 @@ class Game {
 				}
 			}
 
-			// Placing ships
-			// Select how many ships they want to place
-			var shipCount = 6; // replace with input
+			this.placeShips(player);
 		}
-
-		// Creating test set of ships
-		this.ships["player2"].push(new Ship(["A1"]));
-		console.log(this.ships);
 
 		// Start game
 			// Clear screen
@@ -61,56 +55,39 @@ class Game {
 	// GENIUS IDEA: make hit/miss indicators static and only hide/reveal the ships
 	// Shows activePlayer their ship's status and their shoot history
 	turn(activePlayer) {
-		let clickCount = 0;
 		// Alternates turns between players.
 
 		// Defines inactivePlayer for use later
 		var inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
-
-		// Each turn:
-		// Press button to begin turn
-		// Switches boards
-			// Hides inactive player's ships
-			// Reveals active player's ships
-
-		// Player clicks square to shoot
-		// Detects hit or miss
+		
+		this.boards[activePlayer].showShips();
 
 		let game = this;
 		this.cellClicked = function(cell) {
 			var board = cell.parentElement.parentElement.parentElement.id;
 			if (board == inactivePlayer) {
-				if (clickCount <1) {
-					clickCount++;
-					for (var ship of game.ships["player2"]) {
-						if (ship.hit(cell.location)) {
-							cell.style.backgroundColor = "red";
-						} else {
-							cell.style.backgroundColor = "blue";
-						}
+
+				for (var ship of game.ships[inactivePlayer]) {
+					if (ship.hit(cell.location)) {
+						cell.style.backgroundColor = "red";
+					} else {
+						cell.style.backgroundColor = "blue";
 					}
-				}
-				else {
-					alert("hey, you can't attack more than once, that's cheating!");
 				}
 			}
 			
-		}
-
-		// Check for game over
-		var win = true;
-		for (var ship of this.ships[inactivePlayer]) {
-			if (!ship.isSunk()) {
-				win = false;
+			// Check for game over
+			/*var win = true;
+			for (var ship of this.ships[inactivePlayer]) {
+				if (!ship.isSunk()) {
+					win = false;
+				}
 			}
+			if (win) {
+				this.game_over(activePlayer);
+				return;
+			}*/
 		}
-		if (win) {
-			this.game_over(activePlayer);
-			return;
-		}
-
-		// Prompt player to end turn
-			// Both boards empty and/or black screen
 	}
 
 	// Triggered when one player wins
@@ -126,12 +103,22 @@ class Game {
 		console.log(newPlayer);
 		this.turn(newPlayer);
 	}
-}
 
+	placeShips(player) {
+		// Prompt player for number of ships to place
+
+		let game = this;
+		this.cellClicked = function(cell) {
+			//this one is gonna be complicated
+		}
+
+		// Creating test set of ships
+		this.ships[player].push(new Ship(["A1", "B1", "C1"]));
+		console.log(this.ships);
+	}
 	
 	// This function gets called everytime a cell is clicked.
 	// Can be altered
-	/*
 	cellClicked(cell) {
 
 	}
@@ -139,5 +126,5 @@ class Game {
 	buttonClicked() {
 
 	}
-	*/
 	
+}
