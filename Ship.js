@@ -4,7 +4,7 @@ class Ship {
 		this.size = locations.length;
 		this.health = this.size; //decrement on hit
 
-		for (var cell of locations) {
+		for (var cell of this.locations) {
 			this.locations[cell] = true;
 		}
 		this.rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -16,6 +16,7 @@ class Ship {
 	}
 
 	hit(cell) {
+		//Need to fix ship locations for this to work
 		if (this.locations[cell]) {
 			this.locations[cell] = false;
 			this.health--;

@@ -16,7 +16,8 @@ class Board {
 				var cell = row.insertCell(j);
 				cell.location = cols[j] + rows[i]; // generic name
 				cell.id = this.table.id + "_" + cols[j] + rows[i]; // unique name
-				
+				cell.setAttribute('row', rows[i]);
+				cell.setAttribute('col', cols[j]);
 				cell.classList.add('empty');
 				this.cells[i].push(cell);
 			}
