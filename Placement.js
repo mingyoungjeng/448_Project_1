@@ -1,11 +1,26 @@
+let myListeners = {};
+
 function placeShipVertical(num = 3, player = "player2") {
     let tds = document.querySelectorAll(`[id*=${player}_]`);
+    //myListeners = {};
     tds.forEach(element => {
-        element.addEventListener('mouseover', (e) => {hoverShipVertical(e, num, player)});
-        element.addEventListener('mouseout', (e) => {unhoverShipVertical(e, num, player)});
-        element.addEventListener('click', (e) => {clickShipVertical(e, num, player)})
+        function L1 (event) {
+            hoverShipVertical(event, num, player);
+        }
+        function L2 (event) {
+            unhoverShipVertical(event, num, player);
+        }
+        function L1 (event) {
+            hoverShipVertical(event, num, player);
+        }
+        function L3 (event) {
+            clickShipVertical(event, num, player);
+        }
+        myListeners[element.id + "_" + num] = [L1, L2, L3];
+        element.addEventListener('mouseover', L1);
+        element.addEventListener('mouseout', L2);
+        element.addEventListener('click', L3)
     })
-
 }
 
 function hoverShipVertical(event, num, player) {
@@ -35,9 +50,10 @@ function unhoverShipVertical(event, num, player) {
 function clickShipVertical(event, num, player) {
     let currentColumn = event.target.getAttribute('col');
     let currentRow = event.target.getAttribute('row');
-    var ship = new Ship();
+    
+
     let tempNum = Number(num) + Number(currentRow);
-    console.log("num + curr = " + tempNum);
+    //console.log("num + curr = " + tempNum);
     if (tempNum <= 11) {
         [...document.querySelectorAll(`[id*=${player}]`)]
         .filter(e => e.getAttribute('col') == currentColumn 
@@ -46,12 +62,29 @@ function clickShipVertical(event, num, player) {
         .forEach(element => {
             element.classList.add('ship');
         });
+
+        let locs = [];
+        for (var i = 0; i < num; i++) {
+            locs[i] = currentColumn + (Number(currentRow) + Number(i));
+        }
+        var ship = new Ship(locs);
+        console.log(ship);
+
+        //These aren't working yet
+      
+        console.log(myListeners);
+        let tds = document.querySelectorAll(`[id*=${player}_]`);
+        tds.forEach(element => {
+            //console.log(myListeners[);
+            element.removeEventListener('mouseover', myListeners[element.id + "_" + num][0]);
+            element.removeEventListener('mouseout', myListeners[element.id + "_" + num][1]);
+            element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
+        });
+        
     }
     else {
         alert("Hey, you can't place your ship here!");
     }
-
-    
 }
 
 //--------------------------------------------------------------------------------
@@ -62,10 +95,21 @@ function clickShipVertical(event, num, player) {
 
 function placeShipHorizontal(num = 3, player = "player1") {
     let tds = document.querySelectorAll(`[id*=${player}_]`);
+    //myListeners = {};
     tds.forEach(element => {
-        element.addEventListener('mouseover', (e) => {hoverShipHorizontal(e, num, player)});
-        element.addEventListener('mouseout', (e) => {unhoverShipHorizontal(e, num, player)});
-        element.addEventListener('click', (e) => {clickShipHorizontal(e, num, player)})
+        function L1 (event) {
+            hoverShipHorizontal(event, num, player);
+        }
+        function L2 (event) {
+            unhoverShipHorizontal(event, num, player);
+        }
+        function L3 (event) {
+            clickShipHorizontal(event, num, player);
+        }
+        myListeners[element.id + "_" + num] = [L1, L2, L3];
+        element.addEventListener('mouseover', L1);
+        element.addEventListener('mouseout', L2);
+        element.addEventListener('click', L3);
     })
 
 }
@@ -108,8 +152,8 @@ function clickShipHorizontal(event, num, player) {
     currentColumn = currentColumn.charCodeAt() - 64;
     let currentRow = event.target.getAttribute('row');
     var ship = new Ship();
+
     let tempNum = Number(num) + Number(currentColumn);
-    console.log("num + curr = " + tempNum);
     if (tempNum <= 11) {
         [...document.querySelectorAll(`[id*=${player}]`)]
         .filter(e => e.getAttribute('row') == currentRow
@@ -118,6 +162,21 @@ function clickShipHorizontal(event, num, player) {
         .forEach(element => {
             element.classList.add('ship');
         });
+
+        let locs = [];
+        for (var i = 0; i < num; i++) {
+            locs[i] = currentColumn + (Number(currentRow) + Number(i));
+        }
+        var ship = new Ship(locs);
+
+        let tds = document.querySelectorAll(`[id*=${player}_]`);
+        tds.forEach(element => {
+            //console.log(myListeners);
+            element.removeEventListener('mouseover', myListeners[element.id + "_" + num][0]);
+            element.removeEventListener('mouseout', myListeners[element.id + "_" + num][1]);
+            element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
+        });
+
     }
     else {
         alert("Hey, you can't place your ship here!");

@@ -7,6 +7,7 @@ class Game {
 		this.players = ["player1", "player2"];
 		this.boards = {}; // needs to be an dict to have key/value pairs
 		this.ships = {};
+		this.numShips = 0;
 
 		for (var player of this.players) {
 			this.ships[player] = []; // Needs to hold array of Ship objects
@@ -26,6 +27,7 @@ class Game {
 
 		// The following must be done for Player 1 AND Player 2
 		for (var player of this.players) {
+			this.placeShips(player);
 			// Adds eventListener for each cell onClick
 			// If you can manage to do this in Board class, I will love you.
 			for (var row of this.boards[player].cells) {
@@ -34,7 +36,7 @@ class Game {
 				}
 			}
 
-			this.placeShips(player);
+			
 		}
 
 		// Start game
@@ -116,15 +118,29 @@ class Game {
 
 	placeShips(player) {
 		// Prompt player for number of ships to place
+		if (this.numShips === 0) {
+			var numShips = prompt("# of ships (1 - 6): ");
+			this.numShips = numShips;
+			console.log('num ships = ' + this.numShips);
+		}
 
+		for (var i = this.numShips; i > 0; i--) {
+			//var btn = document.createElement('b3utton');
+			//btn.innerHTML = player + " Add Ship " + i;
+			//placeShipVertical(i, player);
+			//document.body.appendChild(btn);
+		}
+
+		
 		let game = this;
 		this.cellClicked = function(cell) {
 			//this one is gonna be complicated
 		}
+		
 
 		// Creating test set of ships
-		this.ships[player].push(new Ship(["A1", "B1", "C1"]));
-		console.log(this.ships);
+		//this.ships[player].push(new Ship(["A1", "B1", "C1"]));
+		//4console.log(this.ships);
 	}
 	
 	// This function gets called everytime a cell is clicked.
