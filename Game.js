@@ -121,14 +121,17 @@ class Game {
 			console.log('num ships = ' + this.numShips);
 		}
 
-		for (var i = this.numShips; i > 0; i--) {
-			//var btn = document.createElement('b3utton');
-			//btn.innerHTML = player + " Add Ship " + i;
-			//placeShipVertical(i, player);
-			//document.body.appendChild(btn);
+		if (this.numShips < 6) {
+			console.log('removing buttons from other blah');
+			for (var j = Number(this.numShips) + 1; j < 7; j++) {
+				console.log(j);
+				//console.log('doing stuff');
+				//console.log('#button_' + player + "_" + j);
+				document.querySelector('#button_' + player + "_" + j).disabled = true;
+			}
 		}
 
-		
+
 		let game = this;
 		this.cellClicked = function(cell) {
 			//this one is gonna be complicated
