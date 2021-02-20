@@ -1,12 +1,14 @@
 class Ship {
 	constructor(locations = []) {
-		this.locations = locations; // An object that stores locations with values true/false. True = not hit
+		// An object that stores locations with values true/false. 
+		//True = not hit
+		this.locations = {};
+		for (var loc of locations) {
+			this.locations[loc] = true;
+		}
 		this.size = locations.length;
 		this.health = this.size; //decrement on hit
 
-		for (var cell of this.locations) {
-			this.locations[cell] = true;
-		}
 		this.rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		this.cols = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 	}
@@ -16,7 +18,7 @@ class Ship {
 	}
 
 	hit(cell) {
-		//Need to fix ship locations for this to work
+		//Need to fix ship locations for this to work  WORKING NOW?
 		if (this.locations[cell]) {
 			this.locations[cell] = false;
 			this.health--;
@@ -29,22 +31,19 @@ class Ship {
 
 	}
 
-	place(row, col, num, orientation) {
-		if (orientation === "vertical") {
-			for (var i = 0; i < num; i++) {
-				var temp = this.cols[col + i] + this.rows[row];
-				this.locations[i] = `${this.cols[col + i]}${this.rows[row]}`;
-				console.log(temp);
-				document.querySelector(`td#player1_${this.cols[col + i]}${this.rows[row]}`).setAttribute('hasShip', true);
-			}
+	place(player = null) {
+		console.log(Object.keys(this.locations));
+		for (var key of Object.keys(this.locations)) {
+			//console.log(key);
+			document.querySelector('[id*=' + key + ']').setAttribute('hasShip', true);
 		}
-		else if (orientation === "horizontal") {
-			for (var i = 0; i < num; i++) {
-				this.locations[i] = `${this.cols[col]}${this.rows[row + i]}`;
-				document.querySelector(`td#player1_${this.cols[col]}${this.rows[row + i]}`).setAttribute('hasShip', true);
-			}
+
+		if (!player) {
+			console.log(
+				'boards = ' + document.querySelector('board')
+			)
 		}
-		
+
 	}
 
 }

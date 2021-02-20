@@ -115,7 +115,7 @@ class Game {
 
 	placeShips(player) {
 		// Prompt player for number of ships to place
-		if (this.numShips === 0) {
+		if (!(this.numShips > 0  && this.numShips < 7)) { //replace with a try throw catch?
 			var numShips = prompt("# of ships (1 - 6): ");
 			this.numShips = numShips;
 			console.log('num ships = ' + this.numShips);

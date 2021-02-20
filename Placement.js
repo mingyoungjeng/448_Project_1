@@ -94,12 +94,13 @@ function clickShipVertical(event, num, player) {
         for (var i = 0; i < num; i++) {
             locs[i] = currentColumn + (Number(currentRow) + Number(i));
         }
-        var ship = new Ship(locs);
-        console.log(ship);
 
-        //These aren't working yet
+        //create new ship and push it to the player's board
+        var ship = new Ship(locs);
+        ship.place();
+        document.game.boards[player].ships.push(ship);
       
-        console.log(myListeners);
+        //console.log(myListeners);
         let tds = document.querySelectorAll(`[id*=${player}_]`);
         tds.forEach(element => {
             //console.log(myListeners[);
@@ -177,8 +178,8 @@ function unhoverShipHorizontal(event, num, player) {
 
 function clickShipHorizontal(event, num, player) {
     
-    let currentColumn = event.target.getAttribute('col');
-    currentColumn = currentColumn.charCodeAt() - 64;
+    let currentColumnChar = event.target.getAttribute('col');
+    currentColumn = currentColumnChar.charCodeAt() - 64;
     let currentRow = event.target.getAttribute('row');
     var ship = new Ship();
 
@@ -194,9 +195,14 @@ function clickShipHorizontal(event, num, player) {
 
         let locs = [];
         for (var i = 0; i < num; i++) {
-            locs[i] = currentColumn + (Number(currentRow) + Number(i));
+            //console.log(currentColumnChar + (Number(currentRow) + Number(i)));
+            locs[i] = String.fromCharCode(currentColumn + i + 64) + (Number(currentRow));
         }
+
+        // create new ship and push it to the player's board
         var ship = new Ship(locs);
+        ship.place();
+        document.game.boards[player].ships.push(ship);
 
         let tds = document.querySelectorAll(`[id*=${player}_]`);
         tds.forEach(element => {
