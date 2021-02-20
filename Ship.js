@@ -18,7 +18,6 @@ class Ship {
 	}
 
 	hit(cell) {
-		//Need to fix ship locations for this to work  WORKING NOW?
 		if (this.locations[cell]) {
 			this.locations[cell] = false;
 			this.health--;
