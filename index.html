@@ -4,7 +4,10 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<img id=logo src="logo.png" />
 	<button id=button>Test</button>
+	</BR>
+
 	<button onclick="rotate()">Rotate</button>
 	<button id='bp1'onclick="placeShipHorizontal(1, 'player1')">1 p1</button>
 	<button id='bp1'onclick="placeShipHorizontal(2, 'player1')">2 p1</button>
@@ -15,6 +18,10 @@
 	<button id=''onclick="placeShipHorizontal(2, 'player2')">2 p2</button>
 	<button id=''onclick="placeShipHorizontal(2, 'player2')">3 p2</button>
 	<button id=''onclick="placeShipHorizontal(2, 'player2')">4 p2</button>
+	</BR>
+	<img id=p1 src="p1board.png" />
+	<img id=p2 src="p1board.png" />
+	<img id=inst />
 </body>
 
 <script src="./Ship.js"></script>
@@ -26,6 +33,6 @@
 <script>
 	document.game = new Game();
 	document.game.setup();
-	
+
 </script>
 </html>
