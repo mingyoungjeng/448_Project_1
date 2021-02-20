@@ -1,6 +1,7 @@
 class Board {
 	constructor(id) {
 		this.cells = []; // this may be useful later when iterating.
+		this.ships = [];
 		this.table = document.createElement("table");
 		this.table.class = "game_board";
 		this.table.id = id ? id : "Board";

@@ -6,11 +6,9 @@ class Game {
 		// Available players (can potentially be expanded)
 		this.players = ["player1", "player2"];
 		this.boards = {}; // needs to be an dict to have key/value pairs
-		this.ships = {};
-		this.numShips = 0;
+		this.numShips = 0; // This needs to go away
 
 		for (var player of this.players) {
-			this.ships[player] = []; // Needs to hold array of Ship objects
 			this.boards[player] = {}; // Needs to hold Board object
 		}
 	}
@@ -27,7 +25,7 @@ class Game {
 
 		// The following must be done for Player 1 AND Player 2
 		for (var player of this.players) {
-			this.placeShips(player);
+
 			// Adds eventListener for each cell onClick
 			// If you can manage to do this in Board class, I will love you.
 			for (var row of this.boards[player].cells) {
@@ -35,8 +33,8 @@ class Game {
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
-
 			
+			this.placeShips(player);
 		}
 
 		// Start game
@@ -72,22 +70,21 @@ class Game {
 			var board = cell.parentElement.parentElement.parentElement.id;
 			if (board == inactivePlayer && cell.classList.contains("empty")) {
 
-				// Might put everything here under Board class in future
-				for (var ship of game.ships[inactivePlayer]) {
+				// Check for game over
+				var win = true;
+				for (var ship of this.boards[inactivePlayer].ships) {
 					if (ship.hit(cell.location)) {
 						game.boards[inactivePlayer].drawCell(cell.location, "hit");
 					} else {
 						game.boards[inactivePlayer].drawCell(cell.location, "miss");
 					}
-				}
 
-				// Check for game over
-				var win = true;
-				for (var ship of this.ships[inactivePlayer]) {
 					if (!ship.isSunk()) {
 						win = false;
 					}
 				}
+
+				// Game over stuff
 				if (win) {
 					this.game_over(activePlayer);
 					return;
