@@ -40,27 +40,42 @@ class Board {
 
 	// Draws hit/miss indicator on cell
 	drawCell(id, state) {
-		var cell = this.getCell(id);
-		cell.classList.remove("empty");
+		let cell = this.getCell(id);
 
-		if (state == "hit") {
-			cell.classList.add("hit");
-			return true;
-		} else if (state == "miss") {
-			cell.classList.add("miss");
-			return true;
-		} else {
-			cell.classList.empty("miss");
-			return false;
+		if (this.isEmpty(id)) {
+			if (state == "hit") {
+				cell.classList.add("hit");
+			} else if (state == "miss") {
+				cell.classList.add("miss");
+			}
 		}
 	}
 
-	showShips() {
+	isEmpty(id) {
+		var cell = this.getCell(id);
+		return !(cell.classList.contains("hit") || cell.classList.contains("miss"))
+	}
 
+	showShips() {
+		for (var ship of this.ships) {
+			for (var id of Object.keys(ship.locations)) {
+				let cell = this.getCell(id);
+
+				cell.classList.remove("empty");
+				cell.classList.add("ship")
+			}
+		}
 	}
 
 	hideShips() {
+		for (var ship of this.ships) {
+			for (var id of Object.keys(ship.locations)) {
+				let cell = this.getCell(id);
 
+				cell.classList.remove("ship");
+				cell.classList.add("empty")
+			}
+		}
 	}
 
 	showBoard() {
