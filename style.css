@@ -5,21 +5,28 @@ html{
   height: 100%;
 }
 
-/*
-table {
-    background-color: #eee;
-    background-color: black;
-}*/
-
 #logo{
   display: block;
   margin: auto;
   width: 30%;
 }
 
+#rotate, .p1buttons, .p2buttons{
+  display: inline;
+  margin: auto;
+}
+
 #button{
   display: block;
   margin: auto;
+}
+
+#rotate{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+#button, #rotate, .p1buttons, .p2buttons{
   font-family: "American Typewriter", serif;
   font-variant: small-caps;
   font-weight: bold;
