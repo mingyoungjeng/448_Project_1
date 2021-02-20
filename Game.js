@@ -11,6 +11,12 @@ class Game {
 		for (var player of this.players) {
 			this.boards[player] = {}; // Needs to hold Board object
 		}
+
+		this.showTitleScreen();
+	}
+
+	showTitleScreen() {
+
 	}
 
 	// Sets up a new game
@@ -98,7 +104,12 @@ class Game {
 	// Triggered when one player wins
 	game_over(winner) {
 		console.log(winner + " wins!");
-		// Clear screen of Boards
+		for (var board of Object.values(this.boards)) {
+			board.remove();
+			this.boards = {};
+		}
+
+
 		// Display victory text
 		// Play again or go back to title screen
 	}
