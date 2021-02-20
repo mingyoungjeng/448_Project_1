@@ -195,7 +195,6 @@ function clickShipHorizontal(event, num, player) {
 
         let locs = [];
         for (var i = 0; i < num; i++) {
-            //console.log(currentColumnChar + (Number(currentRow) + Number(i)));
             locs[i] = String.fromCharCode(currentColumn + i + 64) + (Number(currentRow));
         }
 
@@ -206,7 +205,6 @@ function clickShipHorizontal(event, num, player) {
 
         let tds = document.querySelectorAll(`[id*=${player}_]`);
         tds.forEach(element => {
-            //console.log(myListeners);
             element.removeEventListener('mouseover', myListeners[element.id + "_" + num][0]);
             element.removeEventListener('mouseout', myListeners[element.id + "_" + num][1]);
             element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
