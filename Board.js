@@ -1,6 +1,5 @@
 class Board {
 	constructor(id) {
-		this.id = id + "_board";
 		this.cells = []; // this may be useful later when iterating.
 		this.ships = [];
 		this.table = document.createElement("table");
@@ -65,10 +64,14 @@ class Board {
 	}
 
 	showBoard() {
-
+		this.table.style = "block";
 	}
 
 	hideBoard() {
-		
+		this.table.style = "none";
+	}
+
+	remove() {
+		this.table.remove();
 	}
 }

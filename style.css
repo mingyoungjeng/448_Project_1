@@ -1,9 +1,80 @@
+/**/
+
+html{
+  background: linear-gradient(#696969, #708090);
+  height: 100%;
+}
+
+/*
 table {
     background-color: #eee;
+    background-color: black;
+}*/
+
+#logo{
+  display: block;
+  margin: auto;
+  width: 30%;
 }
+
+#button{
+  display: block;
+  margin: auto;
+  font-family: "American Typewriter", serif;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: large;
+  border-radius: 5px;
+}
+
+#player1, #player2 {
+  -background-color: black;
+  background-image: url(board.jpg);
+  background-size: cover;
+
+  border:  outset;
+  border-width: 5px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding: 30px;
+}
+
+#player1{ float: left; margin-left: 30%; }
+#player2{ float: right; margin-right: 40%;}
+
+#inst {
+  display: block;
+  -float:right;
+  -margin: auto;
+  -margin-right: 50%
+  -margin-top: 10%;
+  background-image: url(play1set.png);
+  background-size:contain;
+  background-repeat: no-repeat;
+  width: 23%;
+  height: 100px;
+  border: 3px solid black;
+}
+
+#p1, #p2{
+  display: block;
+  height: 8%;
+  width: 8%;
+  float: left;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+
+#p1{ float: left;margin-left: 15%;}
+#p2{ float: right;margin-right: 15%;}
+
 td {
     width: 40px;
     height: 40px;
+    float: center;
+    border-radius: 5px;
 }
 
 .empty {
@@ -24,9 +95,12 @@ td {
 }
 
 .hit {
-	background-color: red;
+  background-image: url(hit.jpg);
+  background-size: cover;
+
 }
 
 .miss {
-	background-color: blue;
+  background-image: url(miss.jpg);
+  background-size: cover;
 }
