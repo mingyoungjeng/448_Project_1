@@ -1,6 +1,33 @@
 let myListeners = {};
+let isHorizontal = true;
+let currPlayer = "";
+let currNum = 0;
 
-function placeShipVertical(num = 3, player = "player2") {
+function rotate() {
+    console.log('running rotate');
+    // remove old event listeners
+    let tds = document.querySelectorAll(`[id*=${currPlayer}_]`);
+        tds.forEach(element => {
+            //console.log(myListeners);
+            element.removeEventListener('mouseover', myListeners[element.id + "_" + currNum][0]);
+            element.removeEventListener('mouseout', myListeners[element.id + "_" + currNum][1]);
+            element.removeEventListener('click', myListeners[element.id + "_" + currNum][2]);
+        });
+    if (isHorizontal) {
+        console.log('changing to vertical');
+        isHorizontal = false;
+        placeShipVertical(currNum, currPlayer);
+    }
+    else {
+        console.log('changing to horizontal');
+        isHorizontal = true;
+        placeShipHorizontal(currNum, currPlayer);
+    }
+}
+
+function placeShipVertical(num, player) {
+    currPlayer = player;
+    currNum = num;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
     //myListeners = {};
     tds.forEach(element => {
@@ -93,7 +120,9 @@ function clickShipVertical(event, num, player) {
 
 
 
-function placeShipHorizontal(num = 3, player = "player1") {
+function placeShipHorizontal(num, player) {
+    currPlayer = player;
+    currNum = num;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
     //myListeners = {};
     tds.forEach(element => {
