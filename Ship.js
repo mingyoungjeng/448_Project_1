@@ -18,35 +18,12 @@ class Ship {
 	}
 
 	hit(cell) {
-		console.log(
-			"evaluating 'hit(cell)' = " + this.locations[cell] + "\n"
-			+ "cell = " + cell
-			);
 		if (this.locations[cell]) {
 			this.locations[cell] = false;
 			this.health--;
 			return true;
 		}
 		return false;
-	}
-
-	draw() {
-
-	}
-
-	place(player = null) {
-		// console.log(Object.keys(this.locations));
-		// for (var key of Object.keys(this.locations)) {
-		// 	//console.log(key);
-		// 	//document.querySelector('[id*=' + key + ']').setAttribute('hasShip', true);
-		// }
-        //
-		// if (!player) {
-		// 	console.log(
-		// 		'boards = ' + document.querySelector('board')
-		// 	)
-		// }
-
 	}
 
 }
