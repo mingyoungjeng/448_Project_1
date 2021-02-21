@@ -38,29 +38,33 @@ class Game {
 
 		let game = this;
 
-		var shipCnt = document.createElement("input");
-		shipCnt.type = "number";
-		shipCnt.id = "shipCnt";
-		shipCnt.name = "shipCnt";
-		shipCnt.min = "1";
-		shipCnt.max = "6";
+        //console.log('is shipCnt = ' + document.querySelector(''))
 
-		var label = document.createElement("label");
-		label.for = "shipCnt";
-		label.innerHTML = "Select number of ships: ";
+        if (!document.querySelector('#shipCnt')) {
+    		var shipCnt = document.createElement("input");
+    		shipCnt.type = "number";
+    		shipCnt.id = "shipCnt";
+    		shipCnt.name = "shipCnt";
+    		shipCnt.min = "1";
+    		shipCnt.max = "6";
 
-		document.getElementById("setup").appendChild(label);
-		document.getElementById("setup").appendChild(shipCnt);
+    		var label = document.createElement("label");
+    		label.for = "shipCnt";
+    		label.innerHTML = "Select number of ships: ";
 
-		for (var i = shipCnt.min; i <= shipCnt.max; i++) {
-			let btn = document.createElement("button");
-			btn.classList.add("setupButton");
-			btn.id = "button_" + i;
-			btn.innerHTML = i + " unit";
-			btn.disabled = true;
+    		document.getElementById("setup").appendChild(label);
+    		document.getElementById("setup").appendChild(shipCnt);
 
-			document.getElementById("setup").appendChild(btn);
-		}
+    		for (var i = shipCnt.min; i <= shipCnt.max; i++) {
+    			let btn = document.createElement("button");
+    			btn.classList.add("setupButton");
+    			btn.id = "button_" + i;
+    			btn.innerHTML = i + " unit";
+    			btn.disabled = true;
+
+    			document.getElementById("setup").appendChild(btn);
+    		}
+        }
 
 		// The following must be done for Player 1 AND Player 2
 		for (var player of this.players) {
@@ -162,8 +166,12 @@ class Game {
 			this.boards = {};
 		}
 
+        // reset the game boards and eventLisneners
 		button.innerHTML = "Play again?";
 		this.buttonClicked = function() {
+            // reset ship placement interaction
+            document.querySelector('#shipCnt').disabled = false;
+            document.querySelector('#rotate').disabled = false;
 			title.remove();
 			this.setup();
 		}
@@ -197,11 +205,16 @@ class Game {
 				this.placeShips("player2");
 			}
 		} else {
+            console.log('starting game');
 			// Start game
 			let game = this;
-            //document.game.players.forEach(p => document.game.boards[p].hideBoard());
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
+                document.querySelector('#rotate').disabled = true;
+                [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
+                    btn.disabled = true;
+                });
+                document.querySelector('#shipCnt').disabled = true;
 				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
 			}
