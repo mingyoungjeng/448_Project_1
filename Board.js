@@ -91,4 +91,5 @@ class Board {
 	remove() {
 		this.table.remove();
 	}
+
 }

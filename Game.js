@@ -21,7 +21,7 @@ class Game {
 
 	showTitleScreen() {
 		var title = document.createElement("div");
-		title.innerHTML = "Look at me, I'm a title!";
+		//title.innerHTML = "Look at me, I'm a title!";
 		document.body.appendChild(title);
 
 		button.innerHTML = "START";
@@ -49,6 +49,7 @@ class Game {
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
+<<<<<<< HEAD
 
 		}
 		var myBtn = document.querySelector('#change');
@@ -69,6 +70,13 @@ class Game {
 			}
 			
 			
+||||||| acefc08
+			
+			this.placeShips(player);
+=======
+
+			this.placeShips(player);
+>>>>>>> f9df827156cb133256debf6d6790690a0fbcef67
 		}
 
 
@@ -85,10 +93,12 @@ class Game {
 
 		// Defines inactivePlayer for use later
 		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
-		
+
 		this.boards[activePlayer].showShips();
+		this.changeInstruction(activePlayer);
 		this.button.innerHTML = "pogger";
 		this.buttonClicked = function() {};
+
 
 		let game = this;
 		this.cellClicked = function(cell) {
@@ -159,12 +169,12 @@ class Game {
 		this.cellClicked = function(cell) {
 			//this one is gonna be complicated
 		}
-		
+
 
 		// Creating test set of ships
 		//this.boards[player].ships.push(new Ship(["A1", "B1", "C1"]));
 	}
-	
+
 	// This function gets called everytime a cell is clicked.
 	// Can be altered
 	cellClicked(cell) {
@@ -174,5 +184,16 @@ class Game {
 	buttonClicked() {
 
 	}
-	
+
+	changeInstruction(activePlayer){
+		var player = activePlayer;
+
+		//if(activePlayer == "player1"){
+			document.querySelector("#inst").innerText = player + "'s Turn!";
+		/*}
+		else{
+			document.querySelector("#inst").innerText = player + "'s Turn!";
+		}*/
+	}
+
 }
