@@ -6,6 +6,7 @@ html{
   height: 100%;
 }
 
+/*Battleship Logo*/
 #logo{
   display: block;
   margin: auto;
@@ -17,25 +18,6 @@ html{
 */
 #button, #rotate, #resetbutton, #change{
   margin: auto;
-}
-
-#button, #resetbutton{
-  display: inline;
-  margin: auto;
-}
-
-#button, #resetbutton{
-  display: inline;
-  margin: auto;
-}
-
-
-#rotate{
-  margin-left: 10%;
-  margin-right: 10%;
-}
-
-#button, #rotate, #resetbutton, .p1buttons, .p2buttons{
   font-family: "American Typewriter", serif;
   font-variant: small-caps;
   font-weight: bold;
@@ -47,27 +29,25 @@ html{
 --Board styling
 */
 #player1, #player2 {
-  -background-color: black;
   background-image: url(board.jpg);
   background-size: cover;
   position: fixed;
 
-  border:  outset;
+  border: outset;
   border-width: 5px;
   margin-top: 1%;
   margin-bottom: 1%;
   padding: 30px;
 }
 
-#player1{ -float: left; -margin-left: 30%; left: 10%;}
-#player2{ -float: right; -margin-right: 40%; left: 55%;}
+#player1{ left: 8%;}
+#player2{ left: 56%;}
 
 /*
 --Instruction Text Block
 */
 #inst {
   display: block;
-  -float:right;
   margin: auto;
   width: 40%;
   height: 50px;
@@ -86,8 +66,6 @@ html{
   float: left;
   margin-left: 15%;
   margin-right: 15%;
-  margin-top: 0%;
-  margin-bottom: 0%;
 }
 #p1{ height: 5%; width: 5%; float: left; margin-left: 15%;}
 #p2{ height: 6%; width: 6%; float: right; margin-right: 15%;}

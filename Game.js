@@ -23,7 +23,7 @@ class Game {
 		//title.innerHTML = "Look at me, I'm a title!";
 		document.body.appendChild(title);
 
-		button.innerHTML = "START";
+		button.innerHTML = "Start";
 		this.buttonClicked = function() {
 			title.remove();
 			this.setup();
@@ -142,12 +142,11 @@ class Game {
 				// Game over stuff
 				if (win) {
 					game.game_over(activePlayer);
-					game.instDone();
+					game.instDone(activePlayer);
 				} else { // End turn
 					game.cellClicked = function() {};
 					game.dontPress(inactivePlayer);
 					game.boards[activePlayer].hideShips();
-
 					game.button.innerHTML = "End turn";
 					game.buttonClicked = function() {
 						game.boards[inactivePlayer].showShips();
@@ -161,9 +160,9 @@ class Game {
 	// Triggered when one player wins
 	game_over(winner) {
 		var title = document.createElement("div");
-		title.innerHTML = winner + " wins!";
+		//title.innerHTML = winner + " wins!";
 		document.body.appendChild(title);
-        document.game.cellClicked = function() {}   ;
+        document.game.cellClicked = function() {};
 
 		for (var board of Object.values(this.boards)) {
 			board.remove();
@@ -173,9 +172,12 @@ class Game {
         // reset the game boards and eventLisneners
 		button.innerHTML = "Play again?";
 		this.buttonClicked = function() {
-            // reset ship placement interaction
+            /*// reset ship placement interaction
             document.querySelector('#shipCnt').disabled = false;
-            document.querySelector('#rotate').disabled = false;
+            document.querySelector('#rotate').disabled = false;*/
+						document.getElementById("setup").style.display = "block";
+						document.getElementById("rotate").style.display = "inline-block";
+						document.getElementById("resetbutton").style.display = "inline-block";
 			title.remove();
 			this.setup();
 		}
@@ -202,11 +204,12 @@ class Game {
 		};
 
 		if (player == "player1") {
+			document.querySelector("#inst").innerText = "Place Player 1's Ships Now";
 			this.button.innerHTML = "End Setup";
 			this.buttonClicked = function() {
-                removeAll();
 				shipCnt.value = null;
 				shipCnt.onchange();
+				document.querySelector("#inst").innerText = "Place Player 2's Ships Now";
 				this.placeShips("player2");
 			}
 		} else {
@@ -215,12 +218,14 @@ class Game {
 			let game = this;
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
-                removeAll();
-                document.querySelector('#rotate').disabled = true;
+								document.getElementById("setup").style.display = "none";
+								document.getElementById("rotate").style.display = "none";
+								document.getElementById("resetbutton").style.display = "none";
+                /*document.querySelector('#rotate').disabled = true;
                 [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
                     btn.disabled = true;
                 });
-                document.querySelector('#shipCnt').disabled = true;
+                document.querySelector('#shipCnt').disabled = true;*/
 				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
 			}
@@ -237,16 +242,49 @@ class Game {
 
 	}
 
+	/*
+	---Instruction on who's turn it is
+	*/
 	changeInstruction(activePlayer){
-		document.querySelector("#inst").innerText = activePlayer + "'s Turn!";
+		var player;
+		var notPlayer;
+		if(activePlayer=="player1")
+		{
+			player = "Player 1";
+			notPlayer = "Player 2";
+		}else{
+			player = "Player 2";
+			notPlayer = "Player 1";
+		}
+		document.querySelector("#inst").innerText = player + "'s Turn! Pick a spot on " + notPlayer + "'s board to attack.";
 	}
 
+	/*
+	---Message to warn of next player's ships appearing
+	*/
 	dontPress(inactivePlayer){
-		document.querySelector("#inst").innerText = "You're turn is over! Hand over the computer and when " + inactivePlayer + " is ready, press End Turn!";
+		var nextplayer;
+		if(inactivePlayer=="player1")
+		{
+			nextplayer = "Player 1";
+		}else{
+			nextplayer = "Player 2";
+		}
+		document.querySelector("#inst").innerText = "Hand over the computer and when " + nextplayer + " is ready, End Turn!";
 	}
 
-	instDone(){
-		document.querySelector("#inst").innerText = "";
+	/*
+	---Game Over Message
+	*/
+	instDone(activePlayer){
+		var player;
+		if(activePlayer=="player1")
+		{
+			player = "Player 1";
+		}else{
+			player = "Player 2";
+		}
+		document.querySelector("#inst").innerText = "Game Over! " + player + " Won!";
 	}
 
 }
