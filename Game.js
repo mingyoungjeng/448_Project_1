@@ -245,7 +245,7 @@ class Game {
 	}
 
 	/*
-	---Instruction on who's turn it is
+	---Instruction on whose turn it is
 	*/
 	changeInstruction(activePlayer){
 		var player;

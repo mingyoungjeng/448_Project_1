@@ -1,7 +1,6 @@
 /**/
 
 html{
-  -background: linear-gradient(#696969, #708090);
   background: linear-gradient(to top, #f43b47 0%, #453a94 100%);
   height: 100%;
 }
@@ -50,7 +49,7 @@ html{
 #inst {
   display: block;
   margin: auto;
-  width: 40%;
+  width: 30%;
   height: 50px;
 
   text-align: center;
