@@ -26,12 +26,20 @@ function rotate() {
 }
 
 function removeAll() {
+    console.log("wiping the slate");
     let tds = document.querySelectorAll(`[id*=${currPlayer}_]`);
         tds.forEach(element => {
-            //console.log(myListeners);
-            element.removeEventListener('mouseover', myListeners[element.id + "_" + currNum][0]);
-            element.removeEventListener('mouseout', myListeners[element.id + "_" + currNum][1]);
-            element.removeEventListener('click', myListeners[element.id + "_" + currNum][2]);
+            for (var i = 1; i <= 6; i++) {
+                try {
+                    console.log(myListeners[element.id + "_" + i]);
+                    element.removeEventListener('mouseover', myListeners[element.id + "_" + i][0]);
+                    element.removeEventListener('mouseout', myListeners[element.id + "_" + i][1]);
+                    element.removeEventListener('click', myListeners[element.id + "_" + i][2]);
+                } catch {
+                    //console.log("nothing to remove");
+                }
+
+            }
         });
 }
 
