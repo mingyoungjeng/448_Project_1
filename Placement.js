@@ -126,7 +126,7 @@ function clickShipVertical(event, num, player) {
                 element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
             });
 
-            document.querySelector('#button_' + player + "_" + num).disabled = true;
+            document.querySelector('#button_' + num).disabled = true;
         }
 
         
@@ -252,7 +252,7 @@ function clickShipHorizontal(event, num, player) {
                 element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
             });
 
-            document.querySelector('#button_' + player + "_" + num).disabled = true;
+            document.querySelector('#button_' + num).disabled = true;
         }
     }
     else {

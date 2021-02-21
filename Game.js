@@ -133,9 +133,11 @@ class Game {
 					game.instDone();
 				} else { // End turn
 					game.cellClicked = function() {};
-					game.boards[inactivePlayer].showShips();
 					game.button.innerHTML = "End turn";
-					game.buttonClicked = function() {game.play(inactivePlayer)};
+					game.buttonClicked = function() {
+						game.boards[inactivePlayer].showShips();
+						game.play(inactivePlayer)
+					};
 				}
 			}
 		}
@@ -191,6 +193,7 @@ class Game {
 			let game = this;
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
+				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
 			}
 		}
