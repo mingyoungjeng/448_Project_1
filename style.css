@@ -24,6 +24,23 @@ html{
   border-radius: 5px;
 }
 
+
+/*
+--Set up buttons and text label for placing Ships
+*/
+.setupButton{
+  margin: auto;
+  font-family: "American Typewriter", serif;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+label{
+  margin: auto;
+  font-family: "American Typewriter", serif;
+  color: white;
+}
+
 /*
 --Board styling
 */
