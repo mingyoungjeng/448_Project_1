@@ -31,7 +31,7 @@ function removeAll() {
         tds.forEach(element => {
             for (var i = 1; i <= 6; i++) {
                 try {
-                    console.log(myListeners[element.id + "_" + i]);
+                    //console.log(myListeners[element.id + "_" + i]);
                     element.removeEventListener('mouseover', myListeners[element.id + "_" + i][0]);
                     element.removeEventListener('mouseout', myListeners[element.id + "_" + i][1]);
                     element.removeEventListener('click', myListeners[element.id + "_" + i][2]);
@@ -144,7 +144,6 @@ function clickShipVertical(event, num, player) {
 
             //create new ship and push it to the player's board
             var ship = new Ship(locs);
-            ship.place();
             document.game.boards[player].ships.push(ship);
 
             //console.log(myListeners);
@@ -261,9 +260,9 @@ function clickShipHorizontal(event, num, player) {
 
             overlap = myEntries.some(function(element) {
                 for (var ship of document.game.boards[player].ships) {
-                    console.log('ship = ' + ship);
+                    //console.log('ship = ' + ship);
                     for (var item of Object.keys(ship.locations)) {
-                        console.log('\t item = ' + item);
+                        //onsole.log('\t item = ' + item);
                         if (element.location == item) {
                             //alert('Those ships are overlapping!');
                             return true;
@@ -285,7 +284,6 @@ function clickShipHorizontal(event, num, player) {
 
             // create new ship and push it to the player's board
             var ship = new Ship(locs);
-            ship.place();
             document.game.boards[player].ships.push(ship);
 
             let tds = document.querySelectorAll(`[id*=${player}_]`);

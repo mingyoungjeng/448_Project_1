@@ -51,6 +51,7 @@ class Board {
 			} else if (state == "miss") {
 				cell.classList.add("miss");
 			}
+            cell.classList.remove('empty');
 		}
 	}
 

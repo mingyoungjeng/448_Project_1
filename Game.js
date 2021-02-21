@@ -59,11 +59,19 @@ class Game {
     			let btn = document.createElement("button");
     			btn.classList.add("setupButton");
     			btn.id = "button_" + i;
-    			btn.innerHTML = i + " unit";
+    			btn.innerHTML = "Ship " + i;
     			btn.disabled = true;
 
     			document.getElementById("setup").appendChild(btn);
     		}
+
+    		var rotate = document.createElement("button");
+    		rotate.id = "rotate";
+    		rotate.innerHTML = "Rotate Ship";
+    		rotate.onclick = function() {
+    			window.rotate();
+    		}
+    		document.getElementById("center").appendChild(rotate);
         }
 
 		// The following must be done for Player 1 AND Player 2
@@ -109,7 +117,7 @@ class Game {
 
 		this.boards[inactivePlayer].hideShips();
 		this.changeInstruction(activePlayer);
-		this.button.innerHTML = "pogger";
+		this.button.disabled = true;
 		this.buttonClicked = function() {};
 
 
@@ -147,6 +155,7 @@ class Game {
 					game.cellClicked = function() {};
 					game.dontPress(inactivePlayer);
 					game.boards[activePlayer].hideShips();
+					game.button.disabled = false;
 					game.button.innerHTML = "End turn";
 					game.buttonClicked = function() {
 						game.boards[inactivePlayer].showShips();
@@ -162,7 +171,8 @@ class Game {
 		var title = document.createElement("div");
 		//title.innerHTML = winner + " wins!";
 		document.body.appendChild(title);
-        document.game.cellClicked = function() {};
+        this.cellClicked = function() {};
+        this.button.disabled = false;
 
 		for (var board of Object.values(this.boards)) {
 			board.remove();
@@ -172,18 +182,14 @@ class Game {
         // reset the game boards and eventLisneners
 		button.innerHTML = "Play again?";
 		this.buttonClicked = function() {
-            /*// reset ship placement interaction
-            document.querySelector('#shipCnt').disabled = false;
-            document.querySelector('#rotate').disabled = false;*/
-						document.getElementById("setup").style.display = "block";
-						document.getElementById("rotate").style.display = "inline-block";
-						document.getElementById("resetbutton").style.display = "inline-block";
+            document.getElementById("resetbutton").style.display = "inline-block";
 			title.remove();
 			this.setup();
 		}
 	}
 
 	placeShips(player) {
+
 		for (var p of this.players) {
 			if (p == player) {
 				this.boards[p].showBoard();
@@ -192,14 +198,39 @@ class Game {
 			}
 		}
 
+		let game = this;
+		this.button.disabled = true;
+
 		let shipCnt = document.getElementById("shipCnt");
+		let placed = [];
 		shipCnt.onchange = function() {
 			for (var i = shipCnt.min; i <= shipCnt.max; i++) {
 				let btn = document.querySelector('#button_' + i);
-				btn.disabled = (i > shipCnt.value);
+				if (!placed.includes(i)) {
+					btn.disabled = (i > shipCnt.value);
+				}
 
 				let size = i; // This is necessary for stupid reasons
-				btn.onclick = function() {placeShipHorizontal(size, player)};
+				btn.onclick = function() {
+					placeShipHorizontal(size, player);
+					placed.push(size);
+
+					game.button.disabled = (placed.length != shipCnt.value);
+				};
+
+				game.button.disabled = (placed.length != shipCnt.value);
+			}
+
+			let board = game.boards[player];
+			for (var i in board.ships) {
+				if ([i].size > shipCnt.value) {
+					console.log(board.ships);
+					console.log("remove size " + board.ships[i].size);
+					board.hideShips();
+					placed.splice(placed.indexOf(board.ships[i].size), 1);
+					board.ships.splice(i, 1);
+					board.showShips();
+				}
 			}
 		};
 
@@ -207,25 +238,25 @@ class Game {
 			document.querySelector("#inst").innerText = "Place Player 1's Ships Now";
 			this.button.innerHTML = "End Setup";
 			this.buttonClicked = function() {
+                removeAll();
 				shipCnt.value = null;
-				shipCnt.onchange();
+				//shipCnt.onchange();
 				document.querySelector("#inst").innerText = "Place Player 2's Ships Now";
 				this.placeShips("player2");
 			}
 		} else {
-            console.log('starting game');
 			// Start game
-			let game = this;
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
-								document.getElementById("setup").style.display = "none";
-								document.getElementById("rotate").style.display = "none";
-								document.getElementById("resetbutton").style.display = "none";
-                /*document.querySelector('#rotate').disabled = true;
-                [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
-                    btn.disabled = true;
-                });
-                document.querySelector('#shipCnt').disabled = true;*/
+                removeAll();
+
+                let setup = document.getElementById("setup");
+				while (setup.firstChild) {
+        			setup.removeChild(setup.firstChild);
+    			}
+				document.getElementById("rotate").remove();
+
+				document.getElementById("resetbutton").style.display = "none";
 				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
 			}
@@ -243,7 +274,7 @@ class Game {
 	}
 
 	/*
-	---Instruction on who's turn it is
+	---Instruction on whose turn it is
 	*/
 	changeInstruction(activePlayer){
 		var player;
