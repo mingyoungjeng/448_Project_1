@@ -5,8 +5,6 @@ The following site(s) were referenced:
 //Basic source about promises followed when incorporating them into our code
 https://web.dev/promises/
 
-<<<<<<< HEAD
-=======
 //Battleship logo .png: 
 https://www.pngkey.com/maxpic/u2w7t4q8u2o0r5t4/
 
@@ -20,4 +18,3 @@ https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 
 //The following code is original work and no outside source
 code was used to do the following program.
->>>>>>> c975dc960b888a796c97e0e43543b9c5f43d52a7
