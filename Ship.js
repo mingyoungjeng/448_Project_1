@@ -35,17 +35,17 @@ class Ship {
 	}
 
 	place(player = null) {
-		console.log(Object.keys(this.locations));
-		for (var key of Object.keys(this.locations)) {
-			//console.log(key);
-			document.querySelector('[id*=' + key + ']').setAttribute('hasShip', true);
-		}
-
-		if (!player) {
-			console.log(
-				'boards = ' + document.querySelector('board')
-			)
-		}
+		// console.log(Object.keys(this.locations));
+		// for (var key of Object.keys(this.locations)) {
+		// 	//console.log(key);
+		// 	//document.querySelector('[id*=' + key + ']').setAttribute('hasShip', true);
+		// }
+        //
+		// if (!player) {
+		// 	console.log(
+		// 		'boards = ' + document.querySelector('board')
+		// 	)
+		// }
 
 	}
 
