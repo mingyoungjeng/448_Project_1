@@ -18,10 +18,6 @@ class Ship {
 	}
 
 	hit(cell) {
-		console.log(
-			"evaluating 'hit(cell)' = " + this.locations[cell] + "\n"
-			+ "cell = " + cell
-			);
 		if (this.locations[cell]) {
 			this.locations[cell] = false;
 			this.health--;

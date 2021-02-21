@@ -223,6 +223,16 @@ class Game {
 					}
 				};
 			}
+
+			let board = game.boards[player];
+			for (var i in board.ships) {
+				if (board.ships[i].size > shipCnt.value) {
+					board.hideShips();
+					placed.splice(placed.indexOf(board.ships[i].size), 1);
+					board.ships.splice(i, 1);
+					board.showShips();
+				}
+			}
 		};
 
 		if (player == "player1") {
