@@ -252,7 +252,12 @@ class Game {
 			this.buttonClicked = function() {
                 removeAll();
 				document.getElementById("setup").style.display = "none";
-				document.getElementById("rotate").remove();
+				try {
+					document.getElementById("rotate").remove();
+				} catch {
+					console.log("no buttong to remove");
+				}
+				
 				document.getElementById("resetbutton").style.display = "none";
                 /*document.querySelector('#rotate').disabled = true;
                 [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
