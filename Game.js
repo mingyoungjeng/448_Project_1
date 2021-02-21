@@ -49,15 +49,34 @@ class Game {
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
+
+		}
+		var myBtn = document.querySelector('#change');
+		console.log(myBtn);
+
+		myBtn.innerHTML = "End Player 1 Setup";
+		this.placeShips('player1');
+		myBtn.onclick = function () {
+			document.game.boards['player1'].hideShips();
+			console.log('entering player 2 setup');
+			myBtn.innerHTML = "End Player 2 Setup";
+			document.game.placeShips('player2');
+			myBtn.onclick = function () {
+				document.game.boards['player2'].hideShips();
+				myBtn.disabled = true;
+				myBtn.innerHTML = "Click Play Game to Start";
+				//integrate myBtn into the play game btn? 
+			}
 			
-			this.placeShips(player);
+			
 		}
 
-		// Start game
-		this.button.innerHTML = "Play Game";
-		this.buttonClicked = function() {
-			this.play(game.players[Math.round(Math.random())]);
-		}
+
+			// Start game
+			this.button.innerHTML = "Play Game";
+			this.buttonClicked = function() {
+				this.play(game.players[Math.round(Math.random())]);
+			}
 	}
 
 	// Runs a game while playing
@@ -131,15 +150,10 @@ class Game {
 		}
 
 		if (this.numShips < 6) {
-			console.log('removing buttons from other blah');
-			for (var j = Number(this.numShips) + 1; j < 7; j++) {
-				console.log(j);
-				//console.log('doing stuff');
-				//console.log('#button_' + player + "_" + j);
-				document.querySelector('#button_' + player + "_" + j).disabled = true;
+			for (var j = 1; j <= this.numShips; j++) {
+				document.querySelector('#button_' + player + "_" + j).disabled = false;
 			}
 		}
-
 
 		let game = this;
 		this.cellClicked = function(cell) {
