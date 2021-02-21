@@ -95,9 +95,11 @@ class Game {
 				// Game over stuff
 				if (win) {
 					game.game_over(activePlayer);
+					game.instDone();
 				} else { // End turn
 					game.cellClicked = function() {};
 					game.boards[activePlayer].hideShips();
+					game.dontPress(inactivePlayer);
 					game.button.innerHTML = "End turn";
 					game.buttonClicked = function() {game.play(inactivePlayer)};
 				}
@@ -163,14 +165,15 @@ class Game {
 	}
 
 	changeInstruction(activePlayer){
-		var player = activePlayer;
+		document.querySelector("#inst").innerText = activePlayer + "'s Turn!";
+	}
 
-		//if(activePlayer == "player1"){
-			document.querySelector("#inst").innerText = player + "'s Turn!";
-		/*}
-		else{
-			document.querySelector("#inst").innerText = player + "'s Turn!";
-		}*/
+	dontPress(inactivePlayer){
+		document.querySelector("#inst").innerText = "You're turn is over! Hand over the computer and when " + inactivePlayer + " is ready, press End Turn!";
+	}
+
+	instDone(){
+		document.querySelector("#inst").innerText = "";
 	}
 
 }
