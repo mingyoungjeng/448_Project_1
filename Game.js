@@ -201,6 +201,7 @@ class Game {
 		if (player == "player1") {
 			this.button.innerHTML = "End Setup";
 			this.buttonClicked = function() {
+                removeAll();
 				shipCnt.value = null;
 				shipCnt.onchange();
 				this.placeShips("player2");
