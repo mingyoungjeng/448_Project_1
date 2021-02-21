@@ -59,7 +59,7 @@ class Game {
     			let btn = document.createElement("button");
     			btn.classList.add("setupButton");
     			btn.id = "button_" + i;
-    			btn.innerHTML = i + " unit";
+    			btn.innerHTML = "Ship " + i;
     			btn.disabled = true;
 
     			document.getElementById("setup").appendChild(btn);
@@ -255,7 +255,7 @@ class Game {
         			setup.removeChild(setup.firstChild);
     			}
 				document.getElementById("rotate").remove();
-				
+
 				document.getElementById("resetbutton").style.display = "none";
 				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
