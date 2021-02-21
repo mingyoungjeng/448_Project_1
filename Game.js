@@ -67,6 +67,7 @@ class Game {
 
     		var rotate = document.createElement("button");
     		rotate.id = "rotate";
+    		rotate.innerHTML = "Rotate Ship";
     		rotate.onClick = function() {
     			rotate();
     		}
@@ -265,7 +266,7 @@ class Game {
 	}
 
 	/*
-	---Instruction on who's turn it is
+	---Instruction on whose turn it is
 	*/
 	changeInstruction(activePlayer){
 		var player;
