@@ -89,6 +89,7 @@ class Game {
 				myBtn.innerHTML = "Click Play Game to Start";
 				//integrate myBtn into the play game btn?
 			}
+		}
 
 		this.placeShips("player1");
 	}
@@ -159,19 +160,6 @@ class Game {
 	}
 
 	placeShips(player) {
-		// Prompt player for number of ships to place
-		if (!(this.numShips > 0  && this.numShips < 7)) { //replace with a try throw catch?
-			var numShips = prompt("# of ships (1 - 6): ");
-			this.numShips = numShips;
-			console.log('num ships = ' + this.numShips);
-		}
-
-		if (this.numShips < 6) {
-			for (var j = 1; j <= this.numShips; j++) {
-				document.querySelector('#button_' + player + "_" + j).disabled = false;
-			}
-		}
-
 		for (var p of this.players) {
 			if (p == player) {
 				this.boards[p].showBoard();
