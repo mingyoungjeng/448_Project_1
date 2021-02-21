@@ -25,10 +25,21 @@ function rotate() {
     }
 }
 
-function placeShipVertical(num, player) {
+ async function placeShipVertical(num, player) {
     currPlayer = player;
-    currNum = num;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
+    try {
+        await tds.forEach(element => {
+        //console.log(myListeners);
+        element.removeEventListener('mouseover', myListeners[element.id + "_" + currNum][0]);
+        element.removeEventListener('mouseout', myListeners[element.id + "_" + currNum][1]);
+        element.removeEventListener('click', myListeners[element.id + "_" + currNum][2]);
+        });
+    } catch(e) {
+        console.log("Couldn't remove listeners");
+    }
+    currNum = num;
+
     //myListeners = {};
     tds.forEach(element => {
         function L1 (event) {
@@ -144,10 +155,21 @@ function clickShipVertical(event, num, player) {
 
 
 
-function placeShipHorizontal(num, player) {
+ async function placeShipHorizontal(num, player) {
     currPlayer = player;
-    currNum = num;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
+    try {
+        await tds.forEach(element => {
+        //console.log(myListeners);
+        element.removeEventListener('mouseover', myListeners[element.id + "_" + currNum][0]);
+        element.removeEventListener('mouseout', myListeners[element.id + "_" + currNum][1]);
+        element.removeEventListener('click', myListeners[element.id + "_" + currNum][2]);
+        });
+    } catch(e) {
+        console.log("Couldn't remove listeners");
+    }
+    currNum = num;
+
     //myListeners = {};
     tds.forEach(element => {
         function L1 (event) {
