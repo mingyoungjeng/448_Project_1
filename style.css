@@ -3,6 +3,8 @@
 html{
   background: linear-gradient(to top, #f43b47 0%, #453a94 100%);
   height: 100%;
+  overflow-y:hidden;
+  overflow-x: hidden;
 }
 
 /*Battleship Logo*/
@@ -45,7 +47,8 @@ label{
 --Board styling
 */
 #player1, #player2 {
-  background-image: url(board.jpg);
+  background-image: url('./Images/grid.png');
+  background-color: grey;
   background-size: cover;
   position: fixed;
 
@@ -126,4 +129,61 @@ td {
 .miss {
   background-image: url(miss.jpg);
   background-size: cover;
+}
+
+
+.bg {
+  position: absolute;
+  width: 400%;
+  height: 400px;
+  display: block;
+  background-repeat: repeat-x;
+  bottom: 0%;
+  left: 0%;
+  animation: moveRight 6s linear infinite;
+}
+
+.big {
+  position: absolute;
+  bottom: 0%;
+  left: 24%;
+  animation: suspension1 2s linear infinite;
+}
+
+.small {
+  position: absolute;
+  bottom: 0%;
+  left: 16%;
+  animation: suspension2 1s linear infinite;
+}
+
+/*animation*/
+@keyframes moveRight{
+    100%{
+        transform: translateX(-2950px);
+    }
+}
+
+@keyframes suspension1{
+    100%{
+        transform: translateY(-2px);
+    }
+    50%{
+        transform: translateY(2px);
+    }
+    0%{
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes suspension2{
+    100%{
+        transform: translateY(-1px);
+    }
+    50%{
+        transform: translateY(2px);
+    }
+    0%{
+        transform: translateY(-1px);
+    }
 }
