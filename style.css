@@ -12,8 +12,18 @@ html{
   width: 30%;
 }
 
+<<<<<<< HEAD
 #rotate, .p1buttons, .p2buttons{
   display: inline;
+||||||| 8ad45d8
+/*Button styling*/
+#button, #rotate, #resetbutton, #change{
+=======
+/*
+--Button styling
+*/
+#button, #rotate, #resetbutton, #change{
+>>>>>>> 654639d1673e87b54a154709316c44d62177f2d7
   margin: auto;
 }
 
@@ -36,7 +46,9 @@ html{
   border-radius: 5px;
 }
 
-/*Board styling*/
+/*
+--Board styling
+*/
 #player1, #player2 {
   -background-color: black;
   background-image: url(board.jpg);
@@ -53,11 +65,14 @@ html{
 #player1{ -float: left; -margin-left: 30%; left: 10%;}
 #player2{ -float: right; -margin-right: 40%; left: 55%;}
 
-/*instruction picture*/
+/*
+--Instruction Text Block
+*/
 #inst {
   display: block;
   -float:right;
   margin: auto;
+<<<<<<< HEAD
   -margin-right: 50%;
   -margin: auto;
   -margin-right: 50%
@@ -70,24 +85,67 @@ html{
   width: 23%;
   height: 100px;
   border: 3px solid black;
+||||||| 8ad45d8
+  width: 40%;
+  height: 50px;
+  -border: 3px solid black;
+
+  text-align: center;
+  color:white;
+  font-family: "American Typewriter", serif;
+  font-size: 30px;
+=======
+  width: 40%;
+  height: 50px;
+
+  text-align: center;
+  color:white;
+  font-family: "American Typewriter", serif;
+  font-size: 30px;
+>>>>>>> 654639d1673e87b54a154709316c44d62177f2d7
 }
 
+<<<<<<< HEAD
 /*Board lables*/
+||||||| 8ad45d8
+/*Board 'P1' and 'P2' icons*/
+=======
+/*
+--Board 'P1' and 'P2' icons
+*/
+>>>>>>> 654639d1673e87b54a154709316c44d62177f2d7
 #p1, #p2{
   display: block;
+<<<<<<< HEAD
   height: 8%;
   width: 8%;
+||||||| 8ad45d8
+  height: 5%;
+  width: 5%;
+=======
+>>>>>>> 654639d1673e87b54a154709316c44d62177f2d7
   float: left;
   margin-left: 15%;
   margin-right: 15%;
   margin-top: 0%;
   margin-bottom: 0%;
 }
+#p1{ height: 5%; width: 5%; float: left; margin-left: 15%;}
+#p2{ height: 6%; width: 6%; float: right; margin-right: 15%;}
 
+<<<<<<< HEAD
 #p1{ float: left;margin-left: 15%;}
 #p2{ float: right;margin-right: 15%;}
 
 
+||||||| 8ad45d8
+#p1{ float: left; margin-left: 15%;}
+#p2{ float: right; margin-right: 15%;}
+
+
+=======
+/*table*/
+>>>>>>> 654639d1673e87b54a154709316c44d62177f2d7
 td {
     width: 40px;
     height: 40px;
@@ -95,6 +153,7 @@ td {
     border-radius: 5px;
 }
 
+/*when a spot is empty*/
 .empty {
     background-color: white;
 }
@@ -102,6 +161,7 @@ td {
 .empty:hover {
     background:#eee;
 }
+
 
 .ship.hover {
     background-color: gray;
@@ -112,6 +172,9 @@ td {
     background-color: rgb(49, 49, 49);
 }
 
+/*
+--Hit and Miss directions
+*/
 .hit {
   background-image: url(hit.jpg);
   background-size: cover;
