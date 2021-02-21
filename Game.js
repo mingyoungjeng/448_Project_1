@@ -223,7 +223,9 @@ class Game {
 
 			let board = game.boards[player];
 			for (var i in board.ships) {
-				if (board.ships[i].size > shipCnt.value) {
+				if ([i].size > shipCnt.value) {
+					console.log(board.ships);
+					console.log("remove size " + board.ships[i].size);
 					board.hideShips();
 					placed.splice(placed.indexOf(board.ships[i].size), 1);
 					board.ships.splice(i, 1);
@@ -238,7 +240,7 @@ class Game {
 			this.buttonClicked = function() {
                 removeAll();
 				shipCnt.value = null;
-				shipCnt.onchange();
+				//shipCnt.onchange();
 				document.querySelector("#inst").innerText = "Place Player 2's Ships Now";
 				this.placeShips("player2");
 			}
