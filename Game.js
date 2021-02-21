@@ -202,32 +202,31 @@ class Game {
 		this.button.disabled = true;
 
 		let shipCnt = document.getElementById("shipCnt");
-		let placed = [];
+		shipCnt.placed = [];
+		shipCnt.placedUpdate = function() {
+			game.button.disabled = (shipCnt.placed.length != shipCnt.value);
+		};
+
 		shipCnt.onchange = function() {
 			for (var i = shipCnt.min; i <= shipCnt.max; i++) {
 				let btn = document.querySelector('#button_' + i);
-				if (!placed.includes(i)) {
+				if (!shipCnt.placed.includes(i)) {
 					btn.disabled = (i > shipCnt.value);
 				}
 
 				let size = i; // This is necessary for stupid reasons
 				btn.onclick = function() {
 					placeShipHorizontal(size, player);
-					placed.push(size);
-
-					game.button.disabled = (placed.length != shipCnt.value);
 				};
-
-				game.button.disabled = (placed.length != shipCnt.value);
 			}
 
 			let board = game.boards[player];
 			for (var i in board.ships) {
-				if ([i].size > shipCnt.value) {
-					console.log(board.ships);
+				if (board.ships[i].size > shipCnt.value) {
 					console.log("remove size " + board.ships[i].size);
 					board.hideShips();
-					placed.splice(placed.indexOf(board.ships[i].size), 1);
+					shipCnt.placed.splice(shipCnt.placed.indexOf(board.ships[i].size), 1);
+					shipCnt.placedUpdate();
 					board.ships.splice(i, 1);
 					board.showShips();
 				}

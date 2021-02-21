@@ -156,6 +156,10 @@ function clickShipVertical(event, num, player) {
             });
 
             document.querySelector('#button_' + num).disabled = true;
+
+            let shipCnt = document.getElementById("shipCnt");
+            shipCnt.placed.push(num);
+            shipCnt.placedUpdate();
         }
 
 
@@ -294,6 +298,10 @@ function clickShipHorizontal(event, num, player) {
             });
 
             document.querySelector('#button_' + num).disabled = true;
+
+            let shipCnt = document.getElementById("shipCnt");
+            shipCnt.placed.push(num);
+            shipCnt.placedUpdate();
         }
     }
     else {
