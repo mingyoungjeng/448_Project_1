@@ -144,7 +144,6 @@ function clickShipVertical(event, num, player) {
 
             //create new ship and push it to the player's board
             var ship = new Ship(locs);
-            ship.place();
             document.game.boards[player].ships.push(ship);
 
             //console.log(myListeners);
@@ -285,7 +284,6 @@ function clickShipHorizontal(event, num, player) {
 
             // create new ship and push it to the player's board
             var ship = new Ship(locs);
-            ship.place();
             document.game.boards[player].ships.push(ship);
 
             let tds = document.querySelectorAll(`[id*=${player}_]`);
