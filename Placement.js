@@ -25,6 +25,16 @@ function rotate() {
     }
 }
 
+function removeAll() {
+    let tds = document.querySelectorAll(`[id*=${currPlayer}_]`);
+        tds.forEach(element => {
+            //console.log(myListeners);
+            element.removeEventListener('mouseover', myListeners[element.id + "_" + currNum][0]);
+            element.removeEventListener('mouseout', myListeners[element.id + "_" + currNum][1]);
+            element.removeEventListener('click', myListeners[element.id + "_" + currNum][2]);
+        });
+}
+
  async function placeShipVertical(num, player) {
     currPlayer = player;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
