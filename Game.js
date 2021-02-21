@@ -64,6 +64,13 @@ class Game {
 
     			document.getElementById("setup").appendChild(btn);
     		}
+
+    		var rotate = document.createElement("button");
+    		rotate.id = "rotate";
+    		rotate.onClick = function() {
+    			rotate();
+    		}
+    		//document.getElementById("center").appendChild(rotate);
         }
 
 		// The following must be done for Player 1 AND Player 2
@@ -109,7 +116,7 @@ class Game {
 
 		this.boards[inactivePlayer].hideShips();
 		this.changeInstruction(activePlayer);
-		this.button.innerHTML = "Attack!";
+		this.button.disabled = true;
 		this.buttonClicked = function() {};
 
 
@@ -184,6 +191,7 @@ class Game {
 	}
 
 	placeShips(player) {
+
 		for (var p of this.players) {
 			if (p == player) {
 				this.boards[p].showBoard();
@@ -192,14 +200,27 @@ class Game {
 			}
 		}
 
+		let game = this;
+		this.button.disabled = true;
+
 		let shipCnt = document.getElementById("shipCnt");
+		let placed = [];
 		shipCnt.onchange = function() {
 			for (var i = shipCnt.min; i <= shipCnt.max; i++) {
 				let btn = document.querySelector('#button_' + i);
-				btn.disabled = (i > shipCnt.value);
+				if (!placed.includes(i)) {
+					btn.disabled = (i > shipCnt.value);
+				}
 
 				let size = i; // This is necessary for stupid reasons
-				btn.onclick = function() {placeShipHorizontal(size, player)};
+				btn.onclick = function() {
+					placeShipHorizontal(size, player);
+					placed.push(size);
+
+					if (placed.length == shipCnt.value) {
+						game.button.disabled = false;
+					}
+				};
 			}
 		};
 
@@ -216,12 +237,11 @@ class Game {
 		} else {
             console.log('starting game');
 			// Start game
-			let game = this;
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
                 removeAll();
 				document.getElementById("setup").style.display = "none";
-				document.getElementById("rotate").style.display = "none";
+				document.getElementById("rotate").remove();
 				document.getElementById("resetbutton").style.display = "none";
                 /*document.querySelector('#rotate').disabled = true;
                 [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
