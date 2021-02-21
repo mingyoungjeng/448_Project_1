@@ -6,7 +6,6 @@ class Game {
 		// Available players (can potentially be expanded)
 		this.players = ["player1", "player2"];
 		this.boards = {}; // needs to be an dict to have key/value pairs
-		this.numShips = 0; // This needs to go away
 
 		for (var player of this.players) {
 			this.boards[player] = {}; // Needs to hold Board object
@@ -39,6 +38,30 @@ class Game {
 
 		let game = this;
 
+		var shipCnt = document.createElement("input");
+		shipCnt.type = "number";
+		shipCnt.id = "shipCnt";
+		shipCnt.name = "shipCnt";
+		shipCnt.min = "1";
+		shipCnt.max = "6";
+
+		var label = document.createElement("label");
+		label.for = "shipCnt";
+		label.innerHTML = "Select number of ships: ";
+
+		document.getElementById("setup").appendChild(label);
+		document.getElementById("setup").appendChild(shipCnt);
+
+		for (var i = shipCnt.min; i <= shipCnt.max; i++) {
+			let btn = document.createElement("button");
+			btn.classList.add("setupButton");
+			btn.id = "button_" + i;
+			btn.innerHTML = i + " unit";
+			btn.disabled = true;
+
+			document.getElementById("setup").appendChild(btn);
+		}
+
 		// The following must be done for Player 1 AND Player 2
 		for (var player of this.players) {
 
@@ -49,15 +72,9 @@ class Game {
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
-			
-			this.placeShips(player);
 		}
 
-		// Start game
-		this.button.innerHTML = "Play Game";
-		this.buttonClicked = function() {
-			this.play(game.players[Math.round(Math.random())]);
-		}
+		this.placeShips("player1");
 	}
 
 	// Runs a game while playing
@@ -67,7 +84,7 @@ class Game {
 		// Defines inactivePlayer for use later
 		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
 		
-		this.boards[activePlayer].showShips();
+		this.boards[inactivePlayer].hideShips();
 		this.button.innerHTML = "pogger";
 		this.buttonClicked = function() {};
 
@@ -95,7 +112,7 @@ class Game {
 					game.game_over(activePlayer);
 				} else { // End turn
 					game.cellClicked = function() {};
-					game.boards[activePlayer].hideShips();
+					game.boards[inactivePlayer].showShips();
 					game.button.innerHTML = "End turn";
 					game.buttonClicked = function() {game.play(inactivePlayer)};
 				}
@@ -122,32 +139,41 @@ class Game {
 	}
 
 	placeShips(player) {
-		// Prompt player for number of ships to place
-		// if (!(this.numShips > 0  && this.numShips < 7)) { //replace with a try throw catch?
-		// 	var numShips = prompt("# of ships (1 - 6): ");
-		// 	this.numShips = numShips;
-		// 	console.log('num ships = ' + this.numShips);
-		// }
 
-		// if (this.numShips < 6) {
-		// 	console.log('removing buttons from other blah');
-		// 	for (var j = Number(this.numShips) + 1; j < 7; j++) {
-		// 		console.log(j);
-		// 		//console.log('doing stuff');
-		// 		//console.log('#button_' + player + "_" + j);
-		// 		document.querySelector('#button_' + player + "_" + j).disabled = true;
-		// 	}
-		// }
-
-
-		let game = this;
-		this.cellClicked = function(cell) {
-			//this one is gonna be complicated
+		for (var p of this.players) {
+			if (p == player) {
+				this.boards[p].showBoard();
+			} else {
+				this.boards[p].hideBoard();
+			}
 		}
-		
 
-		// Creating test set of ships
-		this.boards[player].ships.push(new Ship(["A1", "B1", "C1"]));
+		let shipCnt = document.getElementById("shipCnt");
+		shipCnt.onchange = function() {
+			for (var i = shipCnt.min; i <= shipCnt.max; i++) {
+				let btn = document.querySelector('#button_' + i);
+				btn.disabled = (i > shipCnt.value);
+
+				let size = i; // This is necessary for stupid reasons
+				btn.onclick = function() {placeShipHorizontal(size, player)};
+			}
+		};
+
+		if (player == "player1") {
+			this.button.innerHTML = "End Setup";
+			this.buttonClicked = function() {
+				shipCnt.value = null;
+				shipCnt.onchange();
+				this.placeShips("player2");
+			}
+		} else {
+			// Start game
+			let game = this;
+			this.button.innerHTML = "Play Game";
+			this.buttonClicked = function() {
+				this.play(game.players[Math.round(Math.random())]);
+			}
+		}
 	}
 	
 	// This function gets called everytime a cell is clicked.

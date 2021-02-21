@@ -23,6 +23,7 @@ class Board {
 				this.cells[i].push(cell);
 			}
 		}
+		this.hideBoard();
 		document.body.appendChild(this.table)
 	}
 
@@ -79,11 +80,11 @@ class Board {
 	}
 
 	showBoard() {
-		this.table.style = "block";
+		this.table.style.display = "block";
 	}
 
 	hideBoard() {
-		this.table.style = "none";
+		this.table.style.display = "none";
 	}
 
 	remove() {
