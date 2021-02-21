@@ -2,5 +2,16 @@
 //Basic source about promises followed when incorporating them into our code
 https://web.dev/promises/
 
+//Battleship logo .png: 
+https://www.pngkey.com/maxpic/u2w7t4q8u2o0r5t4/
+
+//List of CSS fonts:
+https://www.w3schools.com/Css/css_font.asp
+
+//Used to figure out how to hide elements:
+https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+
+
+
 //The following code is original work and no outside source
 code was used to do the following program.
