@@ -79,6 +79,7 @@ class Game {
 				// Check for game over
 				var win = true;
 				for (var ship of this.boards[inactivePlayer].ships) {
+					console.log('ship = ' + Object.keys(ship.locations));
 					if (ship.hit(cell.location)) {
 						game.boards[inactivePlayer].drawCell(cell.location, "hit");
 					} else {
@@ -123,21 +124,21 @@ class Game {
 
 	placeShips(player) {
 		// Prompt player for number of ships to place
-		// if (!(this.numShips > 0  && this.numShips < 7)) { //replace with a try throw catch?
-		// 	var numShips = prompt("# of ships (1 - 6): ");
-		// 	this.numShips = numShips;
-		// 	console.log('num ships = ' + this.numShips);
-		// }
+		if (!(this.numShips > 0  && this.numShips < 7)) { //replace with a try throw catch?
+			var numShips = prompt("# of ships (1 - 6): ");
+			this.numShips = numShips;
+			console.log('num ships = ' + this.numShips);
+		}
 
-		// if (this.numShips < 6) {
-		// 	console.log('removing buttons from other blah');
-		// 	for (var j = Number(this.numShips) + 1; j < 7; j++) {
-		// 		console.log(j);
-		// 		//console.log('doing stuff');
-		// 		//console.log('#button_' + player + "_" + j);
-		// 		document.querySelector('#button_' + player + "_" + j).disabled = true;
-		// 	}
-		// }
+		if (this.numShips < 6) {
+			console.log('removing buttons from other blah');
+			for (var j = Number(this.numShips) + 1; j < 7; j++) {
+				console.log(j);
+				//console.log('doing stuff');
+				//console.log('#button_' + player + "_" + j);
+				document.querySelector('#button_' + player + "_" + j).disabled = true;
+			}
+		}
 
 
 		let game = this;
@@ -147,7 +148,7 @@ class Game {
 		
 
 		// Creating test set of ships
-		this.boards[player].ships.push(new Ship(["A1", "B1", "C1"]));
+		//this.boards[player].ships.push(new Ship(["A1", "B1", "C1"]));
 	}
 	
 	// This function gets called everytime a cell is clicked.
