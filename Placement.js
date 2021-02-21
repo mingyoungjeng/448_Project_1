@@ -77,42 +77,64 @@ function unhoverShipVertical(event, num, player) {
 function clickShipVertical(event, num, player) {
     let currentColumn = event.target.getAttribute('col');
     let currentRow = event.target.getAttribute('row');
-    
+    let overlap = false;
 
     let tempNum = Number(num) + Number(currentRow);
     //console.log("num + curr = " + tempNum);
     if (tempNum <= 11) {
-        [...document.querySelectorAll(`[id*=${player}]`)]
+        var myEntries = [...document.querySelectorAll(`[id*=${player}]`)]
         .filter(e => e.getAttribute('col') == currentColumn 
         && parseInt(currentRow) <= parseInt(e.getAttribute('row'))
-        && parseInt(e.getAttribute('row')) - parseInt(currentRow) < num)
-        .forEach(element => {
-            element.classList.add('ship');
+        && parseInt(e.getAttribute('row')) - parseInt(currentRow) < num);
+
+        overlap = myEntries.some(function(element) {
+            for (var ship of document.game.boards[player].ships) {
+                console.log('ship = ' + ship);
+                for (var item of Object.keys(ship.locations)) {
+                    console.log('\t item = ' + item);
+                    if (element.location == item) {
+                        //alert('Those ships are overlapping!');
+                        return true;
+                    }
+                }
+            }
         });
 
-        let locs = [];
-        for (var i = 0; i < num; i++) {
-            locs[i] = currentColumn + (Number(currentRow) + Number(i));
+        if (!overlap) {
+            myEntries.forEach(element => {
+                element.classList.remove('ship.hover');
+                element.classList.add('ship', 'empty');
+            })
+        
+
+            let locs = [];
+            for (var i = 0; i < num; i++) {
+                locs[i] = currentColumn + (Number(currentRow) + Number(i));
+            }
+
+            //create new ship and push it to the player's board
+            var ship = new Ship(locs);
+            ship.place();
+            document.game.boards[player].ships.push(ship);
+        
+            //console.log(myListeners);
+            let tds = document.querySelectorAll(`[id*=${player}_]`);
+            tds.forEach(element => {
+                //console.log(myListeners[);
+                element.removeEventListener('mouseover', myListeners[element.id + "_" + num][0]);
+                element.removeEventListener('mouseout', myListeners[element.id + "_" + num][1]);
+                element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
+            });
+
+            document.querySelector('#button_' + player + "_" + num).disabled = true;
         }
 
-        //create new ship and push it to the player's board
-        var ship = new Ship(locs);
-        ship.place();
-        document.game.boards[player].ships.push(ship);
-      
-        //console.log(myListeners);
-        let tds = document.querySelectorAll(`[id*=${player}_]`);
-        tds.forEach(element => {
-            //console.log(myListeners[);
-            element.removeEventListener('mouseover', myListeners[element.id + "_" + num][0]);
-            element.removeEventListener('mouseout', myListeners[element.id + "_" + num][1]);
-            element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
-        });
         
     }
     else {
         alert("Hey, you can't place your ship here!");
     }
+
 }
 
 //--------------------------------------------------------------------------------
@@ -147,18 +169,20 @@ function placeShipHorizontal(num, player) {
 function hoverShipHorizontal(event, num, player) {
     // Convert column headers to appropriate numbers
     let currentColumn = event.target.getAttribute('col');
-    currentColumn = currentColumn.charCodeAt() - 64;
-    let currentRow = event.target.getAttribute('row');
-    //console.log(`currentColumn = ${currentColumn}, ${event.target.getAttribute('col')}`);
-    //console.log(currentColumn);
-    
-    [...document.querySelectorAll(`[id*=${player}]`)]
-        .filter(e => e.getAttribute('row') == currentRow 
-        && parseInt(currentColumn) <= parseInt(e.getAttribute('col').charCodeAt() - 64)
-        && parseInt(e.getAttribute('col').charCodeAt() - 64) - parseInt(currentColumn) < num)
-        .forEach(element => {
-            element.classList.replace('empty', 'ship.hover');
-        });
+    if (currentColumn) {
+        currentColumn = currentColumn.charCodeAt() - 64;
+        let currentRow = event.target.getAttribute('row');
+        //console.log(`currentColumn = ${currentColumn}, ${event.target.getAttribute('col')}`);
+        //console.log(currentColumn);
+        
+        [...document.querySelectorAll(`[id*=${player}]`)]
+            .filter(e => e.getAttribute('row') == currentRow 
+            && parseInt(currentColumn) <= parseInt(e.getAttribute('col').charCodeAt() - 64)
+            && parseInt(e.getAttribute('col').charCodeAt() - 64) - parseInt(currentColumn) < num)
+            .forEach(element => {
+                element.classList.replace('empty', 'ship.hover');
+            });
+        }
 
 }
 
@@ -182,34 +206,54 @@ function clickShipHorizontal(event, num, player) {
     currentColumn = currentColumnChar.charCodeAt() - 64;
     let currentRow = event.target.getAttribute('row');
     var ship = new Ship();
+    var overlap = false;
 
     let tempNum = Number(num) + Number(currentColumn);
     if (tempNum <= 11) {
-        [...document.querySelectorAll(`[id*=${player}]`)]
-        .filter(e => e.getAttribute('row') == currentRow
-        && parseInt(currentColumn) <= parseInt(e.getAttribute('col').charCodeAt() - 64)
-        && parseInt(e.getAttribute('col').charCodeAt() - 64) - parseInt(currentColumn) < num)
-        .forEach(element => {
-            element.classList.add('ship');
-        });
+        var myEntries = 
+            [...document.querySelectorAll(`[id*=${player}]`)]
+            .filter(e => e.getAttribute('row') == currentRow
+            && parseInt(currentColumn) <= parseInt(e.getAttribute('col').charCodeAt() - 64)
+            && parseInt(e.getAttribute('col').charCodeAt() - 64) - parseInt(currentColumn) < num);
 
-        let locs = [];
-        for (var i = 0; i < num; i++) {
-            locs[i] = String.fromCharCode(currentColumn + i + 64) + (Number(currentRow));
+            overlap = myEntries.some(function(element) {
+                for (var ship of document.game.boards[player].ships) {
+                    console.log('ship = ' + ship);
+                    for (var item of Object.keys(ship.locations)) {
+                        console.log('\t item = ' + item);
+                        if (element.location == item) {
+                            //alert('Those ships are overlapping!');
+                            return true;
+                        }
+                    }
+                }
+            });
+        
+        if (!overlap) {
+            myEntries.forEach(element => {
+                element.classList.remove('ship.hover');
+                element.classList.add('ship', 'empty');
+            })
+
+            let locs = [];
+            for (var i = 0; i < num; i++) {
+                locs[i] = String.fromCharCode(currentColumn + i + 64) + (Number(currentRow));
+            }
+
+            // create new ship and push it to the player's board
+            var ship = new Ship(locs);
+            ship.place();
+            document.game.boards[player].ships.push(ship);
+
+            let tds = document.querySelectorAll(`[id*=${player}_]`);
+            tds.forEach(element => {
+                element.removeEventListener('mouseover', myListeners[element.id + "_" + num][0]);
+                element.removeEventListener('mouseout', myListeners[element.id + "_" + num][1]);
+                element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
+            });
+
+            document.querySelector('#button_' + player + "_" + num).disabled = true;
         }
-
-        // create new ship and push it to the player's board
-        var ship = new Ship(locs);
-        ship.place();
-        document.game.boards[player].ships.push(ship);
-
-        let tds = document.querySelectorAll(`[id*=${player}_]`);
-        tds.forEach(element => {
-            element.removeEventListener('mouseover', myListeners[element.id + "_" + num][0]);
-            element.removeEventListener('mouseout', myListeners[element.id + "_" + num][1]);
-            element.removeEventListener('click', myListeners[element.id + "_" + num][2]);
-        });
-
     }
     else {
         alert("Hey, you can't place your ship here!");

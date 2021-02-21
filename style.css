@@ -1,7 +1,8 @@
 /**/
 
 html{
-  background: linear-gradient(#696969, #708090);
+  -background: linear-gradient(#696969, #708090);
+  background: linear-gradient(to top, #f43b47 0%, #453a94 100%);
   height: 100%;
 }
 
@@ -16,17 +17,18 @@ html{
   margin: auto;
 }
 
-#button{
-  display: block;
+#button, #resetbutton{
+  display: inline;
   margin: auto;
 }
+
 
 #rotate{
   margin-left: 10%;
   margin-right: 10%;
 }
 
-#button, #rotate, .p1buttons, .p2buttons{
+#button, #rotate, #resetbutton, .p1buttons, .p2buttons{
   font-family: "American Typewriter", serif;
   font-variant: small-caps;
   font-weight: bold;
@@ -55,8 +57,16 @@ html{
 #inst {
   display: block;
   -float:right;
+<<<<<<< HEAD
+  -margin: auto;
+  -margin-right: 50%;
+||||||| acefc08
+  -margin: auto;
+  -margin-right: 50%
+=======
   margin: auto;
   -margin-right: 50%
+>>>>>>> f9df827156cb133256debf6d6790690a0fbcef67
   -margin-top: 10%;
   -background-image: url(play1set.png);
   background-size:contain;

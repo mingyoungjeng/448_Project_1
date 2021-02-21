@@ -49,15 +49,42 @@ class Game {
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
+<<<<<<< HEAD
+
+		}
+		var myBtn = document.querySelector('#change');
+		console.log(myBtn);
+
+		myBtn.innerHTML = "End Player 1 Setup";
+		this.placeShips('player1');
+		myBtn.onclick = function () {
+			document.game.boards['player1'].hideShips();
+			console.log('entering player 2 setup');
+			myBtn.innerHTML = "End Player 2 Setup";
+			document.game.placeShips('player2');
+			myBtn.onclick = function () {
+				document.game.boards['player2'].hideShips();
+				myBtn.disabled = true;
+				myBtn.innerHTML = "Click Play Game to Start";
+				//integrate myBtn into the play game btn?
+			}
+
+
+||||||| acefc08
 
 			this.placeShips(player);
+=======
+
+			this.placeShips(player);
+>>>>>>> f9df827156cb133256debf6d6790690a0fbcef67
 		}
 
-		// Start game
-		this.button.innerHTML = "Play Game";
-		this.buttonClicked = function() {
-			this.play(game.players[Math.round(Math.random())]);
-		}
+
+			// Start game
+			this.button.innerHTML = "Play Game";
+			this.buttonClicked = function() {
+				this.play(game.players[Math.round(Math.random())]);
+			}
 	}
 
 	// Runs a game while playing
@@ -81,6 +108,7 @@ class Game {
 				// Check for game over
 				var win = true;
 				for (var ship of this.boards[inactivePlayer].ships) {
+					console.log('ship = ' + Object.keys(ship.locations));
 					if (ship.hit(cell.location)) {
 						game.boards[inactivePlayer].drawCell(cell.location, "hit");
 					} else {
@@ -127,22 +155,17 @@ class Game {
 
 	placeShips(player) {
 		// Prompt player for number of ships to place
-		// if (!(this.numShips > 0  && this.numShips < 7)) { //replace with a try throw catch?
-		// 	var numShips = prompt("# of ships (1 - 6): ");
-		// 	this.numShips = numShips;
-		// 	console.log('num ships = ' + this.numShips);
-		// }
+		if (!(this.numShips > 0  && this.numShips < 7)) { //replace with a try throw catch?
+			var numShips = prompt("# of ships (1 - 6): ");
+			this.numShips = numShips;
+			console.log('num ships = ' + this.numShips);
+		}
 
-		// if (this.numShips < 6) {
-		// 	console.log('removing buttons from other blah');
-		// 	for (var j = Number(this.numShips) + 1; j < 7; j++) {
-		// 		console.log(j);
-		// 		//console.log('doing stuff');
-		// 		//console.log('#button_' + player + "_" + j);
-		// 		document.querySelector('#button_' + player + "_" + j).disabled = true;
-		// 	}
-		// }
-
+		if (this.numShips < 6) {
+			for (var j = 1; j <= this.numShips; j++) {
+				document.querySelector('#button_' + player + "_" + j).disabled = false;
+			}
+		}
 
 		let game = this;
 		this.cellClicked = function(cell) {
@@ -151,7 +174,7 @@ class Game {
 
 
 		// Creating test set of ships
-		this.boards[player].ships.push(new Ship(["A1", "B1", "C1"]));
+		//this.boards[player].ships.push(new Ship(["A1", "B1", "C1"]));
 	}
 
 	// This function gets called everytime a cell is clicked.
@@ -177,3 +200,10 @@ class Game {
 	}
 
 }
+
+//reset Button
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#resetbutton").addEventListener("click", () => {
+        location.reload();
+  })
+})
