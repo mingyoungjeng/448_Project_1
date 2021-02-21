@@ -142,7 +142,6 @@ class Game {
 				} else { // End turn
 					game.cellClicked = function() {};
 					game.button.innerHTML = "End turn";
-					dontPress(inactivePlayer);
 					game.buttonClicked = function() {
 						game.boards[inactivePlayer].showShips();
 						game.play(inactivePlayer)
@@ -191,16 +190,16 @@ class Game {
 		};
 
 		if (player == "player1") {
-			this.button.innerHTML = "End Player 1 Setup";
+			this.button.innerHTML = "End Setup";
 			this.buttonClicked = function() {
 				shipCnt.value = null;
 				shipCnt.onchange();
 				this.placeShips("player2");
-                button.innerHTML = "End Setup and Play!";
 			}
 		} else {
 			// Start game
 			let game = this;
+            //document.game.players.forEach(p => document.game.boards[p].hideBoard());
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
 				game.boards["player1"].showBoard();
