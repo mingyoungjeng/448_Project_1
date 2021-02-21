@@ -1,0 +1,6 @@
+##Workscited
+//Basic source about promises followed when incorporating them into our code
+https://web.dev/promises/
+
+//The following code is original work and no outside source
+code was used to do the following program.
