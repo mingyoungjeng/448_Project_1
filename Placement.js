@@ -75,6 +75,7 @@ function unhoverShipVertical(event, num, player) {
 }
 
 function clickShipVertical(event, num, player) {
+    isHorizontal = true;
     let currentColumn = event.target.getAttribute('col');
     let currentRow = event.target.getAttribute('row');
     let overlap = false;
@@ -201,6 +202,8 @@ function unhoverShipHorizontal(event, num, player) {
 }
 
 function clickShipHorizontal(event, num, player) {
+    // reset isHorizontal for next placement
+    isHorizontal = true;
 
     let currentColumnChar = event.target.getAttribute('col');
     currentColumn = currentColumnChar.charCodeAt() - 64;
