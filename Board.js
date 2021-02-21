@@ -41,7 +41,9 @@ class Board {
 	// Draws hit/miss indicator on cell
 	drawCell(id, state) {
 		let cell = this.getCell(id);
-
+		console.log("drawCell: classList = " + cell.classList);
+		//If you place a ship, the classList contains 'miss' before it is supposed to be added?
+		//Maybe due to when the eventListener is added?
 		if (this.isEmpty(id)) {
 			if (state == "hit") {
 				cell.classList.add("hit");
@@ -89,4 +91,5 @@ class Board {
 	remove() {
 		this.table.remove();
 	}
+
 }
