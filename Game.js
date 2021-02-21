@@ -69,7 +69,7 @@ class Game {
     		rotate.id = "rotate";
     		rotate.innerHTML = "Rotate Ship";
     		rotate.onclick = function() {
-    			rotate();
+    			window.rotate();
     		}
     		document.getElementById("center").appendChild(rotate);
         }
