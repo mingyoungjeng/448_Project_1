@@ -71,7 +71,7 @@ class Game {
     		rotate.onClick = function() {
     			rotate();
     		}
-    		//document.getElementById("center").appendChild(rotate);
+    		document.getElementById("center").appendChild(rotate);
         }
 
 		// The following must be done for Player 1 AND Player 2
@@ -252,18 +252,13 @@ class Game {
 			this.buttonClicked = function() {
                 removeAll();
 				document.getElementById("setup").style.display = "none";
-				try {
-					document.getElementById("rotate").remove();
-				} catch {
-					console.log("no buttong to remove");
-				}
+				document.getElementById("rotate").remove();
 				
 				document.getElementById("resetbutton").style.display = "none";
-                /*document.querySelector('#rotate').disabled = true;
                 [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
                     btn.disabled = true;
                 });
-                document.querySelector('#shipCnt').disabled = true;*/
+                document.querySelector('#shipCnt').disabled = true;
 				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
 			}
