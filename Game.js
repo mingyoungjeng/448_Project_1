@@ -207,6 +207,7 @@ class Game {
 			document.querySelector("#inst").innerText = "Place Player 1's Ships Now";
 			this.button.innerHTML = "End Setup";
 			this.buttonClicked = function() {
+                removeAll();
 				shipCnt.value = null;
 				shipCnt.onchange();
 				document.querySelector("#inst").innerText = "Place Player 2's Ships Now";
@@ -218,9 +219,10 @@ class Game {
 			let game = this;
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
-								document.getElementById("setup").style.display = "none";
-								document.getElementById("rotate").style.display = "none";
-								document.getElementById("resetbutton").style.display = "none";
+                removeAll();
+				document.getElementById("setup").style.display = "none";
+				document.getElementById("rotate").style.display = "none";
+				document.getElementById("resetbutton").style.display = "none";
                 /*document.querySelector('#rotate').disabled = true;
                 [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
                     btn.disabled = true;
