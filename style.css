@@ -39,6 +39,7 @@ html{
   -background-color: black;
   background-image: url(board.jpg);
   background-size: cover;
+  position: fixed;
 
   border:  outset;
   border-width: 5px;
@@ -47,17 +48,17 @@ html{
   padding: 30px;
 }
 
-#player1{ float: left; margin-left: 30%; }
-#player2{ float: right; margin-right: 40%;}
+#player1{ -float: left; -margin-left: 30%; left: 10%;}
+#player2{ -float: right; -margin-right: 40%; left: 55%;}
 
 /*instruction picture*/
 #inst {
   display: block;
   -float:right;
-  -margin: auto;
+  margin: auto;
   -margin-right: 50%
   -margin-top: 10%;
-  background-image: url(play1set.png);
+  -background-image: url(play1set.png);
   background-size:contain;
   background-repeat: no-repeat;
   width: 23%;
