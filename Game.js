@@ -160,6 +160,7 @@ class Game {
 		var title = document.createElement("div");
 		title.innerHTML = winner + " wins!";
 		document.body.appendChild(title);
+        document.game.cellClicked = function() {};
 
 		for (var board of Object.values(this.boards)) {
 			board.remove();
