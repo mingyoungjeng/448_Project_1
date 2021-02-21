@@ -155,6 +155,7 @@ class Game {
 					game.cellClicked = function() {};
 					game.dontPress(inactivePlayer);
 					game.boards[activePlayer].hideShips();
+					game.button.disabled = false;
 					game.button.innerHTML = "End turn";
 					game.buttonClicked = function() {
 						game.boards[inactivePlayer].showShips();
@@ -170,7 +171,8 @@ class Game {
 		var title = document.createElement("div");
 		//title.innerHTML = winner + " wins!";
 		document.body.appendChild(title);
-        document.game.cellClicked = function() {};
+        this.cellClicked = function() {};
+        this.button.disabled = false;
 
 		for (var board of Object.values(this.boards)) {
 			board.remove();
@@ -184,7 +186,6 @@ class Game {
             document.querySelector('#shipCnt').disabled = false;
             document.querySelector('#rotate').disabled = false;*/
 						document.getElementById("setup").style.display = "block";
-						document.getElementById("rotate").style.display = "inline-block";
 						document.getElementById("resetbutton").style.display = "inline-block";
 			title.remove();
 			this.setup();
@@ -218,10 +219,10 @@ class Game {
 					placeShipHorizontal(size, player);
 					placed.push(size);
 
-					if (placed.length == shipCnt.value) {
-						game.button.disabled = false;
-					}
+					game.button.disabled = (placed.length != shipCnt.value);
 				};
+
+				game.button.disabled = (placed.length != shipCnt.value);
 			}
 
 			let board = game.boards[player];
