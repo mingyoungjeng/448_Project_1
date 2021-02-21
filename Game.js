@@ -68,7 +68,7 @@ class Game {
     		var rotate = document.createElement("button");
     		rotate.id = "rotate";
     		rotate.innerHTML = "Rotate Ship";
-    		rotate.onClick = function() {
+    		rotate.onclick = function() {
     			rotate();
     		}
     		document.getElementById("center").appendChild(rotate);
@@ -182,11 +182,7 @@ class Game {
         // reset the game boards and eventLisneners
 		button.innerHTML = "Play again?";
 		this.buttonClicked = function() {
-            /*// reset ship placement interaction
-            document.querySelector('#shipCnt').disabled = false;
-            document.querySelector('#rotate').disabled = false;*/
-						document.getElementById("setup").style.display = "block";
-						document.getElementById("resetbutton").style.display = "inline-block";
+            document.getElementById("resetbutton").style.display = "inline-block";
 			title.remove();
 			this.setup();
 		}
@@ -247,19 +243,18 @@ class Game {
 				this.placeShips("player2");
 			}
 		} else {
-            console.log('starting game');
 			// Start game
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
                 removeAll();
-				document.getElementById("setup").style.display = "none";
+
+                let setup = document.getElementById("setup");
+				while (setup.firstChild) {
+        			setup.removeChild(setup.firstChild);
+    			}
 				document.getElementById("rotate").remove();
 				
 				document.getElementById("resetbutton").style.display = "none";
-                [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
-                    btn.disabled = true;
-                });
-                document.querySelector('#shipCnt').disabled = true;
 				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
 			}
