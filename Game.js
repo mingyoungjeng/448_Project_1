@@ -73,6 +73,7 @@ class Game {
 				}
 			}
 		}
+        /*
 		var myBtn = document.querySelector('#change');
 		console.log(myBtn);
 
@@ -90,6 +91,7 @@ class Game {
 				//integrate myBtn into the play game btn?
 			}
 		}
+        */
 
 		this.placeShips("player1");
 	}
@@ -100,7 +102,7 @@ class Game {
 
 		// Defines inactivePlayer for use later
 		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
-		
+
 		this.boards[inactivePlayer].hideShips();
 		this.changeInstruction(activePlayer);
 		this.button.innerHTML = "pogger";
@@ -113,19 +115,25 @@ class Game {
 			if (board == inactivePlayer && this.boards[inactivePlayer].isEmpty(cell.location)) {
 
 				// Check for game over
-				var win = true;
-				for (var ship of this.boards[inactivePlayer].ships) {
-					console.log('ship = ' + Object.keys(ship.locations));
-					if (ship.hit(cell.location)) {
-						game.boards[inactivePlayer].drawCell(cell.location, "hit");
-					} else {
-						game.boards[inactivePlayer].drawCell(cell.location, "miss");
-					}
+				var win = false;
 
-					if (!ship.isSunk()) {
-						win = false;
-					}
-				}
+                // determine if the cell location has a ship underneath
+                if (this.boards[inactivePlayer].ships.some(ship => {
+                    return ship.hit(cell.location);
+                })) {
+                    // if so, draw the hit
+                    game.boards[inactivePlayer].drawCell(cell.location, "hit");
+                } else {
+                    // otherwise don't
+                    game.boards[inactivePlayer].drawCell(cell.location, "miss");
+                }
+
+                //determine whether every ship has been sunk. if so, win = true
+                if (this.boards[inactivePlayer].ships.every(ship => {
+                    return ship.isSunk();
+                })) {
+                    win = true;
+                }
 
 				// Game over stuff
 				if (win) {
@@ -182,11 +190,12 @@ class Game {
 		};
 
 		if (player == "player1") {
-			this.button.innerHTML = "End Setup";
+			this.button.innerHTML = "End Player 1 Setup";
 			this.buttonClicked = function() {
 				shipCnt.value = null;
 				shipCnt.onchange();
 				this.placeShips("player2");
+                button.innerHTML = "End Setup and Play!";
 			}
 		} else {
 			// Start game

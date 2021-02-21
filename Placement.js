@@ -53,9 +53,9 @@ function placeShipVertical(num, player) {
 function hoverShipVertical(event, num, player) {
     let currentColumn = event.target.getAttribute('col');
     let currentRow = event.target.getAttribute('row');
-    
+
     [...document.querySelectorAll(`[id*=${player}]`)]
-        .filter(e => e.getAttribute('col') == currentColumn 
+        .filter(e => e.getAttribute('col') == currentColumn
         && parseInt(currentRow) <= parseInt(e.getAttribute('row'))
         && parseInt(e.getAttribute('row')) - parseInt(currentRow) < num)
         .forEach(element => {
@@ -66,7 +66,7 @@ function hoverShipVertical(event, num, player) {
 
 function unhoverShipVertical(event, num, player) {
     let currentColumn = event.target.getAttribute('col');
-    
+
     [...document.querySelectorAll(`[id*=${player}]`)]
         .filter(e => e.getAttribute('col') == currentColumn)
         .forEach(element => {
@@ -83,7 +83,7 @@ function clickShipVertical(event, num, player) {
     //console.log("num + curr = " + tempNum);
     if (tempNum <= 11) {
         var myEntries = [...document.querySelectorAll(`[id*=${player}]`)]
-        .filter(e => e.getAttribute('col') == currentColumn 
+        .filter(e => e.getAttribute('col') == currentColumn
         && parseInt(currentRow) <= parseInt(e.getAttribute('row'))
         && parseInt(e.getAttribute('row')) - parseInt(currentRow) < num);
 
@@ -105,7 +105,7 @@ function clickShipVertical(event, num, player) {
                 element.classList.remove('ship.hover');
                 element.classList.add('ship', 'empty');
             })
-        
+
 
             let locs = [];
             for (var i = 0; i < num; i++) {
@@ -116,7 +116,7 @@ function clickShipVertical(event, num, player) {
             var ship = new Ship(locs);
             ship.place();
             document.game.boards[player].ships.push(ship);
-        
+
             //console.log(myListeners);
             let tds = document.querySelectorAll(`[id*=${player}_]`);
             tds.forEach(element => {
@@ -129,7 +129,7 @@ function clickShipVertical(event, num, player) {
             document.querySelector('#button_' + num).disabled = true;
         }
 
-        
+
     }
     else {
         alert("Hey, you can't place your ship here!");
@@ -174,9 +174,9 @@ function hoverShipHorizontal(event, num, player) {
         let currentRow = event.target.getAttribute('row');
         //console.log(`currentColumn = ${currentColumn}, ${event.target.getAttribute('col')}`);
         //console.log(currentColumn);
-        
+
         [...document.querySelectorAll(`[id*=${player}]`)]
-            .filter(e => e.getAttribute('row') == currentRow 
+            .filter(e => e.getAttribute('row') == currentRow
             && parseInt(currentColumn) <= parseInt(e.getAttribute('col').charCodeAt() - 64)
             && parseInt(e.getAttribute('col').charCodeAt() - 64) - parseInt(currentColumn) < num)
             .forEach(element => {
@@ -188,20 +188,20 @@ function hoverShipHorizontal(event, num, player) {
 
 
 function unhoverShipHorizontal(event, num, player) {
-    
+
     let currentRow = event.target.getAttribute('row');
-    
+
     [...document.querySelectorAll(`[id*=${player}]`)]
         .filter(e => e.getAttribute('row') == currentRow)
         .forEach(element => {
             element.classList.replace('ship.hover', 'empty');
         });
 
-        
+
 }
 
 function clickShipHorizontal(event, num, player) {
-    
+
     let currentColumnChar = event.target.getAttribute('col');
     currentColumn = currentColumnChar.charCodeAt() - 64;
     let currentRow = event.target.getAttribute('row');
@@ -210,7 +210,7 @@ function clickShipHorizontal(event, num, player) {
 
     let tempNum = Number(num) + Number(currentColumn);
     if (tempNum <= 11) {
-        var myEntries = 
+        var myEntries =
             [...document.querySelectorAll(`[id*=${player}]`)]
             .filter(e => e.getAttribute('row') == currentRow
             && parseInt(currentColumn) <= parseInt(e.getAttribute('col').charCodeAt() - 64)
@@ -228,7 +228,7 @@ function clickShipHorizontal(event, num, player) {
                     }
                 }
             });
-        
+
         if (!overlap) {
             myEntries.forEach(element => {
                 element.classList.remove('ship.hover');
@@ -258,7 +258,5 @@ function clickShipHorizontal(event, num, player) {
     else {
         alert("Hey, you can't place your ship here!");
     }
-    
+
 }
-
-

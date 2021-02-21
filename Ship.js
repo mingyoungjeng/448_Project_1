@@ -1,6 +1,6 @@
 class Ship {
 	constructor(locations = []) {
-		// An object that stores locations with values true/false. 
+		// An object that stores locations with values true/false.
 		//True = not hit
 		this.locations = {};
 		for (var loc of locations) {
