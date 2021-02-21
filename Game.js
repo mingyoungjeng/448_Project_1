@@ -142,6 +142,7 @@ class Game {
 				} else { // End turn
 					game.cellClicked = function() {};
 					game.button.innerHTML = "End turn";
+					dontPress(inactivePlayer);
 					game.buttonClicked = function() {
 						game.boards[inactivePlayer].showShips();
 						game.play(inactivePlayer)
