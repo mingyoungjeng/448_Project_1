@@ -13,7 +13,9 @@ html{
   width: 30%;
 }
 
-/*Button styling*/
+/*
+--Button styling
+*/
 #button, #rotate, #resetbutton, #change{
   margin: auto;
   font-family: "American Typewriter", serif;
@@ -23,7 +25,9 @@ html{
   border-radius: 5px;
 }
 
-/*Board styling*/
+/*
+--Board styling
+*/
 #player1, #player2 {
   background-image: url(board.jpg);
   background-size: cover;
@@ -39,13 +43,14 @@ html{
 #player1{ left: 8%;}
 #player2{ left: 56%;}
 
-/*instruction picture*/
+/*
+--Instruction Text Block
+*/
 #inst {
   display: block;
   margin: auto;
   width: 40%;
   height: 50px;
-  -border: 3px solid black;
 
   text-align: center;
   color:white;
@@ -53,20 +58,19 @@ html{
   font-size: 30px;
 }
 
-/*Board 'P1' and 'P2' icons*/
+/*
+--Board 'P1' and 'P2' icons
+*/
 #p1, #p2{
   display: block;
-  height: 5%;
-  width: 5%;
   float: left;
   margin-left: 15%;
   margin-right: 15%;
 }
+#p1{ height: 5%; width: 5%; float: left; margin-left: 15%;}
+#p2{ height: 6%; width: 6%; float: right; margin-right: 15%;}
 
-#p1{ float: left; margin-left: 15%;}
-#p2{ float: right; margin-right: 15%;}
-
-
+/*table*/
 td {
     width: 40px;
     height: 40px;
@@ -74,6 +78,7 @@ td {
     border-radius: 5px;
 }
 
+/*when a spot is empty*/
 .empty {
     background-color: white;
 }
@@ -81,6 +86,7 @@ td {
 .empty:hover {
     background:#eee;
 }
+
 
 .ship.hover {
     background-color: gray;
@@ -91,6 +97,9 @@ td {
     background-color: rgb(49, 49, 49);
 }
 
+/*
+--Hit and Miss directions
+*/
 .hit {
   background-image: url(hit.jpg);
   background-size: cover;
