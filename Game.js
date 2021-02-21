@@ -49,7 +49,7 @@ class Game {
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
-			
+
 			this.placeShips(player);
 		}
 
@@ -66,7 +66,7 @@ class Game {
 
 		// Defines inactivePlayer for use later
 		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
-		
+
 		this.boards[activePlayer].showShips();
 		this.button.innerHTML = "pogger";
 		this.buttonClicked = function() {};
@@ -144,12 +144,12 @@ class Game {
 		this.cellClicked = function(cell) {
 			//this one is gonna be complicated
 		}
-		
+
 
 		// Creating test set of ships
 		this.boards[player].ships.push(new Ship(["A1", "B1", "C1"]));
 	}
-	
+
 	// This function gets called everytime a cell is clicked.
 	// Can be altered
 	cellClicked(cell) {
@@ -159,5 +159,12 @@ class Game {
 	buttonClicked() {
 
 	}
-	
+
 }
+
+//reset Button
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#resetbutton").addEventListener("click", () => {
+        location.reload();
+  })
+})
