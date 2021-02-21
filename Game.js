@@ -160,7 +160,7 @@ class Game {
 		var title = document.createElement("div");
 		title.innerHTML = winner + " wins!";
 		document.body.appendChild(title);
-        document.game.cellClicked = function() {};
+        document.game.cellClicked = function() {}   ;
 
 		for (var board of Object.values(this.boards)) {
 			board.remove();
@@ -211,6 +211,7 @@ class Game {
 			let game = this;
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
+                removeAll();
                 document.querySelector('#rotate').disabled = true;
                 [...document.querySelectorAll('[id*=button_]')].forEach(btn => {
                     btn.disabled = true;
