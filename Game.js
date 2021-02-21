@@ -109,7 +109,7 @@ class Game {
 
 		this.boards[inactivePlayer].hideShips();
 		this.changeInstruction(activePlayer);
-		this.button.innerHTML = "pogger";
+		this.button.innerHTML = "Attack!";
 		this.buttonClicked = function() {};
 
 
