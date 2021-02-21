@@ -100,7 +100,7 @@ class Game {
 
 		// Defines inactivePlayer for use later
 		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
-		
+
 		this.boards[inactivePlayer].hideShips();
 		this.changeInstruction(activePlayer);
 		this.button.innerHTML = "pogger";
@@ -134,6 +134,7 @@ class Game {
 				} else { // End turn
 					game.cellClicked = function() {};
 					game.button.innerHTML = "End turn";
+					dontPress(inactivePlayer);
 					game.buttonClicked = function() {
 						game.boards[inactivePlayer].showShips();
 						game.play(inactivePlayer)

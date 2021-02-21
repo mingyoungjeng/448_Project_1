@@ -57,16 +57,12 @@ html{
 #inst {
   display: block;
   -float:right;
-<<<<<<< HEAD
-  -margin: auto;
+  margin: auto;
   -margin-right: 50%;
-||||||| acefc08
   -margin: auto;
   -margin-right: 50%
-=======
   margin: auto;
   -margin-right: 50%
->>>>>>> f9df827156cb133256debf6d6790690a0fbcef67
   -margin-top: 10%;
   -background-image: url(play1set.png);
   background-size:contain;
