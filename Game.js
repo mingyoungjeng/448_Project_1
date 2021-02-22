@@ -200,6 +200,7 @@ class Game {
 		shipCnt.placed = [];
 		shipCnt.placedUpdate = function() {
 			game.button.disabled = (shipCnt.placed.length != shipCnt.value);
+			shipCnt.disabled = false;
 		};
 
 		shipCnt.onchange = function() {
@@ -211,6 +212,7 @@ class Game {
 
 				let size = i; // This is necessary for stupid reasons
 				btn.onclick = function() {
+					shipCnt.disabled = true;
 					placeShipHorizontal(size, player);
 				};
 
