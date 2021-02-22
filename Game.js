@@ -1,7 +1,10 @@
-// Game.js
-// Controls the logic of the game.
-
+/**
+ * Class holding the main game object
+ */
 class Game {
+	/**
+	 * Defines players and boards. Shows title screen. 
+	 */
 	constructor() {
 		// Available players (can potentially be expanded)
 		this.players = ["player1", "player2"];
@@ -18,6 +21,9 @@ class Game {
 		this.showTitleScreen();
 	}
 
+	/**
+	 * Shows title screen and has a start option
+	 */
 	showTitleScreen() {
 		var title = document.createElement("div");
 		//title.innerHTML = "Look at me, I'm a title!";
@@ -30,7 +36,11 @@ class Game {
 		}
 	}
 
-	// Sets up a new game
+
+	/**
+	 * Sets up a new game and creates two boards. One for each player. 
+	 * Establishes number of ships and covers placement like rotation of ships
+	 */
 	setup() {
 		// Creates two game boards on screen
 		this.boards["player1"] = new Board("player1");
@@ -85,33 +95,14 @@ class Game {
 				}
 			}
 		}
-        /*
-		var myBtn = document.querySelector('#change');
-		console.log(myBtn);
-
-		myBtn.innerHTML = "End Player 1 Setup";
-		this.placeShips('player1');
-		myBtn.onclick = function () {
-			document.game.boards['player1'].hideShips();
-			console.log('entering player 2 setup');
-			myBtn.innerHTML = "End Player 2 Setup";
-			document.game.placeShips('player2');
-			myBtn.onclick = function () {
-				document.game.boards['player2'].hideShips();
-				myBtn.disabled = true;
-				myBtn.innerHTML = "Click Play Game to Start";
-				//integrate myBtn into the play game btn?
-			}
-		}
-        */
-
 		this.placeShips("player1");
 	}
 
-	// Runs a game while playing
+	/**
+	 * Executes a turn for the given player
+	 * @param {string} activePlayer Player's id
+	 */
 	play(activePlayer) {
-		//console.log("It is " + activePlayer + "'s turn");
-
 		// Defines inactivePlayer for use later
 		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
 
@@ -188,6 +179,10 @@ class Game {
 		}
 	}
 
+	/**
+	 * Places the ships given user input and hides player's ships and board when done
+	 * @param {string} player current player
+	 */
 	placeShips(player) {
 
 		for (var p of this.players) {
@@ -264,19 +259,24 @@ class Game {
 		}
 	}
 
-	// This function gets called everytime a cell is clicked.
-	// Can be altered
+	/**
+	 * Defined during setup. Manages user interaction with the boards. 
+	 * @param {HTMLTableCellElement} cell a cell
+	 */
 	cellClicked(cell) {
 
 	}
-
+	/**
+	 * Redefined multiple times through the game. Manages button presses relating to game flow. 
+	 */
 	buttonClicked() {
 
 	}
 
-	/*
-	---Instruction on whose turn it is
-	*/
+	/**
+	 * Used during turn transition. Determines the next player and displays a message
+	 * @param {string} activePlayer Current player's id
+	 */
 	changeInstruction(activePlayer){
 		var player;
 		var notPlayer;
@@ -291,9 +291,10 @@ class Game {
 		document.querySelector("#inst").innerText = player + "'s Turn! Pick a spot on " + notPlayer + "'s board to attack.";
 	}
 
-	/*
-	---Message to warn of next player's ships appearing
-	*/
+	/**
+	 * Message that indicates that the next player's ships are appearing
+	 * @param {string } inactivePlayer Not current player's id
+	 */
 	dontPress(inactivePlayer){
 		var nextplayer;
 		if(inactivePlayer=="player1")
@@ -305,9 +306,10 @@ class Game {
 		document.querySelector("#inst").innerText = "Hand over the computer and when " + nextplayer + " is ready, End Turn!";
 	}
 
-	/*
-	---Game Over Message
-	*/
+	/**
+	 * Message that says when the game is over
+	 * @param {string} activePlayer Current player's id
+	 */
 	instDone(activePlayer){
 		var player;
 		if(activePlayer=="player1")
@@ -321,7 +323,9 @@ class Game {
 
 }
 
-//reset Button
+/**
+ * Resets the game
+ */
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#resetbutton").addEventListener("click", () => {
         location.reload();

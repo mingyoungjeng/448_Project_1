@@ -1,4 +1,20 @@
+
+/**
+Board.js was created to help with the implementation of the board. Being able to register the different
+cells. Which helps with keeping track of hits and misses of the ships, hiding the ships, showing
+the boards, and hidinging the board when players take turns.
+*/
+
+/**
+ * Creates the board
+ * @Parem 	id
+ * @return 	none
+ */
 class Board {
+	/**
+	 * 
+	 * @param {string} id str - identifies cell uniquely 
+	 */
 	constructor(id) {
 		this.cells = []; // this may be useful later when iterating.
 		this.ships = [];
@@ -26,7 +42,11 @@ class Board {
 		this.hideBoard();
 		document.body.appendChild(this.table)
 	}
-
+	/**
+	 * Gets cell id for position
+	 * @param {string} id str - identifies cell uniquely
+	 * @return 	null if empty or returns the cell
+	 */
 	getCell(id) {
 		for (var i = 0; i < this.cells.length; i++) {
 			for (var j = 0; j < this.cells[i].length; j++) {
@@ -39,7 +59,12 @@ class Board {
 		return null;
 	}
 
-	// Draws hit/miss indicator on cell
+
+	/**
+	 * @param {string} id identifies each cell uniquely 
+	 * @param {string} state State gets added conditionally to classList
+	 * @return none
+	 */
 	drawCell(id, state) {
 		let cell = this.getCell(id);
 		console.log("drawCell: classList = " + cell.classList);
@@ -54,12 +79,21 @@ class Board {
             cell.classList.remove('empty');
 		}
 	}
-
+	/**
+	 * Checks to see if cell is empty
+	 * @param {string} id unique identifier
+	 * @return {Boolean} return true if ship has 'hit' or 'miss' in class list
+	 */
 	isEmpty(id) {
 		var cell = this.getCell(id);
 		return !(cell.classList.contains("hit") || cell.classList.contains("miss"))
 	}
 
+	/**
+	 *Shows ships location
+	 * @Parem none
+	 * @return none
+	 */	
 	showShips() {
 		for (var ship of this.ships) {
 			for (var id of Object.keys(ship.locations)) {
@@ -70,7 +104,11 @@ class Board {
 			}
 		}
 	}
-
+	/**
+	*Hides ships location
+	 * @Parem 	none
+	 * @return 	none
+	 */
 	hideShips() {
 		for (var ship of this.ships) {
 			for (var id of Object.keys(ship.locations)) {
@@ -81,15 +119,29 @@ class Board {
 			}
 		}
 	}
-
+	/**
+	 *Shows the board.
+	 * @Parem 	none
+	 * @return 	none
+	 */
 	showBoard() {
 		this.table.style.display = "block";
 	}
 
+	/**
+	 * Hides board
+	 * @Parem none
+	 * @return none
+	 */
 	hideBoard() {
 		this.table.style.display = "none";
 	}
 
+	/**
+	 * Removes table
+	 * @Parem none
+	 * @return none
+	 */
 	remove() {
 		this.table.remove();
 	}

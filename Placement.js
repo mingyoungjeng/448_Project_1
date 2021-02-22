@@ -3,6 +3,11 @@ let isHorizontal = true;
 let currPlayer = "";
 let currNum = 0;
 
+/**
+ * Function allows rotation of ships
+ * @Parem     none
+ * @return    none
+ */
 function rotate() {
     console.log('running rotate');
     // remove old event listeners
@@ -25,6 +30,11 @@ function rotate() {
     }
 }
 
+/**
+* Deletes event listeners
+* @Parem none
+* @return none
+*/
 function removeAll() {
     console.log("wiping the slate");
     let tds = document.querySelectorAll(`[id*=${currPlayer}_]`);
@@ -43,7 +53,14 @@ function removeAll() {
         });
 }
 
- async function placeShipVertical(num, player) {
+/**
+ * This function allows to place ships vertical
+ * @async 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ * @return none
+ */
+async function placeShipVertical(num, player) {
     currPlayer = player;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
     try {
@@ -79,6 +96,12 @@ function removeAll() {
     })
 }
 
+/**
+ * 
+ * @param {Event} event a mouse movement usually. 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ */
 function hoverShipVertical(event, num, player) {
     let currentColumn = event.target.getAttribute('col');
     let currentRow = event.target.getAttribute('row');
@@ -93,6 +116,17 @@ function hoverShipVertical(event, num, player) {
 
 }
 
+/**
+*Checks for location of vertical ship
+*@Parem     event, num, player
+*@return    none
+*/
+/**
+ * Checks for location of vertical ship
+ * @param {Event} event a mouse movement usually. 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ */
 function unhoverShipVertical(event, num, player) {
     let currentColumn = event.target.getAttribute('col');
 
@@ -103,6 +137,12 @@ function unhoverShipVertical(event, num, player) {
         });
 }
 
+/**
+ * Checks for overlap on ships if it is not then the placement of the ships continues
+ * @param {Event} event a mouse movement usually. 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ */
 function clickShipVertical(event, num, player) {
     isHorizontal = true;
     let currentColumn = event.target.getAttribute('col');
@@ -175,8 +215,14 @@ function clickShipVertical(event, num, player) {
 //--------------------------------------------------------------------------------
 
 
-
- async function placeShipHorizontal(num, player) {
+/**
+ * This function allows to place ships horizontal
+ * @async 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ * @return none
+ */
+async function placeShipHorizontal(num, player) {
     currPlayer = player;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
     try {
@@ -210,6 +256,12 @@ function clickShipVertical(event, num, player) {
 
 }
 
+/**
+ * Adds a hover class to each cell horizontally within num of the event location
+ * @param {Event} event a mouse movement usually. 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ */
 function hoverShipHorizontal(event, num, player) {
     // Convert column headers to appropriate numbers
     let currentColumn = event.target.getAttribute('col');
@@ -230,7 +282,12 @@ function hoverShipHorizontal(event, num, player) {
 
 }
 
-
+/**
+ * Removes hover class from each cell horizontal of event location
+ * @param {Event} event a mouse movement usually. 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ */
 function unhoverShipHorizontal(event, num, player) {
 
     let currentRow = event.target.getAttribute('row');
@@ -244,6 +301,12 @@ function unhoverShipHorizontal(event, num, player) {
 
 }
 
+/**
+ * Adds ship class to each cell withing num distance to the right of event location
+ * @param {Event} event a mouse movement usually. 
+ * @param {number} num the length of a ship
+ * @param {string} player name of a player
+ */
 function clickShipHorizontal(event, num, player) {
     // reset isHorizontal for next placement
     isHorizontal = true;
