@@ -1,367 +1,1264 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href=git "style.css">
-    <script src="Game.js" charset="utf-8"></script>
+    <title>JSDoc: Class: Game</title>
 
-  </head>
-  <body>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
 
-/**
-* Establishes players and shows buttons
-*@Parem none
-*@return none
-*/
-	constructor() {
-		// Available players (can potentially be expanded)
-		this.players = ["player1", "player2"];
-		this.boards = {}; // needs to be an dict to have key/value pairs
+<body>
 
-		for (var player of this.players) {
-			this.boards[player] = {}; // Needs to hold Board object
-		}
+<div id="main">
 
-		let game = this;
-		this.button = document.getElementById("button");
-		button.onclick = function() {game.buttonClicked()}; // this isn't necessary
+    <h1 class="page-title">Class: Game</h1>
 
-		this.showTitleScreen();
-	}
-/**
-*Shows title screen and has a start option
-*@Parem none
-*@return none
-*/
-	showTitleScreen() {
-		var title = document.createElement("div");
-		//title.innerHTML = "Look at me, I'm a title!";
-		document.body.appendChild(title);
-
-		button.innerHTML = "Start";
-		this.buttonClicked = function() {
-			title.remove();
-			this.setup();
-		}
-	}
-/**
-*Sets up a new game and creates two boards. One for each player. Establishes number of ships and covers placement like rotation of ships
-*@Parem none
-*@return none
-*/
-	setup() {
-		// Creates two game boards on screen
-		this.boards["player1"] = new Board("player1");
-		this.boards["player2"] = new Board("player2");
-
-		let game = this;
-
-        //console.log('is shipCnt = ' + document.querySelector(''))
-        if (!document.querySelector('#shipCnt')) {
-    		var shipCnt = document.createElement("input");
-    		shipCnt.type = "number";
-    		shipCnt.id = "shipCnt";
-    		shipCnt.name = "shipCnt";
-    		shipCnt.min = "1";
-    		shipCnt.max = "6";
-
-    		var label = document.createElement("label");
-    		label.for = "shipCnt";
-    		label.innerHTML = "Select number of ships: ";
-
-    		document.getElementById("setup").appendChild(label);
-    		document.getElementById("setup").appendChild(shipCnt);
-
-    		for (var i = shipCnt.min; i <= shipCnt.max; i++) {
-    			let btn = document.createElement("button");
-    			btn.classList.add("setupButton");
-    			btn.id = "button_" + i;
-    			btn.innerHTML = "Ship " + i;
-    			btn.disabled = true;
-
-    			document.getElementById("setup").appendChild(btn);
-    		}
-
-    		var rotate = document.createElement("button");
-    		rotate.id = "rotate";
-    		rotate.innerHTML = "Rotate Ship";
-    		rotate.onclick = function() {
-    			window.rotate();
-    		}
-    		document.getElementById("center").appendChild(rotate);
-        }
-		for (var player of this.players) {
-			for (var row of this.boards[player].cells) {
-				for (var cell of row) {
-					cell.onclick = function() {game.cellClicked(this)};
-				}
-			}
-		}
-
-		var myBtn = document.querySelector('#change');
-		console.log(myBtn);
-
-		myBtn.innerHTML = "End Player 1 Setup";
-		this.placeShips('player1');
-		myBtn.onclick = function () {
-			document.game.boards['player1'].hideShips();
-			console.log('entering player 2 setup');
-			myBtn.innerHTML = "End Player 2 Setup";
-			document.game.placeShips('player2');
-			myBtn.onclick = function () {
-				document.game.boards['player2'].hideShips();
-				myBtn.disabled = true;
-				myBtn.innerHTML = "Click Play Game to Start";
-				//integrate myBtn into the play game btn?
-			}
-		}
-        */
-
-		this.placeShips("player1");
-	}
-/**
-*Runs a game while playing
-*@Parem activePlayer
-*@return returns if ship is in that location
-*/
-	play(activePlayer) {
-		//console.log("It is " + activePlayer + "'s turn");
-
-		// Defines inactivePlayer for use later
-		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
-
-		this.boards[inactivePlayer].hideShips();
-		this.changeInstruction(activePlayer);
-		this.button.disabled = true;
-		this.buttonClicked = function() {};
+    
 
 
-		let game = this;
-		this.cellClicked = function(cell) {
-			var board = cell.parentElement.parentElement.parentElement.id;
-			if (board == inactivePlayer && this.boards[inactivePlayer].isEmpty(cell.location)) {
 
-				// Check for game over
-				var win = false;
 
-                // determine if the cell location has a ship underneath
-                if (this.boards[inactivePlayer].ships.some(ship => {
-                    return ship.hit(cell.location);
-                })) {
-                    // if so, draw the hit
-                    game.boards[inactivePlayer].drawCell(cell.location, "hit");
-                } else {
-                    // otherwise don't
-                    game.boards[inactivePlayer].drawCell(cell.location, "miss");
-                }
+<section>
 
-                //determine whether every ship has been sunk. if so, win = true
-                if (this.boards[inactivePlayer].ships.every(ship => {
-                    return ship.isSunk();
-                })) {
-                    win = true;
-                }
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>Game<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">Class holding the main game object</div>
+        
+    
+</header>
 
-				// Game over stuff
-				if (win) {
-					game.game_over(activePlayer);
-					game.instDone(activePlayer);
-				} else { // End turn
-					game.cellClicked = function() {};
-					game.dontPress(inactivePlayer);
-					game.boards[activePlayer].hideShips();
-					game.button.disabled = false;
-					game.button.innerHTML = "End turn";
-					game.buttonClicked = function() {
-						game.boards[inactivePlayer].showShips();
-						game.play(inactivePlayer)
-					};
-				}
-			}
-		}
-	}
-/**
-*Announces when a player wins.
-*@Parem winner
-*@return none
-*/
-	game_over(winner) {
-		var title = document.createElement("div");
-		//title.innerHTML = winner + " wins!";
-		document.body.appendChild(title);
-        this.cellClicked = function() {};
-        this.button.disabled = false;
+<article>
+    <div class="container-overview">
+    
+        
 
-		for (var board of Object.values(this.boards)) {
-			board.remove();
-			this.boards = {};
-		}
+    
+    <h2>Constructor</h2>
+    
 
-        // reset the game boards and eventLisneners
-		button.innerHTML = "Play again?";
-		this.buttonClicked = function() {
-            document.getElementById("resetbutton").style.display = "inline-block";
-			title.remove();
-			this.setup();
-		}
-	}
-/**
-*Places the ships in according locations and hides ships when player is done
-*@Parem player
-*@return none
-*/
-	placeShips(player) {
+    
+    <h4 class="name" id="Game"><span class="type-signature"></span>new Game<span class="signature">()</span><span class="type-signature"></span></h4>
+    
 
-		for (var p of this.players) {
-			if (p == player) {
-				this.boards[p].showBoard();
-			} else {
-				this.boards[p].hideBoard();
-			}
-		}
+    
 
-		let game = this;
-		this.button.disabled = true;
 
-		let shipCnt = document.getElementById("shipCnt");
-		let placed = [];
-		shipCnt.onchange = function() {
-			for (var i = shipCnt.min; i <= shipCnt.max; i++) {
-				let btn = document.querySelector('#button_' + i);
-				if (!placed.includes(i)) {
-					btn.disabled = (i > shipCnt.value);
-				}
 
-				let size = i;
-				btn.onclick = function() {
-					placeShipHorizontal(size, player);
-					placed.push(size);
+<div class="description">
+    Defines players and boards. Shows title screen.
+</div>
 
-					game.button.disabled = (placed.length != shipCnt.value);
-				};
 
-				game.button.disabled = (placed.length != shipCnt.value);
-			}
 
-			let board = game.boards[player];
-			for (var i in board.ships) {
-				if ([i].size > shipCnt.value) {
-					console.log(board.ships);
-					console.log("remove size " + board.ships[i].size);
-					board.hideShips();
-					placed.splice(placed.indexOf(board.ships[i].size), 1);
-					board.ships.splice(i, 1);
-					board.showShips();
-				}
-			}
-		};
 
-		if (player == "player1") {
-			document.querySelector("#inst").innerText = "Place Player 1's Ships Now";
-			this.button.innerHTML = "End Setup";
-			this.buttonClicked = function() {
-                removeAll();
-				shipCnt.value = null;
-				//shipCnt.onchange();
-				document.querySelector("#inst").innerText = "Place Player 2's Ships Now";
-				this.placeShips("player2");
-			}
-		} else {
-			// Start game
-			this.button.innerHTML = "Play Game";
-			this.buttonClicked = function() {
-                removeAll();
 
-                let setup = document.getElementById("setup");
-				while (setup.firstChild) {
-        			setup.removeChild(setup.firstChild);
-    			}
-				document.getElementById("rotate").remove();
 
-				document.getElementById("resetbutton").style.display = "none";
-				game.boards["player1"].showBoard();
-				this.play(game.players[Math.round(Math.random())]);
-			}
-		}
-	}
 
-/**
-*function gets called when a cell is clicked
-*@Parem none
-*@return none
-*/
-	cellClicked(cell) {
 
-	}
-/**
-*This function gets called when a button is clicked
-*@Parem none
-*@return none
-*/
-	buttonClicked() {
 
-	}
-/**
-*Instruction on whose turn it is
-*@Parem activePlayer
-*@return none
-*/
-	changeInstruction(activePlayer){
-		var player;
-		var notPlayer;
-		if(activePlayer=="player1")
-		{
-			player = "Player 1";
-			notPlayer = "Player 2";
-		}else{
-			player = "Player 2";
-			notPlayer = "Player 1";
-		}
-		document.querySelector("#inst").innerText = player + "'s Turn! Pick a spot on " + notPlayer + "'s board to attack.";
-	}
 
-/**
-*Message that indicates that the next player’s ships are appearing
-*@Parem InactivePlayer
-*@return none
-*/
-	dontPress(inactivePlayer){
-		var nextplayer;
-		if(inactivePlayer=="player1")
-		{
-			nextplayer = "Player 1";
-		}else{
-			nextplayer = "Player 2";
-		}
-		document.querySelector("#inst").innerText = "Hand over the computer and when " + nextplayer + " is ready, End Turn!";
-	}
 
-/**
-*Message that says when the game is over
-*@Parem active Player
-*@return none
-*/
-	instDone(activePlayer){
-		var player;
-		if(activePlayer=="player1")
-		{
-			player = "Player 1";
-		}else{
-			player = "Player 2";
-		}
-		document.querySelector("#inst").innerText = "Game Over! " + player + " Won!";
-	}
 
-}
-/**
-*Resets the game
-*@Parem none
-*@return none
-*/
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector("#resetbutton").addEventListener("click", () => {
-        location.reload();
-  })
-})
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line4">line 4</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="buttonClicked"><span class="type-signature"></span>buttonClicked<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Redefined multiple times through the game. Manages button presses relating to game flow.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line272">line 272</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="cellClicked"><span class="type-signature"></span>cellClicked<span class="signature">(cell)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Defined during setup. Manages user interaction with the boards.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cell</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLTableCellElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a cell</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line266">line 266</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="changeInstruction"><span class="type-signature"></span>changeInstruction<span class="signature">(activePlayer)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Used during turn transition. Determines the next player and displays a message
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>activePlayer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Current player's id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line280">line 280</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="dontPress"><span class="type-signature"></span>dontPress<span class="signature">(inactivePlayer)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Message that indicates that the next player's ships are appearing
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>inactivePlayer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Not current player's id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line298">line 298</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="instDone"><span class="type-signature"></span>instDone<span class="signature">(activePlayer)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Message that says when the game is over
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>activePlayer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Current player's id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line313">line 313</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="placeShips"><span class="type-signature"></span>placeShips<span class="signature">(player)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Places the ships given user input and hides player's ships and board when done
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>player</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">current player</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line186">line 186</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="play"><span class="type-signature"></span>play<span class="signature">(activePlayer)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Executes a turn for the given player
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>activePlayer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Player's id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line105">line 105</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setup"><span class="type-signature"></span>setup<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets up a new game and creates two boards. One for each player. Establishes number of ships and covers placement like rotation of ships
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="showTitleScreen"><span class="type-signature"></span>showTitleScreen<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Shows title screen and has a start option
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Game.js.html">Game.js</a>, <a href="Game.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Board.html">Board</a></li><li><a href="Game.html">Game</a></li><li><a href="Ship.html">Ship</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clickShipHorizontal">clickShipHorizontal</a></li><li><a href="global.html#clickShipVertical">clickShipVertical</a></li><li><a href="global.html#hoverShipHorizontal">hoverShipHorizontal</a></li><li><a href="global.html#hoverShipVertical">hoverShipVertical</a></li><li><a href="global.html#placeShipHorizontal">placeShipHorizontal</a></li><li><a href="global.html#placeShipVertical">placeShipVertical</a></li><li><a href="global.html#removeAll">removeAll</a></li><li><a href="global.html#rotate">rotate</a></li><li><a href="global.html#unhoverShipHorizontal">unhoverShipHorizontal</a></li><li><a href="global.html#unhoverShipVertical">unhoverShipVertical</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Feb 21 2021 20:22:15 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>
