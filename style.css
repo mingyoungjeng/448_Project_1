@@ -134,8 +134,8 @@ td {
 
 .bg {
   position: absolute;
-  width: 500%;
-  height: 400px;
+  width: 300%;
+  height: 500px;
   display: block;
   background-repeat: repeat-x;
   bottom: 0%;
