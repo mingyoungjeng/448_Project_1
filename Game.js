@@ -218,6 +218,8 @@ class Game {
 				btn.onclick = function() {
 					placeShipHorizontal(size, player);
 				};
+
+				shipCnt.placedUpdate();
 			}
 
 			let board = game.boards[player];
