@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href=git "style.css">
+    <script src="Ship.js" charset="utf-8"></script>
+  </head>
+  <body>
+  /**
+  *Stores the location with values true/false
+  *@Parem none
+  *@return Boolean true or false if ship has been hit, true means not hit
+  */
+
+    class Ship {
+    	constructor(locations = []) {
+    		this.locations = {};
+    		for (var loc of locations) {
+    			this.locations[loc] = true;
+    		}
+    		this.size = locations.length;
+    		this.health = this.size; //decrement on hit
+
+    		this.rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    		this.cols = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    	}
+
+    	isSunk() {
+    		return this.health == 0 ? true : false;
+    	}
+
+    	hit(cell) {
+    		if (this.locations[cell]) {
+    			this.locations[cell] = false;
+    			this.health--;
+    			return true;
+    		}
+    		return false;
+    	}
+
+    }
+  </body>
+  </html>

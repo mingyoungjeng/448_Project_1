@@ -1,7 +1,18 @@
-// Game.js
-// Controls the logic of the game.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href=git "style.css">
+    <script src="Game.js" charset="utf-8"></script>
 
-class Game {
+  </head>
+  <body>
+
+/**
+* Establishes players and shows buttons
+*@Parem none
+*@return none
+*/
 	constructor() {
 		// Available players (can potentially be expanded)
 		this.players = ["player1", "player2"];
@@ -17,7 +28,11 @@ class Game {
 
 		this.showTitleScreen();
 	}
-
+/**
+*Shows title screen and has a start option
+*@Parem none
+*@return none
+*/
 	showTitleScreen() {
 		var title = document.createElement("div");
 		//title.innerHTML = "Look at me, I'm a title!";
@@ -29,8 +44,11 @@ class Game {
 			this.setup();
 		}
 	}
-
-	// Sets up a new game
+/**
+*Sets up a new game and creates two boards. One for each player. Establishes number of ships and covers placement like rotation of ships
+*@Parem none
+*@return none
+*/
 	setup() {
 		// Creates two game boards on screen
 		this.boards["player1"] = new Board("player1");
@@ -39,7 +57,6 @@ class Game {
 		let game = this;
 
         //console.log('is shipCnt = ' + document.querySelector(''))
-
         if (!document.querySelector('#shipCnt')) {
     		var shipCnt = document.createElement("input");
     		shipCnt.type = "number";
@@ -73,19 +90,14 @@ class Game {
     		}
     		document.getElementById("center").appendChild(rotate);
         }
-
-		// The following must be done for Player 1 AND Player 2
 		for (var player of this.players) {
-
-			// Adds eventListener for each cell onClick
-			// If you can manage to do this in Board class, I will love you.
 			for (var row of this.boards[player].cells) {
 				for (var cell of row) {
 					cell.onclick = function() {game.cellClicked(this)};
 				}
 			}
 		}
-        /*
+
 		var myBtn = document.querySelector('#change');
 		console.log(myBtn);
 
@@ -107,8 +119,11 @@ class Game {
 
 		this.placeShips("player1");
 	}
-
-	// Runs a game while playing
+/**
+*Runs a game while playing
+*@Parem activePlayer
+*@return returns if ship is in that location
+*/
 	play(activePlayer) {
 		//console.log("It is " + activePlayer + "'s turn");
 
@@ -165,8 +180,11 @@ class Game {
 			}
 		}
 	}
-
-	// Triggered when one player wins
+/**
+*Announces when a player wins.
+*@Parem winner
+*@return none
+*/
 	game_over(winner) {
 		var title = document.createElement("div");
 		//title.innerHTML = winner + " wins!";
@@ -187,7 +205,11 @@ class Game {
 			this.setup();
 		}
 	}
-
+/**
+*Places the ships in according locations and hides ships when player is done
+*@Parem player
+*@return none
+*/
 	placeShips(player) {
 
 		for (var p of this.players) {
@@ -202,33 +224,32 @@ class Game {
 		this.button.disabled = true;
 
 		let shipCnt = document.getElementById("shipCnt");
-		shipCnt.placed = [];
-		shipCnt.placedUpdate = function() {
-			game.button.disabled = (shipCnt.placed.length != shipCnt.value);
-		};
-
+		let placed = [];
 		shipCnt.onchange = function() {
 			for (var i = shipCnt.min; i <= shipCnt.max; i++) {
 				let btn = document.querySelector('#button_' + i);
-				if (!shipCnt.placed.includes(i)) {
+				if (!placed.includes(i)) {
 					btn.disabled = (i > shipCnt.value);
 				}
 
-				let size = i; // This is necessary for stupid reasons
+				let size = i;
 				btn.onclick = function() {
 					placeShipHorizontal(size, player);
+					placed.push(size);
+
+					game.button.disabled = (placed.length != shipCnt.value);
 				};
 
-				shipCnt.placedUpdate();
+				game.button.disabled = (placed.length != shipCnt.value);
 			}
 
 			let board = game.boards[player];
 			for (var i in board.ships) {
-				if (board.ships[i].size > shipCnt.value) {
+				if ([i].size > shipCnt.value) {
+					console.log(board.ships);
 					console.log("remove size " + board.ships[i].size);
 					board.hideShips();
-					shipCnt.placed.splice(shipCnt.placed.indexOf(board.ships[i].size), 1);
-					shipCnt.placedUpdate();
+					placed.splice(placed.indexOf(board.ships[i].size), 1);
 					board.ships.splice(i, 1);
 					board.showShips();
 				}
@@ -264,19 +285,27 @@ class Game {
 		}
 	}
 
-	// This function gets called everytime a cell is clicked.
-	// Can be altered
+/**
+*function gets called when a cell is clicked
+*@Parem none
+*@return none
+*/
 	cellClicked(cell) {
 
 	}
-
+/**
+*This function gets called when a button is clicked
+*@Parem none
+*@return none
+*/
 	buttonClicked() {
 
 	}
-
-	/*
-	---Instruction on whose turn it is
-	*/
+/**
+*Instruction on whose turn it is
+*@Parem activePlayer
+*@return none
+*/
 	changeInstruction(activePlayer){
 		var player;
 		var notPlayer;
@@ -291,9 +320,11 @@ class Game {
 		document.querySelector("#inst").innerText = player + "'s Turn! Pick a spot on " + notPlayer + "'s board to attack.";
 	}
 
-	/*
-	---Message to warn of next player's ships appearing
-	*/
+/**
+*Message that indicates that the next player’s ships are appearing
+*@Parem InactivePlayer
+*@return none
+*/
 	dontPress(inactivePlayer){
 		var nextplayer;
 		if(inactivePlayer=="player1")
@@ -305,9 +336,11 @@ class Game {
 		document.querySelector("#inst").innerText = "Hand over the computer and when " + nextplayer + " is ready, End Turn!";
 	}
 
-	/*
-	---Game Over Message
-	*/
+/**
+*Message that says when the game is over
+*@Parem active Player
+*@return none
+*/
 	instDone(activePlayer){
 		var player;
 		if(activePlayer=="player1")
@@ -320,10 +353,15 @@ class Game {
 	}
 
 }
-
-//reset Button
+/**
+*Resets the game
+*@Parem none
+*@return none
+*/
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#resetbutton").addEventListener("click", () => {
         location.reload();
   })
 })
+</body>
+</html>
