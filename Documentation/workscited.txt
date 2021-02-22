@@ -14,6 +14,12 @@ https://www.w3schools.com/Css/css_font.asp
 //Used to figure out how to hide elements:
 https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 
+//Used for gradient
+https://cssgradient.io/gradient-backgrounds/
+
+//Used to fix animation error
+https://www.howtocodeschool.com/2019/08/moving-car-animation-using-simple-css.html
+
 
 
 //The following code is original work and no outside source
