@@ -140,7 +140,7 @@ td {
   background-repeat: repeat-x;
   bottom: 0%;
   left: 0%;
-  animation: moveRight 6s linear infinite;
+  animation: moveRight 15s linear infinite;
 }
 
 .big {
