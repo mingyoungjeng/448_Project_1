@@ -20,9 +20,9 @@ runs the game, and checks when the game is over. The index.html file keeps every
 use. The Ship.js file holds the functions for ship usage.
 
 ## Team Members
-- John Portin
-- Joshua Jeng
-- Aidan Schmelzle
 - Katelyn Blackburn
 - Miriam Madriz
+- Aidan Schmelzle
+- Joshua Jeng
+- John Portin
 
