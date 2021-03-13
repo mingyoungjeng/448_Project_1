@@ -1,3 +1,5 @@
+let shipCount;
+
 /**
  * Class holding the main game object
  */
@@ -7,8 +9,10 @@ class Game {
 	 */
 	constructor() {
 		// Available players (can potentially be expanded)
-		this.players = ["player1", "player2"];
+		this.players = ["player1", "player2", "playerAi"];
 		this.boards = {}; // needs to be an dict to have key/value pairs
+		this.difficulty = "easy"
+		this.mode = "pvp"
 
 		for (var player of this.players) {
 			this.boards[player] = {}; // Needs to hold Board object
@@ -28,12 +32,65 @@ class Game {
 		var title = document.createElement("div");
 		//title.innerHTML = "Look at me, I'm a title!";
 		document.body.appendChild(title);
+		var pvai = document.getElementById("pvai")
+		var pvp = document.getElementById("pvp")
+		let mode
 
+		pvai.onclick = function() {
+			console.log("clicked pvai")
+			mode = "pvai"
+			console.log(mode)
+			document.getElementById("easy").disabled = false
+			document.getElementById("medium").disabled = false
+			document.getElementById("hard").disabled = false
+		}
+
+		pvp.onclick = function() {
+			console.log("clicked")
+			mode = "pvp"
+			document.getElementById("easy").disabled = true
+			document.getElementById("medium").disabled = true
+			document.getElementById("hard").disabled = true
+		}
+
+		document.getElementById("easy").onclick = ()=>{this.difficulty = "easy"}
+		document.getElementById("medium").onclick = ()=>(this.difficulty = "medium")
+		document.getElementById("hard").onclick = ()=>(this.difficulty = "hard")
+
+		//this.setDifficulty()
 		button.innerHTML = "Start";
 		this.buttonClicked = function() {
 			title.remove();
-			this.setup();
+			this.setup(mode);
 		}
+	}
+
+	setDifficulty()
+	{
+		var pvai = document.getElementById("pvai")
+		var pvp = document.getElementById("pvp")
+
+		pvai.onclick = function() {
+			console.log("clicked pvai")
+			this.mode = "pvai"
+			console.log(this.mode)
+			document.getElementById("easy").disabled = false
+			document.getElementById("medium").disabled = false
+			document.getElementById("hard").disabled = false
+		}
+
+		pvp.onclick = function() {
+			console.log("clicked")
+			this.mode = "pvp"
+			document.getElementById("easy").disabled = true
+			document.getElementById("medium").disabled = true
+			document.getElementById("hard").disabled = true
+		}
+
+		document.getElementById("easy").onclick = ()=>{this.difficulty = "easy"}
+		document.getElementById("medium").onclick = ()=>(this.difficulty = "medium")
+		document.getElementById("hard").onclick = ()=>(this.difficulty = "hard")
+
 	}
 
 
@@ -41,10 +98,20 @@ class Game {
 	 * Sets up a new game and creates two boards. One for each player. 
 	 * Establishes number of ships and covers placement like rotation of ships
 	 */
-	setup() {
+	setup(mode) {
 		// Creates two game boards on screen
-		this.boards["player1"] = new Board("player1");
-		this.boards["player2"] = new Board("player2");
+		if(true)//this.mode == "pvp")
+		{
+			this.boards["player1"] = new Board("player1");
+			this.boards["player2"] = new Board("player2");
+			this.boards["playerAi"] = new Board("playerAi");
+		}
+		else
+		{
+			this.boards["player1"] = new Board("player1");
+			this.boards["playerAi"] = new Board("playerAi");
+		}
+		
 
 		let game = this;
 
@@ -95,7 +162,7 @@ class Game {
 				}
 			}
 		}
-		this.placeShips("player1");
+		this.placeShips("player1", mode);
 	}
 
 	/**
@@ -183,56 +250,94 @@ class Game {
 	 * Places the ships given user input and hides player's ships and board when done
 	 * @param {string} player current player
 	 */
-	placeShips(player) {
-
-		for (var p of this.players) {
-			if (p == player) {
-				this.boards[p].showBoard();
-			} else {
-				this.boards[p].hideBoard();
+	placeShips(player, mode, count) {
+	
+		// for (var p of this.players) {
+		// 	if (p == player) {
+		// 		this.boards[p].showBoard();
+		// 	} else {
+		// 		this.boards[p].hideBoard();
+		// 	}
+		// }
+		console.log(mode)
+		if(mode == "pvai")
+		{
+			console.log("MODE: pvai")
+			if(player == "player1")
+			{
+				this.boards[player].showBoard()
+				this.boards["playerAi"].hideBoard()
+			}
+			else
+			{
+				console.log("else playerAi")
+				this.boards[player].showBoard()
+				this.boards["player1"].hideBoard()
+			}
+		}
+		else
+		{
+			if(player == "player1")
+			{
+				this.boards[player].showBoard()
+				this.boards["player2"].hideBoard()
+			}
+			else
+			{
+				this.boards[player].showBoard()
+				this.boards["player1"].hideBoard()
 			}
 		}
 
-		let game = this;
-		this.button.disabled = true;
+		if(!(player == "playerAi" && mode == "pvai"))
+		{
+			let game = this;
+			this.button.disabled = true;
 
-		let shipCnt = document.getElementById("shipCnt");
-		shipCnt.placed = [];
-		shipCnt.placedUpdate = function() {
-			game.button.disabled = (shipCnt.placed.length != shipCnt.value);
-			shipCnt.disabled = false;
-		};
+			let shipCnt = document.getElementById("shipCnt");
+			shipCnt.placed = [];
+			shipCnt.placedUpdate = function() {
+				game.button.disabled = (shipCnt.placed.length != shipCnt.value);
+				shipCnt.disabled = false;
+			};
 
-		shipCnt.onchange = function() {
-			for (var i = shipCnt.min; i <= shipCnt.max; i++) {
-				let btn = document.querySelector('#button_' + i);
-				if (!shipCnt.placed.includes(i)) {
-					btn.disabled = (i > shipCnt.value);
-				}
+			shipCnt.onchange = function() {
+				for (var i = shipCnt.min; i <= shipCnt.max; i++) {
+					let btn = document.querySelector('#button_' + i);
+					if (!shipCnt.placed.includes(i)) {
+						btn.disabled = (i > shipCnt.value);
+					}
 
-				let size = i; // This is necessary for stupid reasons
-				btn.onclick = function() {
-					shipCnt.disabled = true;
-					placeShipHorizontal(size, player);
-				};
+					let size = i; // This is necessary for stupid reasons
+					btn.onclick = function() {
+						shipCnt.disabled = true;
+						placeShipHorizontal(size, player);
+					};
 
-				shipCnt.placedUpdate();
-			}
-
-			let board = game.boards[player];
-			for (var i in board.ships) {
-				if (board.ships[i].size > shipCnt.value) {
-					console.log("remove size " + board.ships[i].size);
-					board.hideShips();
-					shipCnt.placed.splice(shipCnt.placed.indexOf(board.ships[i].size), 1);
 					shipCnt.placedUpdate();
-					board.ships.splice(i, 1);
-					board.showShips();
 				}
-			}
-		};
 
-		if (player == "player1") {
+				let board = game.boards[player];
+				for (var i in board.ships) {
+					if (board.ships[i].size > shipCnt.value) {
+						console.log("remove size " + board.ships[i].size);
+						board.hideShips();
+						shipCnt.placed.splice(shipCnt.placed.indexOf(board.ships[i].size), 1);
+						shipCnt.placedUpdate();
+						board.ships.splice(i, 1);
+						board.showShips();
+					}
+				}
+			};
+	}
+
+		//makes Play Game button available
+		if(player == "playerAi" && mode == "pvai")
+		{
+			this.button.disabled = false;
+		}
+
+		if (player == "player1" && mode == "pvp") {
 			document.querySelector("#inst").innerText = "Place Player 1's Ships Now";
 			this.button.innerHTML = "End Setup";
 			this.buttonClicked = function() {
@@ -242,7 +347,50 @@ class Game {
 				document.querySelector("#inst").innerText = "Place Player 2's Ships Now";
 				this.placeShips("player2");
 			}
-		} else {
+		} else if (player == "player1" && mode == "pvai") {
+			document.querySelector("#inst").innerText = "Place Player 1's Ships Now";
+			this.button.innerHTML = "End Setup";
+			this.buttonClicked = function() {
+                removeAll();
+				shipCount = shipCnt.value//sets global shipCount variable
+				shipCnt.value = null;
+				//shipCnt.onchange();
+				document.querySelector("#inst").innerText = "AI PlACED SHIPS";
+
+				//deltes the setup stuff so like num of ships and ship buttons
+				let setup = document.getElementById("setup");
+				while (setup.firstChild) {
+        			setup.removeChild(setup.firstChild);
+    			}
+				document.getElementById("rotate").remove();
+
+				//placeAIShips(); //function that will place ships randomly
+				this.placeShips("playerAi", mode, count);
+			}
+		}
+		else if(player == "playerAi" && mode == "pvai")
+		{
+			// Start game
+			this.placeAIShips(shipCount); //function that will place ships randomly
+			console.log("playerAi and pvai")
+			this.button.innerHTML = "Play Game";
+			this.buttonClicked = function() {
+                // removeAll();
+
+                // let setup = document.getElementById("setup");
+				// while (setup.firstChild) {
+        		// 	setup.removeChild(setup.firstChild);
+    			// }
+				// document.getElementById("rotate").remove();
+
+				// document.getElementById("resetbutton").style.display = "none";
+				let game = this
+				game.boards["player1"].showBoard();
+				this.play(game.players[Math.round(Math.random())]);
+			}
+		}
+		else
+			{
 			// Start game
 			this.button.innerHTML = "Play Game";
 			this.buttonClicked = function() {
@@ -255,10 +403,16 @@ class Game {
 				document.getElementById("rotate").remove();
 
 				document.getElementById("resetbutton").style.display = "none";
+				let game = this
 				game.boards["player1"].showBoard();
 				this.play(game.players[Math.round(Math.random())]);
 			}
 		}
+	}
+
+	placeAIShips(shipCount)
+	{
+		console.log("SHIP COUNT", shipCount)
 	}
 
 	/**

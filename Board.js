@@ -39,6 +39,7 @@ class Board {
 				this.cells[i].push(cell);
 			}
 		}
+		console.log(this.cells)
 		this.hideBoard();
 		document.body.appendChild(this.table)
 	}
