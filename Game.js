@@ -412,7 +412,73 @@ class Game {
 
 	placeAIShips(shipCount)
 	{
-		console.log("SHIP COUNT", shipCount)
+		let aiBoard = this.boards["playerAi"]
+		let shipSize = 1
+		let columnVal = "ABCDEFGHIJ"
+		let randomX = 0;
+		let randomY = 0;
+        let randomID = "playerAi_";
+		let randomCoor;
+
+		while(shipSize <= shipCount)
+		{
+			randomX = Math.floor((Math.random()*10)+1);
+			randomY = columnVal[Math.floor(Math.random() * (columnVal.length))];
+			randomID+=(randomY+randomX)
+			randomCoor = (randomY+randomX)
+
+			if(aiBoard.getCell(randomCoor).classList == "empty")
+			{
+				if(shipSize == 1)
+				{
+					console.log(randomID)
+					aiBoard.getCell(randomCoor).classList = "ship"
+				}
+				else
+				{
+					if(this.checkForShips(randomX, randomY, shipSize))
+					{
+						let nextCoor
+						console.log("checkForShipsTrue")
+						for(let i = 1; i <= shipSize; i++)
+						{
+							randomX++
+							nextCoor=(randomY+randomX)
+							aiBoard.getCell(nextCoor).classList = "ship"
+						}
+					}
+					else
+					{
+						continue
+					}
+				}
+				shipSize++
+			}
+		}
+	}
+
+	checkForShips(rX, rY, shipSize)
+	{
+
+		let aiBoard = this.boards["playerAi"]
+		let newRandomCoor
+		for(let i = 1; i <= shipSize; i++)
+		{
+			rX++
+			if(rX > 10)
+			{
+				console.log("bounds")
+				return false
+			}
+			newRandomCoor = rY+rX
+			
+			if(!(aiBoard.getCell(newRandomCoor).classList == "empty"))
+			{
+				console.log("not empty")
+				return false
+			}
+		}
+		return true;
 	}
 
 	/**
