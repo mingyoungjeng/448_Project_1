@@ -1,4 +1,9 @@
 let shipCount;
+let shipLoc = []
+for(let i = 0; i <6;i++)
+{
+	shipLoc[i] = []
+}
 
 /**
  * Class holding the main game object
@@ -169,17 +174,148 @@ class Game {
 	 * Executes a turn for the given player
 	 * @param {string} activePlayer Player's id
 	 */
-	play(activePlayer) {
-		// Defines inactivePlayer for use later
-		let inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
+	play(activePlayer, mode) {
+		// Defines inactivePlayer for use late
+		let inactivePlayer
+		if(mode == "pvai")
+		{
+			inactivePlayer = activePlayer == "player1" ? "playerAi" : "player1";
+		}
+		else
+		{
+			inactivePlayer = activePlayer == "player1" ? "player2" : "player1";
+		}
 
-		this.boards[inactivePlayer].hideShips();
-		this.changeInstruction(activePlayer);
+		if(mode = "pvai")
+		{
+			if(inactivePlayer == "player1")
+			{
+				this.boards[inactivePlayer].hideShips();
+			}
+			// else
+			// {
+			// 	this.hideAiShips();
+			// }
+		}
+		else
+		{
+			this.boards[inactivePlayer].hideShips();	
+		}
+		
+		if(mode == "pvai")
+		{
+			var player;
+			var notPlayer;
+			if(activePlayer=="player1")
+			{
+				player = "Player 1";
+				notPlayer = "Player AI";
+			}else{
+				player = "Player A2";
+				notPlayer = "Player 1";
+			}
+			document.querySelector("#inst").innerText = player + "'s Turn! Pick a spot on " + notPlayer + "'s board to attack.";
+		}
+		else
+		{
+			this.changeInstruction(activePlayer);
+		}
+	
+
+
 		this.button.disabled = true;
 		this.buttonClicked = function() {};
 
 
 		let game = this;
+
+			if(mode == "pvp")
+			{
+
+			
+				this.cellClicked = function(cell) {
+					var board = cell.parentElement.parentElement.parentElement.id;
+					if (board == inactivePlayer && this.boards[inactivePlayer].isEmpty(cell.location)) {
+						console.log(this.boards[inactivePlayer].ships)
+		
+						// Check for game over
+						var win = false;
+		
+						// determine if the cell location has a ship underneath
+						if (this.boards[inactivePlayer].ships.some(ship => {
+							return ship.hit(cell.location);
+						})) {
+							// if so, draw the hit
+							game.boards[inactivePlayer].drawCell(cell.location, "hit");
+						} else {
+							// otherwise don't
+							game.boards[inactivePlayer].drawCell(cell.location, "miss");
+						}
+		
+						//determine whether every ship has been sunk. if so, win = true
+						if (this.boards[inactivePlayer].ships.every(ship => {
+							return ship.isSunk();
+						})) {
+							win = true;
+						}
+		
+						// Game over stuff
+						if (win) {
+							game.game_over(activePlayer);
+							game.instDone(activePlayer);
+						} else { // End turn
+							game.cellClicked = function() {};
+							game.dontPress(inactivePlayer);
+							game.boards[activePlayer].hideShips();
+							game.button.disabled = false;
+							game.button.innerHTML = "End turn";
+							game.buttonClicked = function() {
+								game.boards[inactivePlayer].showShips();
+								game.play(inactivePlayer)
+							};
+						}		
+					}
+				}
+			
+			}
+			else
+			{
+				if(activePlayer == "player1")
+				{
+					this.cellClicked = function(cell) {
+						var board = cell.parentElement.parentElement.parentElement.id;
+						if (board == inactivePlayer && this.boards[inactivePlayer].isEmpty(cell.location)) {
+			
+							// Check for game over
+							var win = false;
+			
+							// determine if the cell location has a ship underneath
+							if (checkCell()) {
+								// if so, draw the hit
+								game.boards[inactivePlayer].drawCell(cell.location, "hit");
+							} else {
+								// otherwise don't
+								game.boards[inactivePlayer].drawCell(cell.location, "miss");
+							}
+			
+							//determine whether every ship has been sunk. if so, win = true
+							if (this.boards[inactivePlayer].ships.every(ship => {
+								return ship.isSunk();
+							})) {
+								win = true;
+							}
+						}
+					}
+				}
+				else
+				{
+					this.aiAttack();
+				}
+
+
+
+			}
+
 		this.cellClicked = function(cell) {
 			var board = cell.parentElement.parentElement.parentElement.id;
 			if (board == inactivePlayer && this.boards[inactivePlayer].isEmpty(cell.location)) {
@@ -219,9 +355,11 @@ class Game {
 						game.boards[inactivePlayer].showShips();
 						game.play(inactivePlayer)
 					};
+					
 				}
 			}
 		}
+
 	}
 
 	// Triggered when one player wins
@@ -244,6 +382,11 @@ class Game {
 			title.remove();
 			this.setup();
 		}
+	}
+
+	aiAttack()
+	{
+		console.log(this.difficulty)
 	}
 
 	/**
@@ -386,7 +529,8 @@ class Game {
 				// document.getElementById("resetbutton").style.display = "none";
 				let game = this
 				game.boards["player1"].showBoard();
-				this.play(game.players[Math.round(Math.random())]);
+				this.hideAiShips();
+				this.play("player1", mode);
 			}
 		}
 		else
@@ -405,7 +549,8 @@ class Game {
 				document.getElementById("resetbutton").style.display = "none";
 				let game = this
 				game.boards["player1"].showBoard();
-				this.play(game.players[Math.round(Math.random())]);
+
+				this.play("player1",mode);
 			}
 		}
 	}
@@ -418,12 +563,14 @@ class Game {
 		let randomX = 0;
 		let randomY = 0;
         let randomID = "playerAi_";
-		let randomCoor;
-
+		let randomCoor; 
+		//let vertical = Math.floor(Math.random() * (2)) ? true: false
 		while(shipSize <= shipCount)
 		{
 			randomX = Math.floor((Math.random()*10)+1);
 			randomY = columnVal[Math.floor(Math.random() * (columnVal.length))];
+			//let vertical = Math.floor(Math.random() * (2)) ? true: false; //sets Vertical to true or false randomly
+			let vertical = true;
 			randomID+=(randomY+randomX)
 			randomCoor = (randomY+randomX)
 
@@ -433,19 +580,41 @@ class Game {
 				{
 					console.log(randomID)
 					aiBoard.getCell(randomCoor).classList = "ship"
+					shipLoc[0].push(randomCoor)
 				}
 				else
 				{
-					if(this.checkForShips(randomX, randomY, shipSize))
+					if(this.checkForShips(randomX, randomY, shipSize, vertical))
 					{
-						let nextCoor
-						console.log("checkForShipsTrue")
-						for(let i = 1; i <= shipSize; i++)
+						let nextCoor;
+
+						if(vertical)
 						{
-							randomX++
-							nextCoor=(randomY+randomX)
-							aiBoard.getCell(nextCoor).classList = "ship"
+							
+							for(let i = 1; i <= shipSize; i++)
+							{
+								randomX++
+								nextCoor=(randomY+randomX)
+								shipLoc[shipSize-1].push(nextCoor);//bc first coor is already stored and index is off by one
+								aiBoard.getCell(nextCoor).classList = "ship"
+							}
+							
 						}
+						else
+						{
+							for(let i = 1; i <= shipSize; i++)
+							{
+								console.log(randomY)
+								//74-65 = 9
+								randomY = columnVal[randomY.charCodeAt(0) - 65] //increments index by 1 for array of char
+								console.log(randomY)
+								
+								nextCoor=(randomY+randomX)
+								console.log(nextCoor)
+								aiBoard.getCell(nextCoor).classList = "ship"
+							}	
+						}
+						
 					}
 					else
 					{
@@ -453,32 +622,72 @@ class Game {
 					}
 				}
 				shipSize++
+				console.log(shipLoc)
 			}
 		}
 	}
 
-	checkForShips(rX, rY, shipSize)
+	checkForShips(rX, rY, shipSize, isVertical)
 	{
 
 		let aiBoard = this.boards["playerAi"]
 		let newRandomCoor
-		for(let i = 1; i <= shipSize; i++)
+
+		if(isVertical)
 		{
-			rX++
-			if(rX > 10)
-			{
-				console.log("bounds")
-				return false
-			}
-			newRandomCoor = rY+rX
-			
-			if(!(aiBoard.getCell(newRandomCoor).classList == "empty"))
-			{
-				console.log("not empty")
-				return false
+			for(let i = 1; i <= shipSize; i++)
+			{ //74 - 65 = 9
+				rX++
+				if(rX > 10)
+				{
+					console.log("bounds")
+					return false
+				}
+				newRandomCoor = rY+rX
+				
+				if(!(aiBoard.getCell(newRandomCoor).classList == "empty"))
+				{
+					console.log("not empty")
+					return false
+				}
 			}
 		}
+		else
+		{
+			for(let i = 1; i <= shipSize; i++)
+			{
+				rY = (rY.charCodeAt(0) - 64)
+				console.log(rY)
+				if(rY > 10)
+				{
+					console.log("bounds to horizontal")
+					return false
+				}
+				rY = String.fromCharCode(rY+64)
+				console.log(rY)
+				newRandomCoor = rY+rX
+				
+				if(!(aiBoard.getCell(newRandomCoor).classList == "empty"))
+				{
+					console.log("not empty")
+					return false
+				}
+			}	
+		}
+	
 		return true;
+	}
+
+	hideAiShips()
+	{
+		for (let i = 0; i < 6; i++) {
+			for (let j = 0; j < shipLoc[i].length; j++) {
+				console.log(shipLoc[i][j])
+				let cell = this.boards["playerAi"].getCell(shipLoc[i][j]);
+				cell.classList.remove("ship");
+				cell.classList.add("empty")
+			}
+		}
 	}
 
 	/**
