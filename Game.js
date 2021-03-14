@@ -3,6 +3,9 @@ let hitCounterP1 = 0;
 let shipLoc = []
 let hitCounter = 0
 let coors = []
+let coorsLeft = []
+let lastHit
+
 for(let i = 0; i <6;i++)
 {
 	shipLoc[i] = []
@@ -73,6 +76,10 @@ class Game {
 		}
 	}
 
+	/**
+	 * Creates buttons that will determine difficulty for game
+	 * against AI
+	 */
 	setDifficulty()
 	{
 		var pvai = document.getElementById("pvai")
@@ -105,6 +112,7 @@ class Game {
 	/**
 	 * Sets up a new game and creates two boards. One for each player. 
 	 * Establishes number of ships and covers placement like rotation of ships
+	 * @param {String} - pvp or pvai which are the modes
 	 */
 	setup(mode) {
 		// Creates two game boards on screen
@@ -176,6 +184,7 @@ class Game {
 	/**
 	 * Executes a turn for the given player
 	 * @param {string} activePlayer Player's id
+	 * @param {string} mode - pvp or pvai
 	 */
 	play(activePlayer, mode) {
 
@@ -359,6 +368,10 @@ class Game {
 			}
 	}
 
+	/**
+	 * If there's a ship in that coordinate
+	 * @param {string} cellCoor coordinate to check
+	 */
 	checkCell(cellCoor)
 	{
 		for(let i = 0; i < 6; i++)
@@ -375,6 +388,7 @@ class Game {
 		return false
 
 	}
+
 	// Triggered when one player wins
 	game_over(winner) {
 		var title = document.createElement("div");
@@ -397,6 +411,11 @@ class Game {
 		}
 	}
 
+	/**
+	 * Executes a turn for the given player
+	 * @param {string} activePlayer Player's id
+	 * @param {string} mode - pvp or pvai
+	 */
 	aiAttack()
 	{
 		console.log(this.difficulty)
@@ -406,7 +425,7 @@ class Game {
 		}
 		else if(this.difficulty == "medium")
 		{
-			console.log("medium")
+			this.mediumAiAttack();
 		}
 		else
 		{
@@ -416,6 +435,9 @@ class Game {
 	
 	}
 
+	/**
+	 * Atacks where AI randomly picks coordinate
+	 */
 	easyAiAttack()
 	{
  
@@ -467,6 +489,109 @@ class Game {
 
 	}
 
+	/**
+	 * Atacks where AI randomly picks coordinate until hit
+	 * then eliminates that ship
+	 */
+	mediumAiAttack()
+	{
+		console.log(coorsLeft)
+		let allUsed = false
+
+		let counter = 0;
+
+		for(let i = 0; i < coorsLeft.length; i++)
+		{
+				if(coorsLeft[i] ==  "used")
+				{
+					counter++
+					//console.log("COUNTER", counter)
+				}
+		}
+
+		if(counter < coorsLeft.length)
+		{
+			allUsed = false
+		}
+		else
+		{
+			allUsed = true
+			coorsLeft = []
+		}
+
+
+
+		if(coorsLeft.length != 0 && !allUsed )
+		{
+			for(let i = 0; i <= coorsLeft.length; i++)
+			{
+				if(coorsLeft[i] != "used")
+				{
+					
+					//console.log("COOR",this.boards["player1"].getCell(coorsLeft[i]))
+					this.boards["player1"].getCell(coorsLeft[i]).classList = "hit";
+					coorsLeft[i] = "used"
+			
+					hitCounterP1--
+					return 
+				}
+			}
+		}
+   
+		let noAttack = true
+		let randomX
+		let randomY
+		let randomCoor
+		let columnVal = "ABCDEFGHIJ"
+		let shipsArray = this.boards["player1"].ships
+
+		while(noAttack)
+		{
+			randomX = Math.floor((Math.random()*10)+1);
+			randomY = columnVal[Math.floor(Math.random() * (columnVal.length))];
+			randomCoor = randomY+randomX
+
+
+			if(coors.length == 0)
+			{
+				for(let i = 0; i < shipsArray.length; i++)
+				{
+						console.log(shipsArray[i].locations)
+						coors.push(Object.keys(shipsArray[i].locations));
+				} 
+			}
+
+			for(let i = 0; i < coors.length; i++)
+			{
+				for(let j = 0; j < coors[i].length; j++)
+				{
+					if(coors[i][j] == randomCoor)
+					{
+						this.boards["player1"].getCell(coors[i][j]).classList = "hit"
+						//lastHit = coors[i][j]
+						coorsLeft = coors[i];
+						coorsLeft[j] = "used"
+						//counter++
+						hitCounterP1--
+						return
+
+					}
+				}
+			}
+
+			if(this.boards["player1"].getCell(randomCoor).classList == "empty")
+			{
+				this.boards["player1"].getCell(randomCoor).classList = "miss";
+				return
+			}
+
+		}
+
+	}
+ 
+	/**
+	* Atacks where AI alwasy get a hit
+	*/
 	hardAiAttack()
 	{
 		let shipsArray = this.boards["player1"].ships
@@ -683,6 +808,10 @@ class Game {
 		}
 	}
 
+	/**
+	 * Places ships on AI Board randomly
+	 * @param {string} shipCount number of ships to place
+	 */
 	placeAIShips(shipCount)
 	{
 		let aiBoard = this.boards["playerAi"]
@@ -760,6 +889,13 @@ class Game {
 		hitCounterP1 = hitCounter
 	}
 
+	/**
+	 * Checks wheter ship placement is valid
+	 * @param {number} rX row  value
+	 * @param {string} rY column value
+	 * @param {string} shipSize length of ship
+	 * @param {bool} isVertical orientation of ship
+	 */
 	checkForShips(rX, rY, shipSize, isVertical)
 	{
 
@@ -810,7 +946,10 @@ class Game {
 	
 		return true;
 	}
-
+	
+	/*
+	*hides AI ships
+	*/
 	hideAiShips()
 	{
 		for (let i = 0; i < 6; i++) {
