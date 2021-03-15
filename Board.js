@@ -74,8 +74,10 @@ class Board {
 		if (this.isEmpty(id)) {
 			if (state == "hit") {
 				cell.classList.add("hit");
+				playAttackSound('music/hit.mp3');
 			} else if (state == "miss") {
 				cell.classList.add("miss");
+				playAttackSound('music/miss.mp3');
 			}
             cell.classList.remove('empty');
 		}

@@ -72,7 +72,14 @@ class Game {
 		button.innerHTML = "Start";
 		this.buttonClicked = function() {
 			title.remove();
+			document.getElementById("easy").disabled = true
+			document.getElementById("medium").disabled = true
+			document.getElementById("hard").disabled = true
+			pvai.disabled = true
+			pvp.disabled = true
 			this.setup(mode);
+
+
 		}
 	}
 
@@ -116,19 +123,10 @@ class Game {
 	 */
 	setup(mode) {
 		// Creates two game boards on screen
-		if(true)//this.mode == "pvp")
-		{
-			this.boards["player1"] = new Board("player1");
-			this.boards["player2"] = new Board("player2");
-			this.boards["playerAi"] = new Board("playerAi");
-		}
-		else
-		{
-			this.boards["player1"] = new Board("player1");
-			this.boards["playerAi"] = new Board("playerAi");
-		}
-		
-
+		this.boards["player1"] = new Board("player1");
+		this.boards["player2"] = new Board("player2");
+		this.boards["playerAi"] = new Board("playerAi");
+	
 		let game = this;
 
         //console.log('is shipCnt = ' + document.querySelector(''))
@@ -163,6 +161,7 @@ class Game {
     		rotate.innerHTML = "Rotate Ship";
     		rotate.onclick = function() {
     			window.rotate();
+				window.playButtonSound();
     		}
     		document.getElementById("center").appendChild(rotate);
         }
@@ -278,7 +277,7 @@ class Game {
 						// Game over stuff
 						if (win) {
 							game.game_over(activePlayer);
-							game.instDone(activePlayer);
+							game.instDone(activePlayer,mode);
 						} else { // End turn
 							game.cellClicked = function() {};
 							game.dontPress(inactivePlayer);
@@ -331,7 +330,7 @@ class Game {
 							
 							if (win) {
 								game.game_over(activePlayer);
-								game.instDone(activePlayer);
+								game.instDone(activePlayer,mode);
 							} else { // End turn
 								game.cellClicked = function() {};
 								game.dontPress(inactivePlayer);
@@ -358,7 +357,7 @@ class Game {
 					if(hitCounterP1 == 0 )
 					{
 						game.game_over(activePlayer);
-						game.instDone(activePlayer);
+						game.instDone(activePlayer,mode);
 					}
 					else
 					{
@@ -466,11 +465,13 @@ class Game {
 				player1Board.getCell(randomCoor).classList = "hit";
 				hitCounterP1--
 				noAttack = false
+				playAttackSound('music/hit.mp3');
 
 			} else {
 				// otherwise don't
 				player1Board.getCell(randomCoor).classList = "miss";
 				noAttack = false
+				playAttackSound('music/miss.mp3');
 			}
 			
 
@@ -531,6 +532,7 @@ class Game {
 					//console.log("COOR",this.boards["player1"].getCell(coorsLeft[i]))
 					this.boards["player1"].getCell(coorsLeft[i]).classList = "hit";
 					coorsLeft[i] = "used"
+					playAttackSound('music/hit.mp3');
 			
 					hitCounterP1--
 					return 
@@ -571,6 +573,7 @@ class Game {
 						//lastHit = coors[i][j]
 						coorsLeft = coors[i];
 						coorsLeft[j] = "used"
+						playAttackSound('music/hit.mp3');
 						//counter++
 						hitCounterP1--
 						return
@@ -582,6 +585,7 @@ class Game {
 			if(this.boards["player1"].getCell(randomCoor).classList == "empty")
 			{
 				this.boards["player1"].getCell(randomCoor).classList = "miss";
+				playAttackSound('music/miss.mp3');
 				return
 			}
 
@@ -625,20 +629,13 @@ class Game {
 					console.log(coors[i][j])
 					this.boards["player1"].getCell(coors[i][j]).classList = "hit"
 					coors[i][j] = "used"
+					playAttackSound('music/hit.mp3');
 					hitCounterP1--
 					return 
 				}
 			}
 		}
 	}
-
-
-
-		
-	
-
-	
-
 
 	/**
 	 * Places the ships given user input and hides player's ships and board when done
@@ -946,8 +943,8 @@ class Game {
 	
 		return true;
 	}
-	
-	/*
+
+	/** 
 	*hides AI ships
 	*/
 	hideAiShips()
@@ -1014,15 +1011,31 @@ class Game {
 	 * Message that says when the game is over
 	 * @param {string} activePlayer Current player's id
 	 */
-	instDone(activePlayer){
+	instDone(activePlayer,mode){
 		var player;
-		if(activePlayer=="player1")
+		
+		if(mode == "pvp")
 		{
-			player = "Player 1";
-		}else{
-			player = "Player 2";
+			if(activePlayer == "player1")
+			{
+				player = "player1"
+			}else{
+				player = "Player 2";
+			}
 		}
+		
+		if(mode == "pvai")
+		{
+			if(activePlayer == "player1")
+			{
+				player = "player1"
+			}else{
+				player = "AI";
+			}
+		}
+
 		document.querySelector("#inst").innerText = "Game Over! " + player + " Won!";
+		playAttackSound('music/win.mp3');
 	}
 
 }
@@ -1035,3 +1048,27 @@ document.addEventListener("DOMContentLoaded", () => {
         location.reload();
   })
 })
+
+const sound = new Audio() 
+const fisButton = document.getElementById('button'); 
+const secDiv = document.getElementById('setup'); 
+const thrButton = document.getElementById('resetbutton');
+
+fisButton.addEventListener('click', playButtonSound) 
+secDiv.addEventListener('click', playButtonSound) 
+thrButton.addEventListener('click',playButtonSound)
+
+/**
+ *plays sound when button clicked 
+ */
+function playButtonSound() { 
+sound.src = 'music/click.mp3'
+sound.play() }
+
+/**
+ * Plays specic sound that is passed in
+ * @param {string} - location of sound file
+ */
+function playAttackSound(m_src) { 
+	sound.src = m_src;
+	sound.play() }

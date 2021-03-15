@@ -1,15 +1,11 @@
 #Time Accounting
-How we arrived to the time estimates of each of us working on the project
-	-An Excel sheet on google documents was created where each team 
-	member would clock in and out when the project was worked on
-	-This caused for a detailed and accurate documentation of how many 
-	hours were spent on the project
-	-Everyone did their part with writing down their hours and as a team
-	we collectively made it of high importance to have meetings to 
-	discuss what was happening in the project, what needed to get done, 
-	and any questions or confusion we may have had. 
-	-As a team many people were on the git branches on the same time 
-	and we saw eachother work as the days went by. 
-	-Everyones hours reflect the amount of work that was put in to the 
-	project. 
+
+We arrived at our time esitmate to complete the project by having everyone read the code base that was inherited 
+and figuring all the requirements for project 2. Once, we did this we were able to identify the difficulty of 
+completing this project. We arose to the conclusion that it should take us between 20 to 25 hours to complete the project.
+Why? Well, we noticed that the codebase inherited was very tricky to understand and that it wasn't built in a way so that it could
+easily modified. We also weren't very experienced with using JavaScript, HTML, and CSS so before we could begin 
+any implementation reading javaScript documentation was needed. We heavily used pair programming so it may take longer to code something but it's
+easier to find bugs among the people working on it. Lastly, our time estimate came from the fact that we weren't quite 
+sure how to split up the project so it hard to determine how many hours each person would need to work on this project.
 	
