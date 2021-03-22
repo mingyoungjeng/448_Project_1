@@ -1,0 +1,4 @@
+Our custom addition that was approved is adding background music and sound effects that are triggered
+by certain user or ai interactions. We found mp3 music files that fit the theme of our project. The events that 
+triggered sound effects were things such as ai or user selecting a place on the board and it being a miss or hit. 
+We also had sound effects for clicking buttons that helped the user place his ships. 

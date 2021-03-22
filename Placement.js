@@ -63,6 +63,7 @@ function removeAll() {
 async function placeShipVertical(num, player) {
     currPlayer = player;
     let tds = document.querySelectorAll(`[id*=${player}_]`);
+    console.log(tds)
     try {
         await tds.forEach(element => {
         //console.log(myListeners);
@@ -90,10 +91,13 @@ async function placeShipVertical(num, player) {
             clickShipVertical(event, num, player);
         }
         myListeners[element.id + "_" + num] = [L1, L2, L3];
+        console.log("myListener")
         element.addEventListener('mouseover', L1);
         element.addEventListener('mouseout', L2);
         element.addEventListener('click', L3)
     })
+    console.log("ML", myListeners)
+    console.log("hello",tds)
 }
 
 /**
@@ -107,9 +111,9 @@ function hoverShipVertical(event, num, player) {
     let currentRow = event.target.getAttribute('row');
 
     [...document.querySelectorAll(`[id*=${player}]`)]
-        .filter(e => e.getAttribute('col') == currentColumn
-        && parseInt(currentRow) <= parseInt(e.getAttribute('row'))
-        && parseInt(e.getAttribute('row')) - parseInt(currentRow) < num)
+        .filter(e => e.getAttribute('col') == currentColumn //elements with same column
+        && parseInt(currentRow) <= parseInt(e.getAttribute('row')) // elements with row number larger or equal to row currently hovering over
+        && parseInt(e.getAttribute('row')) - parseInt(currentRow) < num) // elements with distance apart being less than length of ship
         .forEach(element => {
             element.classList.replace('empty', 'ship.hover');
         });
@@ -156,6 +160,8 @@ function clickShipVertical(event, num, player) {
         .filter(e => e.getAttribute('col') == currentColumn
         && parseInt(currentRow) <= parseInt(e.getAttribute('row'))
         && parseInt(e.getAttribute('row')) - parseInt(currentRow) < num);
+
+        console.log(myEntries)
 
         overlap = myEntries.some(function(element) {
             for (var ship of document.game.boards[player].ships) {

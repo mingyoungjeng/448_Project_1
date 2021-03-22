@@ -24,3 +24,8 @@ https://www.howtocodeschool.com/2019/08/moving-car-animation-using-simple-css.ht
 
 //The following code is original work and no outside source
 code was used to do the following program.
+
+
+Project 2: Team 12 
+
+We used original code only and looked up what certain javaScript methods do.
